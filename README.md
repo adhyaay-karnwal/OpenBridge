@@ -15,9 +15,17 @@ OpenBridge is a macOS-first local agent chat app for running coding and producti
 
 ## Product Highlights
 
+### Run Local Agent Sessions
+
+OpenBridge creates one local agent session per conversation. The Swift layer owns product state and UI events, while `kwwk` handles the coding-agent loop. OpenBridge provides the system prompt, tool set, provider auth resolver, and model selection instead of depending on a hosted service.
+
 ### Use Your Existing Coding Agent Subscriptions
 
 OpenBridge can connect to third-party coding-agent subscriptions such as Codex and Claude Code, so you can run local agent sessions with the providers and models you already use.
+
+Provider settings live in the app and support OAuth or API-key credentials. Model selection is filtered to enabled providers, and credentials are resolved at agent runtime before requests are forwarded to the real provider.
+
+OpenBridge supports provider brands across subscription, direct API, OpenAI-compatible, Anthropic-compatible, and gateway routes, including OpenAI, Anthropic, Google Gemini, Amazon Bedrock, Azure OpenAI, GitHub Copilot, DeepSeek, OpenRouter, xAI, Groq, Cerebras, Fireworks, Hugging Face, Mistral AI, Cloudflare AI Gateway, Cloudflare Workers AI, Vercel AI Gateway, Kimi, Moonshot AI, MiniMax, OpenCode, Xiaomi, Z.ai, and custom OpenAI-compatible endpoints.
 
 <p align="center">
   <img src="docs/assets/provider-subscriptions.png" width="100%" alt="OpenBridge AI provider subscription settings">
@@ -39,9 +47,15 @@ Computer Use lets an agent inspect and operate local macOS apps after explicit a
   <img src="docs/assets/computer-use.webp" width="100%" alt="OpenBridge computer use workflow">
 </p>
 
+### Extend Agents with Skills
+
+Skills are local capability packages with a `SKILL.md` entry point. OpenBridge scans system, custom, imported, and synced skills, advertises active skills to the agent, and expects the agent to read matching `SKILL.md` files only when a task needs them.
+
 ### Review Sandbox Changes Before They Touch Your Files
 
 Agent file edits happen in a sandbox first. You can inspect every proposed change, accept only what you want, or discard the run without modifying your host filesystem.
+
+The sandbox VM uses one shared VM host with separate sandbox environments per OpenBridge session. File edits happen in overlay-backed environments and appear in the chat as reviewable workspace changes. Users can accept selected files, accept all, or discard changes.
 
 <p align="center">
   <img src="docs/assets/sandbox-review.png" width="100%" alt="OpenBridge sandbox file review">
@@ -87,26 +101,6 @@ OpenBridge.app
 | `sandbox-vm/` | Go sandbox VM control library and macOS runtime framework. |
 | `docs/` | Design notes for local VM sandboxing, skills, and review flows. |
 | `scripts/` | Shared utility scripts. |
-
-## Key Concepts
-
-### Local Agent Runtime
-
-OpenBridge creates one local agent session per conversation. The Swift layer owns product state and UI events, while `kwwk` handles the coding-agent loop. OpenBridge provides the system prompt, tool set, provider auth resolver, and model selection instead of depending on a hosted service.
-
-### AI Providers
-
-Provider settings live in the app and support OAuth or API-key credentials. Model selection is filtered to enabled providers, and credentials are resolved at agent runtime before requests are forwarded to the real provider.
-
-OpenBridge supports provider brands across subscription, direct API, OpenAI-compatible, Anthropic-compatible, and gateway routes, including OpenAI, Anthropic, Google Gemini, Amazon Bedrock, Azure OpenAI, GitHub Copilot, DeepSeek, OpenRouter, xAI, Groq, Cerebras, Fireworks, Hugging Face, Mistral AI, Cloudflare AI Gateway, Cloudflare Workers AI, Vercel AI Gateway, Kimi, Moonshot AI, MiniMax, OpenCode, Xiaomi, Z.ai, and custom OpenAI-compatible endpoints.
-
-### Skills
-
-Skills are local capability packages with a `SKILL.md` entry point. OpenBridge scans system, custom, imported, and synced skills, advertises active skills to the agent, and expects the agent to read matching `SKILL.md` files only when a task needs them.
-
-### Sandbox VM
-
-The sandbox VM uses one shared VM host with separate sandbox environments per OpenBridge session. File edits happen in overlay-backed environments and appear in the chat as reviewable workspace changes. Users can accept selected files, accept all, or discard changes.
 
 ## Prerequisites
 
