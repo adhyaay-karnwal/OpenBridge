@@ -10,7 +10,7 @@ struct AIProvidersSettingsView: View {
     @State private var statusFilter: AIProviderStatusFilter = .all
 
     private var filteredProviders: [BridgeAIProvider] {
-        BridgeAIProvider.allCases.filter { provider in
+        BridgeAIProvider.displayOrder.filter { provider in
             let matchesSearch = searchText.isEmpty
                 || provider.displayName.localizedStandardContains(searchText)
             let state = rowState(for: provider)
@@ -429,7 +429,7 @@ private enum AIProviderRowState: Equatable {
 extension BridgeAIProvider {
     var accentColor: Color {
         switch self {
-        case .openAI: .green
+        case .openAI, .openAIChatCompletions: .green
         case .anthropic: .orange
         case .googleGemini: .blue
         }

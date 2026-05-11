@@ -57,6 +57,7 @@ enum BridgeAIProviderRegistry {
             "anthropic-messages",
             "google-generative-ai",
             "openai-codex-responses",
+            "openai-completions",
             "openai-responses",
         ]
         return ModelsCatalog.all
@@ -78,7 +79,7 @@ enum BridgeAIProviderRegistry {
                 case .oauth:
                     return model.provider == "openai-codex"
                 case .apiKey:
-                    return model.provider == "openai"
+                    return model.provider == "openai" && model.api == "openai-responses"
                 }
             }
             return true
@@ -144,10 +145,13 @@ enum BridgeAIProviderRegistry {
         id: String,
         settings: BridgeAIProviderSettings
     ) -> Model? {
-        if provider == "openai-codex" || (provider == "openai" && settings[.openAI].authMethod == .oauth) {
+        let catalogModel = ModelsCatalog.model(provider: provider, id: id)
+        if provider == "openai-codex" ||
+            (provider == "openai" && catalogModel?.api != "openai-completions" && settings[.openAI].authMethod == .oauth)
+        {
             return codexRuntimeModel(id: id)
         }
-        return ModelsCatalog.model(provider: provider, id: id)
+        return catalogModel
     }
 
     private static func codexRuntimeModel(id: String) -> Model? {
@@ -177,7 +181,7 @@ enum BridgeAIProviderRegistry {
             .bearer
         case .apiKey:
             switch provider {
-            case .openAI:
+            case .openAI, .openAIChatCompletions:
                 .bearer
             case .anthropic:
                 .apiKeyHeader(name: "x-api-key")
@@ -262,6 +266,8 @@ enum BridgeAIProviderRegistry {
         switch provider {
         case .openAI:
             OpenAICodexOAuthProvider()
+        case .openAIChatCompletions:
+            nil
         case .anthropic:
             AnthropicOAuthProvider()
         case .googleGemini:

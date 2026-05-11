@@ -3,6 +3,7 @@ import KWWKAI
 
 nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, Sendable {
     case openAI = "openai"
+    case openAIChatCompletions = "openai-chat-completions"
     case anthropic
     case googleGemini = "google-gemini"
 
@@ -10,9 +11,14 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
         rawValue
     }
 
+    static var displayOrder: [BridgeAIProvider] {
+        [.openAI, .anthropic, .googleGemini, .openAIChatCompletions]
+    }
+
     var displayName: String {
         switch self {
         case .openAI: "OpenAI"
+        case .openAIChatCompletions: "OpenAI Chat Completions"
         case .anthropic: "Anthropic"
         case .googleGemini: "Google Gemini"
         }
@@ -20,7 +26,7 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
 
     var iconName: String {
         switch self {
-        case .openAI: "sparkles"
+        case .openAI, .openAIChatCompletions: "sparkles"
         case .anthropic: "brain.head.profile"
         case .googleGemini: "diamond"
         }
@@ -28,7 +34,7 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
 
     var logoImageName: String {
         switch self {
-        case .openAI: "openai"
+        case .openAI, .openAIChatCompletions: "openai"
         case .anthropic: "claude"
         case .googleGemini: "google"
         }
@@ -36,14 +42,14 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
 
     var usesTemplateLogoRendering: Bool {
         switch self {
-        case .openAI: true
+        case .openAI, .openAIChatCompletions: true
         case .anthropic, .googleGemini: false
         }
     }
 
     var defaultBaseURL: String {
         switch self {
-        case .openAI: "https://api.openai.com"
+        case .openAI, .openAIChatCompletions: "https://api.openai.com"
         case .anthropic: "https://api.anthropic.com"
         case .googleGemini: "https://generativelanguage.googleapis.com"
         }
@@ -51,7 +57,7 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
 
     var apiKeyPlaceholder: String {
         switch self {
-        case .openAI: "sk-..."
+        case .openAI, .openAIChatCompletions: "sk-..."
         case .anthropic: "sk-ant-..."
         case .googleGemini: "AIza..."
         }
@@ -61,6 +67,8 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
         switch self {
         case .openAI, .anthropic:
             [.oauth, .apiKey]
+        case .openAIChatCompletions:
+            [.apiKey]
         case .googleGemini:
             [.apiKey]
         }
@@ -74,6 +82,8 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
         switch self {
         case .openAI:
             ["chatgpt-codex", "openai", "openai-codex"]
+        case .openAIChatCompletions:
+            ["openai"]
         case .anthropic:
             ["anthropic"]
         case .googleGemini:
@@ -82,7 +92,10 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
     }
 
     static func provider(for model: Model) -> BridgeAIProvider? {
-        allCases.first { $0.modelProviderIDs.contains(model.provider) }
+        if model.provider == "openai", model.api == "openai-completions" {
+            return .openAIChatCompletions
+        }
+        return allCases.first { $0.modelProviderIDs.contains(model.provider) }
     }
 }
 

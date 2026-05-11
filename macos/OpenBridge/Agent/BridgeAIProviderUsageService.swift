@@ -99,6 +99,14 @@ enum BridgeAIProviderUsageService {
         switch provider {
         case .openAI:
             await refreshOpenAI()
+        case .openAIChatCompletions:
+            BridgeAIProviderUsageSnapshot(
+                fiveHour: nil,
+                oneWeek: nil,
+                updatedAt: nil,
+                source: .unavailable,
+                message: "OpenAI Chat Completions API keys do not expose ChatGPT-style 5-hour or weekly subscription limits."
+            )
         case .anthropic:
             await refreshAnthropic()
         case .googleGemini:

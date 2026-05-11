@@ -515,6 +515,8 @@ struct AIProviderDetailView: View {
         switch provider {
         case .openAI:
             try await OAuthLogin.loginOpenAICodex(callbacks: callbacks)
+        case .openAIChatCompletions:
+            throw OAuthError.unknownProvider(provider.rawValue)
         case .anthropic:
             try await OAuthLogin.loginAnthropic(callbacks: callbacks)
         case .googleGemini:
