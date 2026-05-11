@@ -149,9 +149,34 @@ generate_appcast() {
   [[ -f "$ARCHIVES_DIR/appcast.xml" ]] || die "appcast.xml not created"
 }
 
+verify_r2_object() {
+  local key="$1"
+  local size
+
+  size=$(aws --endpoint-url "$R2_ENDPOINT" s3api head-object \
+    --bucket "$CLOUDFLARE_R2_BUCKET" \
+    --key "$key" \
+    --query ContentLength \
+    --output text) || die "R2 object verification failed: s3://${CLOUDFLARE_R2_BUCKET}/${key}"
+
+  [[ -n "$size" && "$size" != "None" ]] || die "R2 object has no content length: s3://${CLOUDFLARE_R2_BUCKET}/${key}"
+  log_ok "verified R2 object: s3://${CLOUDFLARE_R2_BUCKET}/${key} (${size} bytes)"
+}
+
+upload_r2_object() {
+  local source_path="$1"
+  local key="$2"
+  local content_type="$3"
+
+  log_info "uploading: s3://${CLOUDFLARE_R2_BUCKET}/${key}"
+  aws --endpoint-url "$R2_ENDPOINT" s3 cp "$source_path" "s3://${CLOUDFLARE_R2_BUCKET}/${key}" --content-type "$content_type"
+  verify_r2_object "$key"
+}
+
 upload_to_r2() {
   log_step "uploading to R2 ($RELEASE_ENVIRONMENT)..."
-  aws --endpoint-url "$R2_ENDPOINT" s3 cp "$ARCHIVES_DIR/$FINAL_FILENAME" "s3://${CLOUDFLARE_R2_BUCKET}/${RELEASE_ENVIRONMENT}/$FINAL_FILENAME" --content-type "application/x-apple-diskimage" > /dev/null
+  local dmg_key="${RELEASE_ENVIRONMENT}/${FINAL_FILENAME}"
+  upload_r2_object "$ARCHIVES_DIR/$FINAL_FILENAME" "$dmg_key" "application/x-apple-diskimage"
 
   # staging: upload appcast.xml directly (immediate availability)
   # production: upload as appcast_pending.xml (requires signoff to activate)
@@ -159,10 +184,12 @@ upload_to_r2() {
   if [[ "$RELEASE_ENVIRONMENT" == "production" ]]; then
     appcast_remote_name="appcast_pending.xml"
   fi
-  aws --endpoint-url "$R2_ENDPOINT" s3 cp "$ARCHIVES_DIR/appcast.xml" "s3://${CLOUDFLARE_R2_BUCKET}/${RELEASE_ENVIRONMENT}/${appcast_remote_name}" --content-type "application/xml" > /dev/null
+  local appcast_key="${RELEASE_ENVIRONMENT}/${appcast_remote_name}"
+  upload_r2_object "$ARCHIVES_DIR/appcast.xml" "$appcast_key" "application/xml"
 
   echo "$FINAL_FILENAME" > "$TEMP_DIR/latest.txt"
-  aws --endpoint-url "$R2_ENDPOINT" s3 cp "$TEMP_DIR/latest.txt" "s3://${CLOUDFLARE_R2_BUCKET}/${RELEASE_ENVIRONMENT}/latest.txt" --content-type "text/plain" > /dev/null
+  local latest_key="${RELEASE_ENVIRONMENT}/latest.txt"
+  upload_r2_object "$TEMP_DIR/latest.txt" "$latest_key" "text/plain"
 
   log_ok "uploaded: $FINAL_FILENAME"
 }
