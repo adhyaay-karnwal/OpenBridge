@@ -356,10 +356,12 @@ extension ComposerView {
     var preferencesGroup: some View {
         HStack(spacing: 4) {
             uploadButton
+                .fixedSize()
             leadingModelSelectorView
             modelSelectorView
+                .layoutPriority(-1)
         }
-        .fixedSize()
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
     }
 
     func voiceActivityControls(

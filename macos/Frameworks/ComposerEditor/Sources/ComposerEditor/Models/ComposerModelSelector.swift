@@ -175,16 +175,21 @@ struct ComposerModelSelectorView: View {
                 Text(config.selectedModelTitle)
                     .font(.system(size: 13, weight: .medium))
                     .lineLimit(1)
+                    .truncationMode(.tail)
+                    .frame(minWidth: 0, alignment: .leading)
                 if let subtitle = config.selectedModelSubtitle {
                     Text("(\(subtitle))")
                         .font(.system(size: 11))
                         .foregroundColor(.secondary)
                         .lineLimit(1)
+                        .truncationMode(.tail)
+                        .frame(minWidth: 0, alignment: .leading)
                 }
                 Image(systemName: "chevron.down")
                     .font(.system(size: 10, weight: .semibold))
                     .opacity(0.7)
             }
+            .frame(minWidth: 0)
             .foregroundStyle(selectedModelForegroundColor)
             .opacity(disabled ? ComposerControlStyle.disabledForegroundOpacity : 1.0)
             .padding(.horizontal, 16)
