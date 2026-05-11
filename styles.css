@@ -597,13 +597,14 @@ p {
   background: var(--canvas-soft);
 }
 
-.workflow-card-media img {
+.workflow-card-media img,
+.workflow-card-media video {
+  display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  object-fit: contain;
+  object-fit: cover;
 }
-
 
 .workflow-card-copy {
   padding: 8px 8px 8px 14px;

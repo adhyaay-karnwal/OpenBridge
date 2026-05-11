@@ -1,6 +1,7 @@
 const header = document.querySelector('[data-elevates]');
 const copyButton = document.querySelector('[data-copy-target]');
 const scrambleTargets = document.querySelectorAll('[data-scramble-in]');
+const workflowVideos = document.querySelectorAll('[data-workflow-video]');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const setHeaderState = () => {
@@ -68,6 +69,41 @@ const setupScrambleIn = () => {
   scrambleTargets.forEach(target => observer.observe(target));
 };
 
+const setupWorkflowVideos = () => {
+  if (!workflowVideos.length) return;
+
+  if (reducedMotion.matches) {
+    workflowVideos.forEach(video => {
+      video.removeAttribute('autoplay');
+      video.pause();
+    });
+    return;
+  }
+
+  const playVideo = video => {
+    const play = video.play();
+    if (play) play.catch(() => {});
+  };
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        const video = entry.target;
+
+        if (entry.isIntersecting) {
+          playVideo(video);
+          return;
+        }
+
+        video.pause();
+      });
+    },
+    { rootMargin: '160px 0px', threshold: 0.2 }
+  );
+
+  workflowVideos.forEach(video => observer.observe(video));
+};
+
 copyButton?.addEventListener('click', async () => {
   const targetId = copyButton.getAttribute('data-copy-target');
   const target = targetId ? document.getElementById(targetId) : null;
@@ -88,4 +124,5 @@ copyButton?.addEventListener('click', async () => {
 
 setHeaderState();
 setupScrambleIn();
+setupWorkflowVideos();
 window.addEventListener('scroll', setHeaderState, { passive: true });
