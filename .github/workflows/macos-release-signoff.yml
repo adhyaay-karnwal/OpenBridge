@@ -71,6 +71,9 @@ jobs:
             release.txt \
             "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/release.txt" \
             --content-type "text/plain"
+          aws --endpoint-url "$R2_ENDPOINT" s3api head-object \
+            --bucket "$CLOUDFLARE_R2_BUCKET" \
+            --key "${R2_PATH_PREFIX}/release.txt"
           echo "Successfully uploaded release.txt to R2"
 
       - name: Activate appcast for release
@@ -78,6 +81,9 @@ jobs:
           aws --endpoint-url "$R2_ENDPOINT" s3 mv \
             "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/appcast_pending.xml" \
             "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/appcast.xml"
+          aws --endpoint-url "$R2_ENDPOINT" s3api head-object \
+            --bucket "$CLOUDFLARE_R2_BUCKET" \
+            --key "${R2_PATH_PREFIX}/appcast.xml"
           echo "Successfully activated appcast.xml from appcast_pending.xml"
 
       - name: Send Notification to Slack Release Channel
