@@ -26,6 +26,21 @@ nonisolated enum BridgeAIProvider: String, CaseIterable, Codable, Identifiable, 
         }
     }
 
+    var logoImageName: String {
+        switch self {
+        case .openAI: "openai"
+        case .anthropic: "claude"
+        case .googleGemini: "google"
+        }
+    }
+
+    var usesTemplateLogoRendering: Bool {
+        switch self {
+        case .openAI: true
+        case .anthropic, .googleGemini: false
+        }
+    }
+
     var defaultBaseURL: String {
         switch self {
         case .openAI: "https://api.openai.com"

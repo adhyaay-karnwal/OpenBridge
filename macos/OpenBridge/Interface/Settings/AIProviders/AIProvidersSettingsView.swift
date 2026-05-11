@@ -283,6 +283,34 @@ struct ProviderIcon: View {
     var size: CGFloat = 52
 
     var body: some View {
+        if NSImage(named: provider.logoImageName) != nil {
+            logoIcon
+        } else {
+            fallbackIcon
+        }
+    }
+
+    private var logoIcon: some View {
+        Image(provider.logoImageName)
+            .resizable()
+            .renderingMode(provider.usesTemplateLogoRendering ? .template : .original)
+            .scaledToFit()
+            .foregroundStyle(.primary)
+            .frame(width: logoSize, height: logoSize)
+            .frame(width: size, height: size)
+            .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(.quaternary, lineWidth: 1)
+            }
+            .accessibilityLabel(provider.displayName)
+    }
+
+    private var logoSize: CGFloat {
+        size * 0.62
+    }
+
+    private var fallbackIcon: some View {
         Image(systemName: provider.iconName)
             .font(.system(size: size * 0.45, weight: .semibold))
             .foregroundStyle(.white)
@@ -292,6 +320,7 @@ struct ProviderIcon: View {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .stroke(.white.opacity(0.16), lineWidth: 1)
             }
+            .accessibilityLabel(provider.displayName)
     }
 }
 
