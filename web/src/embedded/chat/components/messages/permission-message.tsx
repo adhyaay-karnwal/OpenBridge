@@ -286,24 +286,27 @@ function ComputerUseStartFooter({
     };
   }, [needsAuthorize, refreshPermissions]);
 
-  const handleRequestPermission = useCallback(async (pane: string) => {
-    const bridge = window.jsb?.MessagesBridge;
-    if (isReplied || isOpeningAuth) return;
-    setIsOpeningAuth(true);
-    try {
-      if (bridge?.requestComputerUsePermission) {
-        const fresh = await bridge.requestComputerUsePermission(pane);
-        setLivePermissions(fresh);
-      } else if (bridge?.openComputerUsePermissionFlow) {
-        await bridge.openComputerUsePermissionFlow();
-        await refreshPermissions();
+  const handleRequestPermission = useCallback(
+    async (pane: string) => {
+      const bridge = window.jsb?.MessagesBridge;
+      if (isReplied || isOpeningAuth) return;
+      setIsOpeningAuth(true);
+      try {
+        if (bridge?.requestComputerUsePermission) {
+          const fresh = await bridge.requestComputerUsePermission(pane);
+          setLivePermissions(fresh);
+        } else if (bridge?.openComputerUsePermissionFlow) {
+          await bridge.openComputerUsePermissionFlow();
+          await refreshPermissions();
+        }
+      } catch (err) {
+        console.error('request ComputerUse permission failed', err);
+      } finally {
+        setIsOpeningAuth(false);
       }
-    } catch (err) {
-      console.error('request ComputerUse permission failed', err);
-    } finally {
-      setIsOpeningAuth(false);
-    }
-  }, [isOpeningAuth, isReplied, refreshPermissions]);
+    },
+    [isOpeningAuth, isReplied, refreshPermissions]
+  );
 
   if (isReplied) {
     const summary = isApproved
@@ -336,29 +339,27 @@ function ComputerUseStartFooter({
         </p>
       ) : null}
       <div className="flex flex-wrap gap-2">
-        {needsAuthorize ? (
-          missingPermissions.map(permission => (
-            <PermissionButton
-              key={permission.pane}
-              disabled={disabled || isOpeningAuth}
-              onClick={() => handleRequestPermission(permission.pane)}
-            >
-              {isOpeningAuth
-                ? 'Opening authorization…'
-                : `Enable ${paneDisplayName(permission.pane)}`}
-            </PermissionButton>
-          ))
-        ) : (
-          info.availableModes.map(mode => (
-            <PermissionButton
-              key={mode}
-              disabled={disabled}
-              onClick={() => onAccept(mode)}
-            >
-              {modeDisplayName(mode)}
-            </PermissionButton>
-          ))
-        )}
+        {needsAuthorize
+          ? missingPermissions.map(permission => (
+              <PermissionButton
+                key={permission.pane}
+                disabled={disabled || isOpeningAuth}
+                onClick={() => handleRequestPermission(permission.pane)}
+              >
+                {isOpeningAuth
+                  ? 'Opening authorization…'
+                  : `Enable ${paneDisplayName(permission.pane)}`}
+              </PermissionButton>
+            ))
+          : info.availableModes.map(mode => (
+              <PermissionButton
+                key={mode}
+                disabled={disabled}
+                onClick={() => onAccept(mode)}
+              >
+                {modeDisplayName(mode)}
+              </PermissionButton>
+            ))}
         <PermissionButton
           disabled={disabled}
           onClick={onDeny}

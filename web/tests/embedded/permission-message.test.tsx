@@ -246,14 +246,19 @@ describe('PermissionMessage', () => {
       'ComputerUse needs Input Monitoring and Screen Recording.'
     );
 
-    const grantButton = Array.from(container.querySelectorAll('button')).find(
-      button => button.textContent === 'Grant permissions'
-    );
+    const inputMonitoringButton = Array.from(
+      container.querySelectorAll('button')
+    ).find(button => button.textContent === 'Enable Input Monitoring');
+    const screenRecordingButton = Array.from(
+      container.querySelectorAll('button')
+    ).find(button => button.textContent === 'Enable Screen Recording');
     const backgroundButton = Array.from(
       container.querySelectorAll('button')
     ).find(button => button.textContent === 'Background');
-    expect(grantButton).toBeTruthy();
-    expect(grantButton?.disabled).toBe(false);
+    expect(inputMonitoringButton).toBeTruthy();
+    expect(inputMonitoringButton?.disabled).toBe(false);
+    expect(screenRecordingButton).toBeTruthy();
+    expect(screenRecordingButton?.disabled).toBe(false);
     expect(backgroundButton).toBeFalsy();
   });
 

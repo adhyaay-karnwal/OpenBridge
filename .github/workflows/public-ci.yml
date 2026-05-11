@@ -54,7 +54,7 @@ jobs:
 
   sandbox-vm:
     name: Sandbox VM Go Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: sandbox-vm
