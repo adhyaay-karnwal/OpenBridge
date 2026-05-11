@@ -16,6 +16,28 @@ DMG_PATH="${1:-}"
 PRIVATE_KEY_PATH="$SCRIPT_DIR/../Keychain/SparkleKeys/private-key.txt"
 require_file "$PRIVATE_KEY_PATH" "Sparkle key not found"
 
+sanitize_env_var() {
+  local name="$1"
+  local required="${2:-1}"
+  local value
+
+  value="$(env_get "$name" | tr -d '\r\n')"
+  if [[ -z "$value" ]]; then
+    [[ "$required" == "0" ]] && return 0
+    die "missing: $name"
+  fi
+
+  export "$name=$value"
+}
+
+for var in CLOUDFLARE_R2_BUCKET CLOUDFLARE_R2_ACCOUNT_ID CLOUDFLARE_R2_ACCESS_KEY_ID CLOUDFLARE_R2_SECRET_ACCESS_KEY; do
+  sanitize_env_var "$var"
+done
+
+for var in CLOUDFLARE_R2_PUBLIC_BASE_URL CLOUDFLARE_R2_REGION; do
+  sanitize_env_var "$var" 0
+done
+
 for var in CLOUDFLARE_R2_BUCKET CLOUDFLARE_R2_ACCOUNT_ID CLOUDFLARE_R2_ACCESS_KEY_ID CLOUDFLARE_R2_SECRET_ACCESS_KEY; do
   require_env "$var"
 done
