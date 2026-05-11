@@ -1,0 +1,44 @@
+name: Web CI
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build Embedded Web
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.14.0"
+          cache: "yarn"
+          cache-dependency-path: web/yarn.lock
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run web tests
+        run: yarn test
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Build
+        run: yarn build:embedded
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: embedded-web-assets
+          path: macos/OpenBridge/Helpers/WebKitBridgeUI/WebKitBridgeResources

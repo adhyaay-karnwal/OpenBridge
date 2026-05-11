@@ -1,0 +1,48 @@
+@property --masked-scroll-area-mask-distance-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --masked-scroll-area-mask-distance-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.masked-scroll-area {
+  --masked-scroll-area-mask-distance-start: 0px;
+  --masked-scroll-area-mask-distance-end: 0px;
+  --masked-scroll-area-mask-direction: to right;
+  /* Remove transition */
+  /* transition:
+    --masked-scroll-area-mask-distance-start 0.2s,
+    --masked-scroll-area-mask-distance-end 0.2s,
+    --masked-scroll-area-mask-direction 0.2s; */
+  mask: linear-gradient(
+    var(--masked-scroll-area-mask-direction),
+    transparent,
+    black var(--masked-scroll-area-mask-distance-start),
+    black calc(100% - var(--masked-scroll-area-mask-distance-end)),
+    transparent
+  );
+}
+
+.masked-scroll-area-nav-button-start,
+.masked-scroll-area-nav-button-end {
+  transition: opacity 0.2s ease;
+  position: absolute;
+}
+.masked-scroll-area-nav-button-hover {
+  opacity: 0;
+}
+.masked-scroll-area-container:hover > .masked-scroll-area-nav-button-hover {
+  opacity: 1;
+}
+.masked-scroll-area-container.is-at-start
+  > .masked-scroll-area-nav-button-start {
+  display: none;
+}
+.masked-scroll-area-container.is-at-end > .masked-scroll-area-nav-button-end {
+  display: none;
+}

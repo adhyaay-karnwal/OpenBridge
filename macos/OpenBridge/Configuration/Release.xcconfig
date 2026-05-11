@@ -1,0 +1,18 @@
+// Release.xcconfig
+// OpenBridge
+//
+// Production release configuration
+
+#include "Base.xcconfig"
+
+// Production team and signing
+DEVELOPMENT_TEAM = D9AAN3VJK8
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = Developer ID Application
+
+// App identifiers
+PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge
+
+// Production configuration
+ENABLE_HARDENED_RUNTIME = YES
+SWIFT_COMPILATION_MODE = wholemodule

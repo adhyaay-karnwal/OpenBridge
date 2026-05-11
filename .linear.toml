@@ -1,0 +1,6 @@
+# linear cli
+# https://github.com/schpet/linear-cli
+
+workspace = "surf-cue"
+team_id = "CUE"
+issue_sort = "manual"

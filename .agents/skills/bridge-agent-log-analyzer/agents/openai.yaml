@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bridge Log Analyzer"
+  short_description: "Inspect Bridge session logs"
+  default_prompt: "Use $bridge-agent-log-analyzer to inspect a Bridge session and explain what the agent did."

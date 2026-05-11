@@ -1,0 +1,256 @@
+name: macOS SandboxVM CI
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  filter:
+    name: Check for skip markers
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Check for skip markers
+        id: check_for_skip_markers
+        run: |
+          message=$(git log -1 --pretty=format:'%s')
+          echo "Commit message: $message"
+          if [[ "$message" == *"[skip sandbox-vm-ci]"* ]]; then
+            echo "Found [skip sandbox-vm-ci] marker - will skip build"
+            echo "skip_sandbox_vm_ci=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No [skip sandbox-vm-ci] marker found - will run build"
+            echo "skip_sandbox_vm_ci=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Output skip_sandbox_vm_ci=$(cat $GITHUB_OUTPUT | grep skip_sandbox_vm_ci | cut -d= -f2)"
+    outputs:
+      skip_sandbox_vm_ci: ${{ steps.check_for_skip_markers.outputs.skip_sandbox_vm_ci }}
+
+  build:
+    name: Build macOS SandboxVM
+    runs-on: [self-hosted, tartelet]
+    needs: filter
+    if: ${{ needs.filter.outputs.skip_sandbox_vm_ci != 'true' }}
+    outputs:
+      arm64_framework_url: ${{ steps.upload.outputs.arm64_framework_url }}
+    env:
+      CLOUDFLARE_R2_ACCOUNT_ID: ${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ vars.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_R2_PUBLIC_BASE_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL }}
+      CLOUDFLARE_R2_REGION: ${{ vars.CLOUDFLARE_R2_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "^1.25.4"
+
+      - name: Install AWS CLI
+        run: |
+          set -e
+          brew install awscli
+
+      - name: Build
+        run: |
+          set -e
+          cd sandbox-vm
+          mkdir -p dist
+          ./scripts/build-framework.sh
+          cd dist
+          tar c SandboxVM.xcframework | gzip > SandboxVM.xcframework.tar.gz
+
+      - name: Upload to Cloudflare R2
+        id: upload
+        env:
+          R2_PREFIX: sandbox-vm/sdk/apple/sandbox-vm-${{ github.sha }}
+        run: |
+          set -euo pipefail
+          R2_ENDPOINT="https://${CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          R2_REGION="${CLOUDFLARE_R2_REGION:-auto}"
+          export AWS_ACCESS_KEY_ID="$CLOUDFLARE_R2_ACCESS_KEY_ID"
+          export AWS_SECRET_ACCESS_KEY="$CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+          export AWS_DEFAULT_REGION="$R2_REGION"
+          export R2_PREFIX="$R2_PREFIX-$(date -u +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp sandbox-vm/dist/SandboxVM.xcframework.tar.gz "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PREFIX}.arm64.tar.gz"
+          echo "arm64_framework_url=${CLOUDFLARE_R2_PUBLIC_BASE_URL%/}/${R2_PREFIX}.arm64.tar.gz" >> "$GITHUB_OUTPUT"
+      - name: Publish summary
+        if: success()
+        run: |
+          {
+            echo "## SandboxVM build"
+            echo ""
+            echo "- arm64 xcframework: ${{ steps.upload.outputs.arm64_framework_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  build-rootfs:
+    name: Build Rootfs
+    runs-on: blacksmith-4vcpu-ubuntu-2404-arm
+    needs: filter
+    if: ${{ needs.filter.outputs.skip_sandbox_vm_ci != 'true' }}
+    timeout-minutes: 20
+    outputs:
+      arm64_rootfs_url: ${{ steps.upload.outputs.arm64_rootfs_url }}
+    env:
+      CLOUDFLARE_R2_ACCOUNT_ID: ${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ vars.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_R2_PUBLIC_BASE_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL }}
+      CLOUDFLARE_R2_REGION: ${{ vars.CLOUDFLARE_R2_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y podman-docker unzip \
+               build-essential autoconf automake libfuse-dev liblz4-dev liblzma-dev \
+               libtool libzstd-dev pkg-config uuid-dev zlib1g-dev
+          echo "$(whoami):100000:65536" | sudo tee /etc/subuid | sudo tee /etc/subgid
+          sudo touch /etc/containers/nodocker
+          # Configure podman to use cgroupfs instead of systemd (no systemd user session in CI)
+          mkdir -p ~/.config/containers
+          echo -e "[engine]\ncgroup_manager = \"cgroupfs\"" > ~/.config/containers/containers.conf
+
+      - name: Build erofs-utils
+        run: |
+          set -e
+          git clone --depth=1 git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
+          cd erofs-utils
+          ./autogen.sh
+          ./configure --enable-lz4 --enable-lzma --with-libzstd
+          make -j"$(nproc)"
+          sudo make install
+
+      - name: Build Rootfs
+        run: |
+          set -e
+          cd sandbox-vm
+          docker build -f vmbuild/Dockerfile -t vm .
+          container_id="$(docker create vm)"
+          mkdir -p resources/vm
+          docker export "$container_id" > resources/vm/rootfs.tar
+          docker rm "$container_id"
+          mkfs.erofs -zzstd,15 --tar=f resources/vm/rootfs.img resources/vm/rootfs.tar
+
+      - name: Upload to Cloudflare R2
+        id: upload
+        env:
+          R2_PREFIX: sandbox-vm/rootfs/rootfs-${{ github.sha }}
+        run: |
+          set -euo pipefail
+          R2_ENDPOINT="https://${CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          R2_REGION="${CLOUDFLARE_R2_REGION:-auto}"
+          export AWS_ACCESS_KEY_ID="$CLOUDFLARE_R2_ACCESS_KEY_ID"
+          export AWS_SECRET_ACCESS_KEY="$CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+          export AWS_DEFAULT_REGION="$R2_REGION"
+          export R2_PREFIX="$R2_PREFIX-$(date -u +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp sandbox-vm/resources/vm/rootfs.img "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PREFIX}.arm64.img"
+          echo "arm64_rootfs_url=${CLOUDFLARE_R2_PUBLIC_BASE_URL%/}/${R2_PREFIX}.arm64.img" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        if: success()
+        run: |
+          {
+            echo "## Rootfs build"
+            echo ""
+            echo "- arm64: ${{ steps.upload.outputs.arm64_rootfs_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  update-download-script:
+    name: Update download script
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    needs: [build, build-rootfs]
+    if: ${{ needs.build.outputs.arm64_framework_url != '' && needs.build-rootfs.outputs.arm64_rootfs_url != '' && (github.event.pull_request != null || github.event_name == 'workflow_dispatch') }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AGENT_CI_URL_UPDATE_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
+
+      - name: Update download-sandbox-vm.sh
+        run: |
+          set -euo pipefail
+          SCRIPT_PATH="macos/DevKit/Scripts/download-sandbox-vm.sh"
+          NEW_FRAMEWORK_URL="${{ needs.build.outputs.arm64_framework_url }}"
+          NEW_ROOTFS_URL="${{ needs.build-rootfs.outputs.arm64_rootfs_url }}"
+
+          # Update the SANDBOXVM_FRAMEWORK_URL variable definition using perl for better cross-platform compatibility
+          perl -i -pe 's|^SANDBOXVM_FRAMEWORK_URL="\$\{SANDBOXVM_FRAMEWORK_URL:-.*\}"|SANDBOXVM_FRAMEWORK_URL="\${SANDBOXVM_FRAMEWORK_URL:-'"$NEW_FRAMEWORK_URL"'}"|' "$SCRIPT_PATH"
+
+          # Update the SANDBOXVM_ROOTFS_URL variable definition
+          perl -i -pe 's|^SANDBOXVM_ROOTFS_URL="\$\{SANDBOXVM_ROOTFS_URL:-.*\}"|SANDBOXVM_ROOTFS_URL="\${SANDBOXVM_ROOTFS_URL:-'"$NEW_ROOTFS_URL"'}"|' "$SCRIPT_PATH"
+
+          # Verify that the substitutions occurred
+          if ! grep -q "SANDBOXVM_FRAMEWORK_URL=\"\${SANDBOXVM_FRAMEWORK_URL:-$NEW_FRAMEWORK_URL}\"" "$SCRIPT_PATH"; then
+            echo "Error: Failed to update SANDBOXVM_FRAMEWORK_URL in $SCRIPT_PATH - pattern may not have matched"
+            exit 1
+          fi
+          if ! grep -q "SANDBOXVM_ROOTFS_URL=\"\${SANDBOXVM_ROOTFS_URL:-$NEW_ROOTFS_URL}\"" "$SCRIPT_PATH"; then
+            echo "Error: Failed to update SANDBOXVM_ROOTFS_URL in $SCRIPT_PATH - pattern may not have matched"
+            exit 1
+          fi
+          echo "Successfully updated $SCRIPT_PATH with new framework URL: $NEW_FRAMEWORK_URL"
+          echo "Successfully updated $SCRIPT_PATH with new rootfs URL: $NEW_ROOTFS_URL"
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are changes
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Commit and push
+          git add macos/DevKit/Scripts/download-sandbox-vm.sh
+          git commit -m "chore: update SandboxVM framework URL to latest build [skip sandbox-vm-ci]"
+          git push
+
+  test-vm:
+    name: Run VM Tests
+    runs-on: [macos-baremetal-arm64]
+    needs: build-rootfs
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "^1.25.4"
+
+      - name: Download VM resources
+        env:
+          R2_PUBLIC_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL || 'https://openbridge-release.afk.surf' }}
+        run: |
+          set -euo pipefail
+          mkdir -p sandbox-vm/resources/vm
+          curl -fL -o sandbox-vm/resources/vm/kernel.bin "${R2_PUBLIC_URL%/}/sandbox-vm/kernels/kernel-b2da9ba11fde046bcdffc5145dc3da9bbe830615-20251205083644-3bce638a.arm64.bin"
+          curl -fL -o sandbox-vm/resources/vm/rootfs.img "${{ needs.build-rootfs.outputs.arm64_rootfs_url }}"
+
+      - name: Run VM Tests
+        run: |
+          set -e
+          cd sandbox-vm
+          make go-test

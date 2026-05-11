@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-agent-cli-debug",
+      "type": "shell",
+      "command": "DEBUG=1 make cli",
+      "options": {
+        "cwd": "${workspaceFolder}/sandbox-vm"
+      },
+      "group": "build",
+      "problemMatcher": ["$go"]
+    }
+  ]
+}

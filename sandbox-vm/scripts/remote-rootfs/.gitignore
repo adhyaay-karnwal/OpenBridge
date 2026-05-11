@@ -1,0 +1,2 @@
+# Temporary build artifact — vmd binary is copied here during docker build
+vmd

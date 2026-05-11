@@ -1,0 +1,25 @@
+// UnsignedDebug.xcconfig
+// OpenBridge
+//
+// Local debug configuration for machines without signing certificates
+
+#include "Base.xcconfig"
+
+// Ad-hoc sign the bundle so macOS system integrations (for example user
+// notifications) can still recognize the app without requiring a developer
+// certificate on the machine.
+CODE_SIGNING_ALLOWED = YES
+CODE_SIGNING_REQUIRED = NO
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =
+AD_HOC_CODE_SIGNING_ALLOWED = YES
+
+// Keep local unsigned runs isolated from signed development installs.
+PRODUCT_BUNDLE_IDENTIFIER = app.openbridge.unsigneddebug
+
+// Local-only behavior
+ENABLE_HARDENED_RUNTIME = NO
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG LOCAL_AUTH_STORAGE $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 LOCAL_AUTH_STORAGE=1 $(inherited)

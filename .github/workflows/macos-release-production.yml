@@ -1,0 +1,204 @@
+name: macOS Release - Production
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+concurrency:
+  group: macos-release-production
+  cancel-in-progress: false
+
+jobs:
+  build-sandbox-vm-resources:
+    name: Build SandboxVM Resources
+    runs-on: blacksmith-4vcpu-ubuntu-2404-arm
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Install system dependencies
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y podman-docker unzip \
+               build-essential autoconf automake libfuse-dev liblz4-dev liblzma-dev \
+               libtool libzstd-dev pkg-config uuid-dev zlib1g-dev
+          echo "$(whoami):100000:65536" | sudo tee /etc/subuid | sudo tee /etc/subgid
+          sudo touch /etc/containers/nodocker
+          mkdir -p ~/.config/containers
+          echo -e "[engine]\ncgroup_manager = \"cgroupfs\"" > ~/.config/containers/containers.conf
+
+      - name: Build erofs-utils
+        run: |
+          set -e
+          git clone --depth=1 git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
+          cd erofs-utils
+          ./autogen.sh
+          ./configure --enable-lz4 --enable-lzma --with-libzstd
+          make -j"$(nproc)"
+          sudo make install
+
+      - name: Build SandboxVM resources
+        working-directory: sandbox-vm
+        run: make vm
+
+      - name: Upload SandboxVM resources
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-vm-resources
+          path: |
+            sandbox-vm/resources/vm/kernel.bin
+            sandbox-vm/resources/vm/rootfs.img
+
+  build-and-release-production:
+    name: Build, Sign, and Release (Production)
+    runs-on: [self-hosted, tartelet]
+    needs: build-sandbox-vm-resources
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      KEYCHAIN_PASSWORD_AFK: ${{ secrets.KEYCHAIN_PASSWORD_AFK }}
+      AFK_DEVELOPER_ID_KEYCHAIN_GZIP_BASE64: ${{ secrets.AFK_DEVELOPER_ID_KEYCHAIN_GZIP_BASE64 }}
+      SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+      CLOUDFLARE_R2_ACCOUNT_ID: ${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ vars.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_R2_PUBLIC_BASE_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL }}
+      RELEASE_ENVIRONMENT: production
+      SWIFTFORMAT_VERSION: 0.60.1
+      NSUnbufferedIO: "YES"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Setup SwiftFormat
+        run: |
+          source macos/DevKit/Scripts/shell-utils.sh
+          ensure_swiftformat 1
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: sandbox-vm/go.mod
+          cache-dependency-path: sandbox-vm/go.sum
+
+      - name: Setup Build
+        run: |
+          defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+          defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
+      - name: Restore signing material
+        run: |
+          set -euo pipefail
+          test -n "$AFK_DEVELOPER_ID_KEYCHAIN_GZIP_BASE64"
+          test -n "$SPARKLE_PRIVATE_KEY"
+          mkdir -p macos/DevKit/Keychain/SparkleKeys
+          printf "%s" "$AFK_DEVELOPER_ID_KEYCHAIN_GZIP_BASE64" | base64 --decode | gunzip > macos/DevKit/Keychain/AFK-Developer-ID-Keychain.keychain
+          printf "%s" "$SPARKLE_PRIVATE_KEY" > macos/DevKit/Keychain/SparkleKeys/private-key.txt
+          chmod 600 macos/DevKit/Keychain/AFK-Developer-ID-Keychain.keychain
+          chmod 600 macos/DevKit/Keychain/SparkleKeys/private-key.txt
+
+      - name: Build embedded web assets
+        working-directory: web
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn build:embedded
+
+      - name: Download SandboxVM resources
+        uses: actions/download-artifact@v4
+        with:
+          name: sandbox-vm-resources
+          path: sandbox-vm/resources/vm
+
+      - name: Build local SandboxVM framework
+        run: GOROOT_BOOTSTRAP="$(go env GOROOT)" make -C sandbox-vm framework
+
+      - name: Install DMG packaging dependencies
+        working-directory: macos/DevKit/Scripts
+        run: npm install --prefer-offline --no-audit --no-fund
+
+      - name: Install AWS CLI
+        run: |
+          brew install awscli
+          source macos/DevKit/Scripts/shell-utils.sh
+          ensure_path
+          command -v aws
+
+      - name: Resolve Swift packages
+        working-directory: macos
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -resolvePackageDependencies \
+            -workspace OpenBridge.xcworkspace \
+            -scheme OpenBridge \
+            -derivedDataPath .build/DerivedData \
+            -clonedSourcePackagesDirPath .build/SourcePackages
+
+      - name: Build, Sign, Notarize and Upload
+        timeout-minutes: 60
+        run: macos/DevKit/Scripts/publish-with-build.sh
+
+      - name: Extract version from app
+        id: version
+        working-directory: macos
+        run: |
+          source DevKit/Scripts/project-env.sh
+          load_app_version ".build/OpenBridge.xcarchive/Products/Applications/OpenBridge.app/Contents/Info.plist"
+
+          echo "number=$APP_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v${APP_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "build=$APP_BUILD" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Release ${{ steps.version.outputs.tag }}
+          files: artifacts/OpenBridge.dmg
+          generate_release_notes: true
+
+      - name: Send Notification to Slack Release Channel
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v3.0.1
+        with:
+          payload: |
+            content: "OpenBridge ${{ steps.version.outputs.tag }} (${{ steps.version.outputs.build }}) is released. https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.tag }}"
+          webhook: ${{ secrets.SLACK_RELEASE_CHANNEL_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+
+      - name: Upload xcodebuild log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: macos/xcodebuild.log
+
+      - name: Upload DMG on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenBridge-dmg
+          path: macos/.build/OpenBridge.dmg
+          if-no-files-found: ignore
+
+      - name: Upload xcarchive on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenBridge-xcarchive
+          path: macos/.build/OpenBridge.xcarchive
+          if-no-files-found: ignore

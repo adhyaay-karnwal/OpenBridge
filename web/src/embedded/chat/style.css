@@ -1,0 +1,385 @@
+@import 'tailwindcss';
+@custom-variant dark (&:is(.dark *));
+@import './apple.style.css';
+/* Streamdown spreads table and other block styles across dist chunks; scan all emitted modules. */
+@source "../../../node_modules/streamdown/dist/*.js";
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+}
+
+@theme {
+  --color-primary: #000000;
+  --color-primary-highlight: #ffffff;
+  --color-primary-foreground: var(--color-primary-highlight);
+  --color-bg-primary: #edf1f7;
+  --color-bg-highlight: #ffffff;
+  --color-surface-card: rgba(0, 0, 0, 0.08);
+  --color-surface-card-muted: #eef2f7;
+  --color-surface-card-strong: #e8ebf2;
+  --color-surface-overlay: rgba(255, 255, 255, 0.78);
+  --color-fill-soft: rgba(15, 23, 42, 0.055);
+  --color-fill-medium: rgba(15, 23, 42, 0.095);
+  --color-fill-strong: rgba(15, 23, 42, 0.14);
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-text-primary);
+  --color-card: var(--color-bg-highlight);
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: var(--color-bg-highlight);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-muted: color-mix(
+    in srgb,
+    var(--color-bg-highlight) 18%,
+    var(--color-bg-primary)
+  );
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-sidebar: color-mix(
+    in srgb,
+    var(--color-bg-primary) 88%,
+    var(--color-bg-highlight) 12%
+  );
+  --color-sidebar-foreground: var(--color-text-primary);
+  --color-input: var(--color-border);
+  --color-ring: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --color-text-primary: #222222;
+  --color-text-secondary: #5f6878;
+  --color-text-tertiary: #8a93a4;
+  --color-audio-waveform-unplayed: var(--color-text-secondary);
+  --color-border: rgba(15, 23, 42, 0.12);
+  --color-border-strong: rgba(15, 23, 42, 0.18);
+  --color-control-bg: rgba(15, 23, 42, 0.06);
+  --color-control-bg-hover: rgba(15, 23, 42, 0.1);
+  --color-control-bg-active: rgba(15, 23, 42, 0.14);
+  --color-control-fg: #1f2937;
+  --color-control-muted-fg: #6b7280;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #f3a03b;
+  --color-info: #17a2b8;
+  --color-success-bg: rgba(37, 208, 131, 0.2);
+  --color-success-fg: #18794e;
+  --color-warning-bg: rgba(243, 160, 59, 0.2);
+  --color-warning-fg: #a15c07;
+  --color-info-bg: #edf4ff;
+  --color-info-fg: #175cd3;
+  --color-claude: #d97352;
+  --color-text-highlight: #ffffffaa;
+  --color-error-bg: rgba(255, 68, 77, 0.2);
+  --color-error-fg: rgba(215, 79, 86, 1);
+  --color-glass-card-bg: rgba(255, 255, 255, 0.4);
+  --color-glass-card-border: rgba(0, 0, 0, 0.14);
+  --color-user-bubble: rgba(0, 0, 0, 0.06);
+  --color-user-bubble-hover: rgba(0, 0, 0, 0.1);
+  --color-user-bubble-active: rgba(0, 0, 0, 0.14);
+
+  --font-family-sans: system-ui, -apple-system, sans-serif;
+  --font-family-mono:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+    monospace;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+}
+
+@layer base {
+  html {
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
+  body {
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
+  :root[data-surface-runtime='browser'] {
+    background: var(--color-bg-primary);
+  }
+
+  :root[data-surface-runtime='browser'] body {
+    background: var(--color-bg-primary);
+  }
+
+  :root.dark {
+    --color-primary: #ffffff;
+    --color-primary-highlight: #000000;
+    --color-bg-primary: #000;
+    --color-bg-highlight: #333;
+    --color-surface-card: rgba(255, 255, 255, 0.2);
+    --color-surface-card-muted: #202126;
+    --color-surface-card-strong: #36373d;
+    --color-surface-overlay: rgba(32, 33, 38, 0.8);
+    --color-fill-soft: rgba(255, 255, 255, 0.06);
+    --color-fill-medium: rgba(255, 255, 255, 0.11);
+    --color-fill-strong: rgba(255, 255, 255, 0.18);
+    --color-text-primary: #eee;
+    --color-text-secondary: #aaa;
+    --color-text-tertiary: #666;
+    --color-audio-waveform-unplayed: var(--color-text-tertiary);
+    --color-border: rgba(100, 100, 100, 0.4);
+    --color-border-strong: rgba(255, 255, 255, 0.16);
+    --color-control-bg: rgba(255, 255, 255, 0.09);
+    --color-control-bg-hover: rgba(255, 255, 255, 0.14);
+    --color-control-bg-active: rgba(255, 255, 255, 0.18);
+    --color-control-fg: #f5f5f7;
+    --color-control-muted-fg: rgba(255, 255, 255, 0.6);
+    --color-text-highlight: #ffffff80;
+    --color-success-bg: rgba(37, 208, 131, 0.18);
+    --color-success-fg: #5dd899;
+    --color-warning-bg: rgba(243, 160, 59, 0.18);
+    --color-warning-fg: #ffbf66;
+    --color-info-bg: rgba(10, 132, 255, 0.18);
+    --color-info-fg: #8cc6ff;
+    --color-error-bg: rgba(255, 68, 77, 0.3);
+    --color-error-fg: rgba(255, 116, 123, 1);
+    --color-glass-card-bg: rgba(255, 255, 255, 0.2);
+    --color-glass-card-border: rgba(255, 255, 255, 0.1);
+    --color-user-bubble: rgba(255, 255, 255, 0.08);
+    --color-user-bubble-hover: rgba(255, 255, 255, 0.12);
+    --color-user-bubble-active: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Override theme colors for window presentation mode */
+  :root[data-chat-presentation-mode='window'] {
+    --color-border: rgba(15, 23, 42, 0.09);
+
+    --color-surface-card: rgba(0, 0, 0, 0.08);
+    --color-surface-card-muted: #eef2f7;
+    --color-surface-card-strong: #e8ebf2;
+    --color-surface-overlay: rgba(255, 255, 255, 0.78);
+
+    --color-user-bubble: rgba(0, 0, 0, 0.05);
+    --color-user-bubble-hover: rgba(0, 0, 0, 0.08);
+    --color-user-bubble-active: rgba(0, 0, 0, 0.14);
+
+    --color-glass-card-bg: rgba(255, 255, 255, 0.4);
+    --color-glass-card-border: rgba(0, 0, 0, 0.07);
+  }
+  :root[data-chat-presentation-mode='window'].dark {
+    --color-border: rgba(255, 255, 255, 0.09);
+
+    --color-surface-card: rgba(255, 255, 255, 0.1);
+    --color-surface-card-muted: #202126;
+    --color-surface-card-strong: #36373d;
+    --color-surface-overlay: rgba(32, 33, 38, 0.8);
+
+    --color-user-bubble: rgba(255, 255, 255, 0.06);
+    --color-user-bubble-hover: rgba(255, 255, 255, 0.09);
+    --color-user-bubble-active: rgba(255, 255, 255, 0.16);
+
+    --color-glass-card-bg: rgba(255, 255, 255, 0.2);
+    --color-glass-card-border: rgba(255, 255, 255, 0.08);
+  }
+
+  :root.dark html,
+  :root.dark body {
+    color: var(--color-text-primary);
+  }
+}
+
+.glass-card {
+  @apply border border-border bg-user-bubble shadow-[0_12px_30px_rgba(15,23,42,0.08)];
+}
+.glass-card-without-shadow {
+  @apply border border-border bg-user-bubble;
+}
+
+.app-container {
+  @apply max-w-4xl mx-auto p-6;
+}
+
+.primary {
+  @apply bg-primary text-primary-highlight;
+}
+
+.message-bubble {
+  @apply p-4 rounded-lg border-l-4 mb-4;
+}
+
+.message-user {
+  @apply bg-blue-50 border-blue-400;
+}
+
+.message-assistant {
+  @apply bg-purple-50 border-purple-400;
+}
+
+.message-system {
+  @apply bg-orange-50 border-orange-400;
+}
+
+.user-bubble-btn {
+  @apply bg-user-bubble hover:bg-user-bubble-hover active:bg-user-bubble-active;
+}
+
+/* presets */
+.flex-center-main {
+  @apply flex justify-center;
+}
+.flex-center-cross {
+  @apply flex items-center;
+}
+.flex-center {
+  @apply flex items-center justify-center;
+}
+.chat-wrapper {
+  @apply mx-auto w-full max-w-[864px] px-8;
+}
+.icon-button {
+  @apply rounded-md hover:bg-fill-soft;
+}
+/* level 0: hide if empty */
+.hide-if-empty:empty {
+  display: none;
+}
+
+/**
+ * Hide all scrollbars
+ */
+* {
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+code {
+  word-break: break-all;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-primary-highlight);
+}
+
+.chat-scroll-to-bottom-trigger {
+  background: color-mix(in srgb, var(--color-surface-overlay) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.conversation-message-focus-target {
+  position: relative;
+  scroll-margin-block: 96px;
+  border-radius: 18px;
+}
+
+.conversation-message-focused {
+  animation: conversation-message-highlight 2200ms ease-out;
+}
+
+/**
+ * Streamdown's built-in inline table dropdown paints translucently underneath
+ * the table in macOS WebKit. Chat intercepts those controls and renders a
+ * portal menu instead, so keep the inline dropdown hidden.
+ */
+[data-streamdown='table-wrapper']
+  > :first-child:not(:last-child)
+  > .relative
+  > .absolute {
+  display: none !important;
+}
+
+.table-action-menu {
+  isolation: isolate;
+  contain: paint;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  mix-blend-mode: normal;
+}
+
+.table-action-menu-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-popover);
+  opacity: 1;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.table-action-menu-content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes conversation-message-highlight {
+  0% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--color-primary) 24%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  35% {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-primary) 18%, transparent),
+      0 16px 32px color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 9%, transparent);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent),
+      0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .conversation-message-focused {
+    transition: none;
+    animation: none;
+  }
+}
+
+.chat-search-snippet mark {
+  background: rgba(255, 214, 10, 0.22);
+  color: inherit;
+  border-radius: 0.35rem;
+  padding: 0 0.12rem;
+}
+
+.chat-search-hit {
+  animation: chat-search-hit-pulse 1.8s ease-out;
+}
+
+@keyframes chat-search-hit-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 214, 10, 0.42);
+    background-color: rgba(255, 214, 10, 0.24);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(255, 214, 10, 0);
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,69 @@
+name: Kernel Upload
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build-and-upload:
+    name: Build Kernel and Upload
+    runs-on: blacksmith-16vcpu-ubuntu-2404
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      CLOUDFLARE_R2_ACCOUNT_ID: ${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ vars.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_R2_PUBLIC_BASE_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL }}
+      CLOUDFLARE_R2_REGION: ${{ vars.CLOUDFLARE_R2_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: System info
+        run: |
+          cat /proc/cpuinfo
+          cat /proc/meminfo
+
+      - name: Prepare dist directory
+        run: |
+          set -euo pipefail
+          mkdir -p sandbox-vm/dist
+          rm -f sandbox-vm/dist/kernel.arm64
+
+      - name: Build kernels
+        run: bash sandbox-vm/scripts/kbuild.sh
+
+      - name: List generated kernels
+        run: ls -lh sandbox-vm/dist
+
+      - name: Upload kernels to Cloudflare R2
+        id: upload
+        env:
+          R2_PREFIX: sandbox-vm/kernels/kernel-${{ github.sha }}
+        run: |
+          set -euo pipefail
+          R2_ENDPOINT="https://${CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          R2_REGION="${CLOUDFLARE_R2_REGION:-auto}"
+          export AWS_ACCESS_KEY_ID="$CLOUDFLARE_R2_ACCESS_KEY_ID"
+          export AWS_SECRET_ACCESS_KEY="$CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+          export AWS_DEFAULT_REGION="$R2_REGION"
+          export R2_PREFIX="$R2_PREFIX-$(date -u +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp sandbox-vm/dist/kernel.arm64 "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PREFIX}.arm64.bin"
+
+          echo "arm64_url=${CLOUDFLARE_R2_PUBLIC_BASE_URL%/}/${R2_PREFIX}.arm64.bin" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        if: success()
+        run: |
+          {
+            echo "## Kernel build"
+            echo ""
+            echo "- arm64: ${{ steps.upload.outputs.arm64_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

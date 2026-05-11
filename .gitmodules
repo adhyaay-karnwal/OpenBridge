@@ -1,0 +1,4 @@
+[submodule "kwwk"]
+	path = kwwk
+	url = https://github.com/EYHN/kwwk.git
+	branch = main

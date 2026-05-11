@@ -1,0 +1,19 @@
+// Development.xcconfig
+// OpenBridge
+//
+// Local development configuration (Debug)
+
+#include "Base.xcconfig"
+
+// Development team and signing (yellow plus)
+DEVELOPMENT_TEAM = QDJ93ZUQ9B
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY = Apple Development
+
+// App identifiers
+PRODUCT_BUNDLE_IDENTIFIER = app.yellowplus.openbridgetf
+
+// Debug configuration
+ENABLE_HARDENED_RUNTIME = NO
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG LOCAL_AUTH_STORAGE $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 LOCAL_AUTH_STORAGE=1 $(inherited)

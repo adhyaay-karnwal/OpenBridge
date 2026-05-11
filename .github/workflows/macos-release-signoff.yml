@@ -1,0 +1,90 @@
+name: Release Sign-off
+
+on:
+  workflow_dispatch:
+    inputs:
+      dmg_sha256:
+        description: "SHA256 hash of the released DMG to verify"
+        required: true
+        type: string
+
+concurrency:
+  group: macos-release-signoff
+  cancel-in-progress: false
+
+jobs:
+  signoff:
+    name: Verify and Sign-off Release
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_R2_ACCOUNT_ID: ${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ vars.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+      R2_ENDPOINT: https://${{ vars.CLOUDFLARE_R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      R2_PATH_PREFIX: production
+    steps:
+      - name: Configure AWS CLI for R2
+        run: |
+          aws configure set aws_access_key_id "$CLOUDFLARE_R2_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+          aws configure set region auto
+
+      - name: Download latest.txt from R2
+        run: |
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp \
+            "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/latest.txt" \
+            latest.txt
+          echo "Contents of latest.txt:"
+          cat latest.txt
+
+      - name: Verify SHA256 hash
+        run: |
+          LATEST_FILENAME=$(cat latest.txt)
+          echo "Latest filename: $LATEST_FILENAME"
+
+          # Extract SHA256 from filename (format: VERSION-TIMESTAMP-SHA256.dmg)
+          EMBEDDED_SHA256=$(echo "$LATEST_FILENAME" | sed 's/.*-\([a-f0-9]\{64\}\)\.dmg$/\1/')
+          INPUT_SHA256="${{ inputs.dmg_sha256 }}"
+
+          echo "Embedded SHA256: $EMBEDDED_SHA256"
+          echo "Input SHA256: $INPUT_SHA256"
+
+          if [ "$EMBEDDED_SHA256" != "$INPUT_SHA256" ]; then
+            echo "::error::SHA256 mismatch! The provided hash does not match the hash in latest.txt"
+            echo "Expected: $EMBEDDED_SHA256"
+            echo "Got: $INPUT_SHA256"
+            exit 1
+          fi
+
+          echo "SHA256 verification successful!"
+
+      - name: Create release.txt
+        run: |
+          cp latest.txt release.txt
+          echo "Created release.txt with contents:"
+          cat release.txt
+
+      - name: Upload release.txt to R2
+        run: |
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp \
+            release.txt \
+            "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/release.txt" \
+            --content-type "text/plain"
+          echo "Successfully uploaded release.txt to R2"
+
+      - name: Activate appcast for release
+        run: |
+          aws --endpoint-url "$R2_ENDPOINT" s3 mv \
+            "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/appcast_pending.xml" \
+            "s3://${CLOUDFLARE_R2_BUCKET}/${R2_PATH_PREFIX}/appcast.xml"
+          echo "Successfully activated appcast.xml from appcast_pending.xml"
+
+      - name: Send Notification to Slack Release Channel
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v3.0.1
+        with:
+          payload: |
+            content: "OpenBridge macOS PRODUCTION release has been signed off. DMG SHA256: ${{ inputs.dmg_sha256 }}"
+          webhook: ${{ secrets.SLACK_RELEASE_CHANNEL_WEBHOOK_URL }}
+          webhook-type: webhook-trigger

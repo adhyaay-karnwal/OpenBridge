@@ -1,0 +1,72 @@
+.shiny-text {
+  /* CSS variables with sensible defaults */
+  --shine-color: hsl(0 0% 100% / 1);
+  /* width of the highlight stripe */
+  --shine-size: 56px;
+  /* total time to travel across once; JS will compute a precise value */
+  --shine-duration: 2.5s;
+
+  position: relative;
+  display: inline-block;
+
+  /* Base fill (current text color) + highlight stripe overlay */
+  background-image:
+    /* TOP: outer glow (blurred) */
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 20%,
+      var(--shine-color) 50%,
+      transparent 80%,
+      transparent 100%
+    ),
+    /* MIDDLE: concentrated core beam */
+    linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 40%,
+        var(--shine-color) 50%,
+        transparent 60%,
+        transparent 100%
+      ),
+    /* BOTTOM: solid text color fill */
+    linear-gradient(90deg, currentColor 0%, currentColor 100%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  /* First two (stripes) use controllable width, third (fill) spans all */
+  background-size:
+    calc(var(--shine-size) * 2) 100%,
+    var(--shine-size) 100%,
+    100% 100%;
+  background-position:
+    calc(var(--shine-size) * -2) 0,
+    0 0;
+
+  /* Clip background to text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shiny-text-shine var(--shine-duration) ease-in-out infinite;
+  will-change: background-position;
+}
+
+@keyframes shiny-text-shine {
+  0% {
+    background-position:
+      calc(var(--shine-size) * -2) 0,
+      calc(var(--shine-size) * -1) 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      calc(100% + var(--shine-size) * 2) 0,
+      calc(100% + var(--shine-size)) 0,
+      0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+  }
+}

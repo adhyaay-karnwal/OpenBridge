@@ -1,0 +1,24 @@
+// Base.xcconfig
+// OpenBridge
+//
+// Common settings shared across all configurations
+
+#include "Version.xcconfig"
+
+// Platform configuration
+MACOSX_DEPLOYMENT_TARGET = 14.0
+SWIFT_VERSION = 6.0
+
+// Signing base
+CODE_SIGNING_ALLOWED = YES
+CODE_SIGNING_REQUIRED = YES
+
+// Feature flags
+ENABLE_SPARKLE = YES
+
+// Swift settings
+SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor
+SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES
+
+// Optional local/CI override
+#include? "Developer.xcconfig"

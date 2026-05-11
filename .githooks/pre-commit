@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# Pre-commit hook for Swift code style checks
+# Only checks staged Swift files for fast feedback
+
+set -euo pipefail
+
+export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
+
+# Get the repository root
+REPO_ROOT=$(git rev-parse --show-toplevel)
+MACOS_DIR="$REPO_ROOT/macos"
+SCRIPT_DIR="$REPO_ROOT/.githooks"
+
+# Get staged Swift files in macos
+STAGED_SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep '^macos/.*\.swift$' || true)
+
+if [[ -z "$STAGED_SWIFT_FILES" ]]; then
+    echo "[pre-commit] No staged Swift files to check."
+    exit 0
+fi
+
+echo "[pre-commit] Checking $(echo "$STAGED_SWIFT_FILES" | wc -l | tr -d ' ') staged Swift file(s)..."
+
+# Convert to absolute paths as array
+FILES_TO_CHECK=()
+while IFS= read -r file; do
+    if [[ -n "$file" ]]; then
+        FILES_TO_CHECK+=("$REPO_ROOT/$file")
+    fi
+done <<< "$STAGED_SWIFT_FILES"
+
+cd "$MACOS_DIR"
+
+# Check if tools are installed
+if ! command -v swiftformat &>/dev/null; then
+    echo "[pre-commit] swiftformat not found. Install with: brew install swiftformat"
+    exit 1
+fi
+
+if ! command -v swiftlint &>/dev/null; then
+    echo "[pre-commit] swiftlint not found. Install with: brew install swiftlint"
+    exit 1
+fi
+
+# Run swiftformat in lint mode (check only, no changes)
+echo "[pre-commit] Running swiftformat..."
+if ! swiftformat --swiftversion 6.0 --lint "${FILES_TO_CHECK[@]}" 2>&1; then
+    echo ""
+    echo "[pre-commit] ❌ swiftformat found issues. Run 'swiftformat <file>' to fix."
+    exit 1
+fi
+
+# Run swiftlint
+echo "[pre-commit] Running swiftlint..."
+SWIFTLINT_CONFIG="$MACOS_DIR/.swiftlint.yml"
+if ! swiftlint lint --config "$SWIFTLINT_CONFIG" --strict "${FILES_TO_CHECK[@]}" 2>&1; then
+    echo ""
+    echo "[pre-commit] ❌ swiftlint found issues. Please fix them before committing."
+    exit 1
+fi
+
+echo "[pre-commit] ✅ Swift code style checks passed!"
+exit 0

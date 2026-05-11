@@ -1,0 +1,105 @@
+name: Public CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: public-ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.14.0"
+          cache: yarn
+          cache-dependency-path: web/yarn.lock
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Test
+        run: yarn test
+
+      - name: Build embedded assets
+        run: yarn build:embedded
+
+  sandbox-vm:
+    name: Sandbox VM Go Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sandbox-vm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: sandbox-vm/go.mod
+          cache-dependency-path: sandbox-vm/go.sum
+
+      - name: Test
+        run: make go-test
+
+  repository:
+    name: Repository Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Check required files
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f CONTRIBUTING.md
+          test -f SECURITY.md
+          test -f CODE_OF_CONDUCT.md
+          test -f LICENSE
+          test -f .editorconfig
+
+      - name: Check for root-level local artifacts
+        run: |
+          set -euo pipefail
+          find . -maxdepth 2 \( \
+            -name '.DS_Store' -o \
+            -name '*.xcarchive' -o \
+            -name '*.dmg' -o \
+            -name '*.app' -o \
+            -name 'DerivedData' \
+          \) -print -quit | tee /tmp/openbridge-artifacts.txt
+          test ! -s /tmp/openbridge-artifacts.txt

@@ -1,0 +1,157 @@
+name: macOS Build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+concurrency:
+  group: macos-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-sandbox-vm-resources:
+    name: Build SandboxVM Resources
+    runs-on: blacksmith-4vcpu-ubuntu-2404-arm
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Install system dependencies
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y podman-docker unzip \
+               build-essential autoconf automake libfuse-dev liblz4-dev liblzma-dev \
+               libtool libzstd-dev pkg-config uuid-dev zlib1g-dev
+          echo "$(whoami):100000:65536" | sudo tee /etc/subuid | sudo tee /etc/subgid
+          sudo touch /etc/containers/nodocker
+          mkdir -p ~/.config/containers
+          echo -e "[engine]\ncgroup_manager = \"cgroupfs\"" > ~/.config/containers/containers.conf
+
+      - name: Build erofs-utils
+        run: |
+          set -e
+          git clone --depth=1 git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
+          cd erofs-utils
+          ./autogen.sh
+          ./configure --enable-lz4 --enable-lzma --with-libzstd
+          make -j"$(nproc)"
+          sudo make install
+
+      - name: Build SandboxVM resources
+        working-directory: sandbox-vm
+        run: make vm
+
+      - name: Upload SandboxVM resources
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-vm-resources
+          path: |
+            sandbox-vm/resources/vm/kernel.bin
+            sandbox-vm/resources/vm/rootfs.img
+
+  build:
+    name: Build macOS App
+    runs-on: [self-hosted, tartelet]
+    needs: build-sandbox-vm-resources
+    timeout-minutes: 35
+    env:
+      CODE_SIGNING_ALLOWED: NO
+      CLOUDFLARE_R2_PUBLIC_BASE_URL: ${{ vars.CLOUDFLARE_R2_PUBLIC_BASE_URL }}
+      SWIFTFORMAT_VERSION: 0.60.1
+      USE_LOCAL_SANDBOXVM: "1"
+      NSUnbufferedIO: "YES"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Setup SwiftFormat
+        run: |
+          source macos/DevKit/Scripts/shell-utils.sh
+          ensure_swiftformat 1
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: sandbox-vm/go.mod
+          cache-dependency-path: sandbox-vm/go.sum
+
+      - name: Setup Build
+        run: |
+          defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+          defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+          if ! command -v create-dmg &> /dev/null; then
+            echo "create-dmg not found, installing..."
+            brew install create-dmg
+          else
+            echo "create-dmg is already installed"
+          fi
+          if ! command -v jq &> /dev/null; then
+            echo "jq not found, installing..."
+            brew install jq
+          else
+            echo "jq is already installed"
+          fi
+
+      - name: Build embedded web assets
+        working-directory: web
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn build:embedded
+
+      - name: Download SandboxVM resources
+        uses: actions/download-artifact@v4
+        with:
+          name: sandbox-vm-resources
+          path: sandbox-vm/resources/vm
+
+      - name: Build local SandboxVM framework
+        run: GOROOT_BOOTSTRAP="$(go env GOROOT)" make -C sandbox-vm framework
+
+      - name: Run macOS unit tests
+        working-directory: macos
+        timeout-minutes: 20
+        env:
+          CODE_SIGNING_ALLOWED: YES
+          CODE_SIGN_IDENTITY: "-"
+        run: bash DevKit/Scripts/workspace_test_unit.sh
+
+      - name: Resolve Swift packages
+        working-directory: macos
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -resolvePackageDependencies \
+            -workspace OpenBridge.xcworkspace \
+            -scheme OpenBridge \
+            -derivedDataPath .build/DerivedData \
+            -clonedSourcePackagesDirPath .build/SourcePackages
+
+      - name: Archive app
+        timeout-minutes: 25
+        run: macos/DevKit/Scripts/workspace_archive.sh
+
+      - name: Package artifact
+        run: macos/DevKit/Scripts/common_package.sh
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-app
+          path: artifacts/OpenBridge.dmg
+
+      - name: Upload xcodebuild log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: macos/xcodebuild.log

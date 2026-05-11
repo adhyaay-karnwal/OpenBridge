@@ -1,0 +1,13 @@
+// Developer.xcconfig.template
+// OpenBridge
+//
+// Copy this file to Developer.xcconfig for local/CI overrides.
+// Developer.xcconfig is gitignored.
+//
+// Example local development settings (QAQ's personal team):
+//
+// DEVELOPMENT_TEAM = QDJ93ZUQ9B
+// CODE_SIGN_STYLE = Automatic
+// CODE_SIGN_IDENTITY = Apple Development
+// PRODUCT_BUNDLE_IDENTIFIER = app.yellowplus.openbridgetf
+// ENABLE_HARDENED_RUNTIME = NO

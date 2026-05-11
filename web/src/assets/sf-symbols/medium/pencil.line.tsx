@@ -1,0 +1,28 @@
+import type { SVGProps } from 'react';
+
+export const PencilLineSFSymbolMedium = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      height="1em"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 22.5887 19.0507"
+      fill="currentColor"
+      {...props}
+    >
+      <g>
+        {' '}
+        <rect height="19.0507" opacity="0" width="22.5887" x="0" y="0" />{' '}
+        <path
+          d="M20.7916 16.6585C20.7916 17.1831 20.3627 17.6121 19.8381 17.6121L5.39664 17.6121L7.31724 15.697L19.8381 15.697C20.3627 15.697 20.7916 16.1339 20.7916 16.6585Z"
+          fill="currentColor"
+        />{' '}
+        <path
+          d="M4.29161 16.7013L15.2721 5.73336L13.3898 3.85114L2.4174 14.8191L1.46056 17.1128C1.35158 17.4052 1.65197 17.7173 1.93029 17.6056ZM16.2008 4.81441L17.2557 3.77555C17.7881 3.25114 17.8174 2.67008 17.3285 2.18747L16.9553 1.80446C16.4762 1.32985 15.8898 1.37243 15.3734 1.88708L14.3088 2.93219Z"
+          fill="currentColor"
+        />{' '}
+      </g>
+    </svg>
+  );
+};

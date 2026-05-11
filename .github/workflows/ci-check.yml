@@ -1,0 +1,131 @@
+name: Internal CI Check
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  # Keep separate PRs independent while superseding older runs for the same PR.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  filter:
+    name: Analyze Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      # Checks to see if any files in the PR match one of the listed file types.
+      # We can use this filter to decide whether or not to run linters or tests.
+      # You can check if a file with a listed file type is in the PR by doing:
+      # if: ${{ steps.filter.outputs.md == 'true' }}
+      # This will return true if there's a markdown file that was changed
+      # in the PR.
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            macos:
+              - "macos/**"
+              - "sandbox-vm/**"
+              - ".github/workflows/macos-build.yml"
+              - ".github/workflows/macos-swift-format.yml"
+            web:
+              - "web/**"
+              - ".github/workflows/web-ci.yml"
+            sandbox_vm:
+              - "sandbox-vm/**"
+              - ".github/workflows/sandbox-vm-ci.yml"
+      - name: Collect changed macOS Swift files
+        id: macos-swift-files
+        if: ${{ steps.filter.outputs.macos == 'true' }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            head_sha="${{ github.event.pull_request.head.sha }}"
+          else
+            base_sha="${{ github.event.before }}"
+            head_sha="${{ github.sha }}"
+          fi
+
+          if [[ -z "$base_sha" ]] || [[ "$base_sha" == "0000000000000000000000000000000000000000" ]]; then
+            base_sha="$(git rev-parse "${head_sha}^")"
+          fi
+
+          merge_base="$(git merge-base "$base_sha" "$head_sha")"
+          targets_file="$RUNNER_TEMP/macos-swift-files.txt"
+          git diff --name-only --diff-filter=ACMR "$merge_base" "$head_sha" -- \
+            | grep '^macos/.*\.swift$' \
+            | sed 's#^macos/##' \
+            > "$targets_file" || true
+
+          echo "Using merge base: $merge_base"
+          echo "Swift lint targets:"
+          cat "$targets_file" || true
+
+          {
+            echo "value<<EOF"
+            cat "$targets_file"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+    outputs:
+      macos: ${{ steps.filter.outputs.macos == 'true' }}
+      web: ${{ steps.filter.outputs.web == 'true' }}
+      sandbox_vm: ${{ steps.filter.outputs.sandbox_vm == 'true' }}
+      macos_swift_files: ${{ steps.macos-swift-files.outputs.value }}
+
+  macos-build:
+    name: macOS Build
+    needs:
+      - filter
+    if: ${{ needs.filter.outputs.macos == 'true' }}
+    uses: ./.github/workflows/macos-build.yml
+    secrets: inherit
+
+  macos-swift-format:
+    name: macOS Swift Format
+    needs: filter
+    if: ${{ needs.filter.outputs.macos == 'true' }}
+    uses: ./.github/workflows/macos-swift-format.yml
+    with:
+      checkout_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      swift_lint_targets: ${{ needs.filter.outputs.macos_swift_files }}
+    secrets: inherit
+
+  web-ci:
+    name: Web CI
+    needs: filter
+    if: ${{ needs.filter.outputs.web == 'true' }}
+    uses: ./.github/workflows/web-ci.yml
+
+  sandbox-vm-ci:
+    name: Sandbox VM CI
+    needs: filter
+    if: ${{ needs.filter.outputs.sandbox_vm == 'true' }}
+    uses: ./.github/workflows/sandbox-vm-ci.yml
+    secrets: inherit
+    permissions:
+      contents: write
+      pull-requests: write
+
+  check-suite:
+    name: All Set, Let's Go!
+    needs:
+      - filter
+      - macos-build
+      - macos-swift-format
+      - web-ci
+      - sandbox-vm-ci
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}

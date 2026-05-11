@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "94BB3A09-B41E-49B8-85D3-BACC588FC5A3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:OpenBridge.xcodeproj",
+        "identifier" : "507AE78C2EA0B9CB00FBFBC9",
+        "name" : "OpenBridgeUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

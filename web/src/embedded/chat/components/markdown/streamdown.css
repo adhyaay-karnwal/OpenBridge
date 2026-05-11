@@ -1,0 +1,44 @@
+@reference "../../style.css";
+
+[data-sd-animate] {
+  /* large duration in Animations not working */
+  --sd-duration: 0.5s !important;
+}
+[data-streamdown='table-wrapper'] {
+  @apply border border-border bg-user-bubble px-0 pb-0;
+}
+[data-streamdown='table-wrapper'] > div:first-child {
+  @apply pr-2 gap-2;
+}
+/* remove background, this background is set by streamdown */
+[data-streamdown='table-wrapper'] > div.bg-background {
+  @apply border-0 border-t rounded-none;
+  background-color: transparent;
+}
+[data-streamdown='table'] {
+  @apply bg-transparent;
+}
+[data-streamdown='table-header'] {
+  @apply bg-black/4 dark:bg-white/2;
+}
+[data-streamdown='table-body'] {
+}
+[data-streamdown='table-row'] {
+  @apply border-border;
+}
+[data-streamdown='table-header-cell'] {
+  @apply bg-transparent;
+}
+[data-streamdown='table-cell'] {
+  @apply bg-transparent;
+}
+[data-streamdown='table-cell']:nth-child(1) {
+  @apply border-l-0;
+}
+[data-streamdown='table-fullscreen'] {
+}
+
+[data-streamdown='table-header'],
+[data-streamdown='table-row'] {
+  @apply border-black/4 dark:border-white/4;
+}

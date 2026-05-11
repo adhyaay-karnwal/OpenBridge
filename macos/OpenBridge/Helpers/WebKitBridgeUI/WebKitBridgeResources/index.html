@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebKit OpenBridge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: transparent;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebKit OpenBridge Demo Page</h1>
+    <script>
+        // Notify bridge that page is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.openbridgeReady) {
+                window.webkit.messageHandlers.openbridgeReady.postMessage('complete');
+            }
+        });
+    </script>
+</body>
+</html>

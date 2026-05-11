@@ -1,0 +1,19 @@
+// Staging.xcconfig
+// OpenBridge
+//
+// Beta/TestFlight pre-release configuration
+
+#include "Base.xcconfig"
+
+// Production team and signing (aligned with Release)
+DEVELOPMENT_TEAM = D9AAN3VJK8
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = Developer ID Application
+
+// App identifiers
+PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge
+
+// Pre-release configuration
+ENABLE_HARDENED_RUNTIME = YES
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = STAGING=1 $(inherited)

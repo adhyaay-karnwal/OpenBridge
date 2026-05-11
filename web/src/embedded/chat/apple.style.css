@@ -1,0 +1,106 @@
+/* Apple System Colors + Gray Colors in Tailwind Variable Syntax */
+@theme {
+  /* 🌈 System Colors (Light Mode) */
+  --color-apple-red: rgb(255, 56, 60);
+  --color-apple-orange: rgb(255, 141, 40);
+  --color-apple-yellow: rgb(255, 204, 0);
+  --color-apple-green: rgb(52, 199, 89);
+  --color-apple-mint: rgb(0, 200, 179);
+  --color-apple-teal: rgb(0, 195, 208);
+  --color-apple-cyan: rgb(0, 192, 232);
+  --color-apple-blue: rgb(0, 136, 255);
+  --color-apple-indigo: rgb(97, 85, 245);
+  --color-apple-purple: rgb(203, 48, 224);
+  --color-apple-pink: rgb(255, 45, 85);
+  --color-apple-brown: rgb(172, 127, 94);
+
+  /* ⚪️ System Gray Colors (Light Mode) */
+  --color-apple-gray: rgb(142, 142, 147);
+  --color-apple-gray-2: rgb(174, 174, 178);
+  --color-apple-gray-3: rgb(199, 199, 204);
+  --color-apple-gray-4: rgb(209, 209, 214);
+  --color-apple-gray-5: rgb(229, 229, 234);
+  --color-apple-gray-6: rgb(242, 242, 247);
+}
+
+/* 🌙 Dark Mode */
+@layer base {
+  :root.dark {
+    --color-apple-red: rgb(255, 66, 69);
+    --color-apple-orange: rgb(255, 146, 48);
+    --color-apple-yellow: rgb(255, 214, 0);
+    --color-apple-green: rgb(48, 209, 88);
+    --color-apple-mint: rgb(0, 218, 195);
+    --color-apple-teal: rgb(0, 210, 224);
+    --color-apple-cyan: rgb(60, 211, 254);
+    --color-apple-blue: rgb(0, 145, 255);
+    --color-apple-indigo: rgb(109, 124, 255);
+    --color-apple-purple: rgb(219, 52, 242);
+    --color-apple-pink: rgb(255, 55, 95);
+    --color-apple-brown: rgb(183, 138, 102);
+
+    /* Gray */
+    --color-apple-gray: rgb(142, 142, 147);
+    --color-apple-gray-2: rgb(99, 99, 102);
+    --color-apple-gray-3: rgb(72, 72, 74);
+    --color-apple-gray-4: rgb(58, 58, 60);
+    --color-apple-gray-5: rgb(44, 44, 46);
+    --color-apple-gray-6: rgb(28, 28, 30);
+  }
+}
+
+/* 🟡 Increased Contrast (Light Mode) */
+@layer base {
+  @media (prefers-contrast: more) {
+    :root:not(.dark) {
+      --color-apple-red: rgb(233, 21, 45);
+      --color-apple-orange: rgb(197, 83, 0);
+      --color-apple-yellow: rgb(161, 106, 0);
+      --color-apple-green: rgb(0, 137, 50);
+      --color-apple-mint: rgb(0, 133, 117);
+      --color-apple-teal: rgb(0, 129, 152);
+      --color-apple-cyan: rgb(0, 126, 174);
+      --color-apple-blue: rgb(30, 110, 244);
+      --color-apple-indigo: rgb(86, 74, 222);
+      --color-apple-purple: rgb(176, 47, 194);
+      --color-apple-pink: rgb(231, 18, 77);
+      --color-apple-brown: rgb(149, 109, 81);
+
+      /* Gray */
+      --color-apple-gray: rgb(108, 108, 112);
+      --color-apple-gray-2: rgb(142, 142, 147);
+      --color-apple-gray-3: rgb(174, 174, 178);
+      --color-apple-gray-4: rgb(188, 188, 192);
+      --color-apple-gray-5: rgb(216, 216, 220);
+      --color-apple-gray-6: rgb(235, 235, 240);
+    }
+  }
+}
+
+/* 🟣 Increased Contrast (Dark Mode) */
+@layer base {
+  @media (prefers-contrast: more) {
+    :root.dark {
+      --color-apple-red: rgb(255, 97, 101);
+      --color-apple-orange: rgb(255, 160, 86);
+      --color-apple-yellow: rgb(254, 223, 67);
+      --color-apple-green: rgb(74, 217, 104);
+      --color-apple-mint: rgb(84, 223, 203);
+      --color-apple-teal: rgb(59, 221, 236);
+      --color-apple-cyan: rgb(109, 217, 255);
+      --color-apple-blue: rgb(92, 184, 255);
+      --color-apple-indigo: rgb(167, 170, 255);
+      --color-apple-purple: rgb(234, 141, 255);
+      --color-apple-pink: rgb(255, 138, 196);
+      --color-apple-brown: rgb(219, 166, 121);
+
+      /* Gray */
+      --color-apple-gray: rgb(174, 174, 178);
+      --color-apple-gray-2: rgb(124, 124, 128);
+      --color-apple-gray-3: rgb(84, 84, 86);
+      --color-apple-gray-4: rgb(68, 68, 70);
+      --color-apple-gray-5: rgb(54, 54, 56);
+      --color-apple-gray-6: rgb(36, 36, 38);
+    }
+  }
+}

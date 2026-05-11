@@ -1,0 +1,1562 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5002F8772EE7A47A00C9D920 /* SpringInterpolation in Frameworks */ = {isa = PBXBuildFile; productRef = 5002F8762EE7A47A00C9D920 /* SpringInterpolation */; };
+		500446832F24B78A0086BB88 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 500446822F24B78A0086BB88 /* KeychainAccess */; };
+		50317B742EFE379A00D91D79 /* SwiftDraw in Frameworks */ = {isa = PBXBuildFile; productRef = 50317B732EFE379A00D91D79 /* SwiftDraw */; };
+		50588E092EC1CD8B000BC33C /* ObservableDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 50588E082EC1CD8B000BC33C /* ObservableDefaults */; };
+		50A97AF42F28B201001DD98F /* WCDBSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50A97AF32F28B201001DD98F /* WCDBSwift */; };
+		50B0A1A32F31A00100ABCDE /* LRUCache in Frameworks */ = {isa = PBXBuildFile; productRef = 50B0A1A12F31A00100ABCDE /* LRUCache */; };
+		50C102B42EAF67640016EABD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 50C102B32EAF67640016EABD /* Sparkle */; settings = {ATTRIBUTES = (Required, ); }; };
+		50C369B32EC6408F0049ED18 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 50C369B22EC6408F0049ED18 /* SnapKit */; };
+		50C36C382EC64EFF0049ED18 /* SwifterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50C36C372EC64EFF0049ED18 /* SwifterSwift */; };
+		50C36C3B2EC651150049ED18 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 50C36C3A2EC651150049ED18 /* Kingfisher */; };
+		50C7E5612EB7033A0005BEEC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 50C7E5602EB7033A0005BEEC /* Collections */; };
+		50F5BDE12EB649AE00E4B1F8 /* Subprocess in Frameworks */ = {isa = PBXBuildFile; productRef = 50F5BDE02EB649AE00E4B1F8 /* Subprocess */; };
+		50F5BDE42EB64A4B00E4B1F8 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 50F5BDE32EB64A4B00E4B1F8 /* KeyboardShortcuts */; };
+		50F5BDE72EB64B8800E4B1F8 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 50F5BDE62EB64B8800E4B1F8 /* Logging */; };
+		50F5C3EB2EB6534C00E4B1F8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 50F5C3EA2EB6534C00E4B1F8 /* LaunchAtLogin */; };
+		51C0C0DE2F01000100C0DE01 /* ComposerEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 51C0C0DF2F01000200C0DE02 /* ComposerEditor */; };
+		51D4A7012FA4000000D4A701 /* KWWKAI in Frameworks */ = {isa = PBXBuildFile; productRef = 51D4A7042FA4000000D4A704 /* KWWKAI */; };
+		51D4A7022FA4000000D4A702 /* KWWKAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 51D4A7052FA4000000D4A705 /* KWWKAgent */; };
+		51E8C0012FAB000000C0DE01 /* KWWKComputerUseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 51E8C0032FAB000000C0DE03 /* KWWKComputerUseCore */; };
+		51D4A7102FA4010000D4A710 /* SandboxVM.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D4A70F2FA4010000D4A70F /* SandboxVM.xcframework */; };
+		51D4A7112FA4010000D4A711 /* SandboxVM.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51D4A70F2FA4010000D4A70F /* SandboxVM.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		51C0C0E12F01000300C0DE03 /* GlassEffectKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51C0C0E22F01000400C0DE04 /* GlassEffectKit */; };
+		5B8D1C612F91A10000AA1101 /* NotchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B8D1C632F91A10000AA1101 /* NotchKit */; };
+		7A37C6492EF9283D00DC808A /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = 7A37C6482EF9283D00DC808A /* Yams */; };
+		7AEEE79A2EF3F7F100EAD07B /* ScrubberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AEEE7992EF3F7F100EAD07B /* ScrubberKit */; };
+		9D30C4CF2EDF2CCD00EE7E5F /* JSBridge in Frameworks */ = {isa = PBXBuildFile; productRef = 9D30C4CE2EDF2CCD00EE7E5F /* JSBridge */; };
+		CE0F39872EBCA87F00C9A3A1 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0F39862EBCA87F00C9A3A1 /* Virtualization.framework */; };
+		E957B90A2F8752A200152154 /* WindowNotificationKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5A1D9E7A3C4B5D6E7F8A9B11 /* WindowNotificationKit */; };
+		F8A2F7922EC58DE000136443 /* PublicSuffixList in Frameworks */ = {isa = PBXBuildFile; productRef = F8A2F7912EC58DE000136443 /* PublicSuffixList */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		507AE7932EA0B9CB00FBFBC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50C2FD9B2E9DF71C00592D92 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50C2FDA22E9DF71C00592D92;
+			remoteInfo = OpenBridge;
+		};
+		507AE7A02EA0B9DB00FBFBC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50C2FD9B2E9DF71C00592D92 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50C2FDA22E9DF71C00592D92;
+			remoteInfo = OpenBridge;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		51D4A7122FA4010000D4A712 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				51D4A7112FA4010000D4A711 /* SandboxVM.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		507AE78D2EA0B9CB00FBFBC9 /* OpenBridgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenBridgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		507AE79C2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenBridgeUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50C2FDA32E9DF71C00592D92 /* OpenBridge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenBridge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		51D4A70F2FA4010000D4A70F /* SandboxVM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SandboxVM.xcframework; sourceTree = SOURCE_ROOT; };
+		7AEEE7982EF3F7B700EAD07B /* ScrubberKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ScrubberKit; path = Frameworks/ScrubberKit; sourceTree = "<group>"; };
+		CE0F39862EBCA87F00C9A3A1 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		50C2FDBC2E9DF93B00592D92 /* Exceptions for "OpenBridge" folder in "OpenBridge" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Backend/PromptManager/README.md,
+				Configuration,
+				Info.plist,
+				Resources/kernel.bin.committed.txt,
+				Resources/rootfs.img.committed.txt,
+			);
+			target = 50C2FDA22E9DF71C00592D92 /* OpenBridge */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		507AE78E2EA0B9CB00FBFBC9 /* OpenBridgeUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OpenBridgeUITests;
+			sourceTree = "<group>";
+		};
+		507AE79D2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OpenBridgeUnitTests;
+			sourceTree = "<group>";
+		};
+		50A97AFB2F28B228001DD98F /* Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			name = Configuration;
+			path = OpenBridge/Configuration;
+			sourceTree = "<group>";
+		};
+		50C2FDA52E9DF71C00592D92 /* OpenBridge */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				50C2FDBC2E9DF93B00592D92 /* Exceptions for "OpenBridge" folder in "OpenBridge" target */,
+			);
+			explicitFolders = (
+				Configuration,
+				Helpers/WebKitBridgeUI/WebKitBridgeResources,
+			);
+			path = OpenBridge;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		507AE78A2EA0B9CB00FBFBC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		507AE7992EA0B9DB00FBFBC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50C2FDA02E9DF71C00592D92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B8D1C612F91A10000AA1101 /* NotchKit in Frameworks */,
+				E957B90A2F8752A200152154 /* WindowNotificationKit in Frameworks */,
+				CE0F39872EBCA87F00C9A3A1 /* Virtualization.framework in Frameworks */,
+				F8A2F7922EC58DE000136443 /* PublicSuffixList in Frameworks */,
+				50C36C3B2EC651150049ED18 /* Kingfisher in Frameworks */,
+				7AEEE79A2EF3F7F100EAD07B /* ScrubberKit in Frameworks */,
+				50B0A1A32F31A00100ABCDE /* LRUCache in Frameworks */,
+				500446832F24B78A0086BB88 /* KeychainAccess in Frameworks */,
+				7A37C6492EF9283D00DC808A /* Yams in Frameworks */,
+				50C102B42EAF67640016EABD /* Sparkle in Frameworks */,
+				50F5BDE12EB649AE00E4B1F8 /* Subprocess in Frameworks */,
+				50C7E5612EB7033A0005BEEC /* Collections in Frameworks */,
+				50F5C3EB2EB6534C00E4B1F8 /* LaunchAtLogin in Frameworks */,
+				50F5BDE72EB64B8800E4B1F8 /* Logging in Frameworks */,
+				50F5BDE42EB64A4B00E4B1F8 /* KeyboardShortcuts in Frameworks */,
+				50C36C382EC64EFF0049ED18 /* SwifterSwift in Frameworks */,
+				50317B742EFE379A00D91D79 /* SwiftDraw in Frameworks */,
+				51D4A7102FA4010000D4A710 /* SandboxVM.xcframework in Frameworks */,
+				50588E092EC1CD8B000BC33C /* ObservableDefaults in Frameworks */,
+				50C369B32EC6408F0049ED18 /* SnapKit in Frameworks */,
+				9D30C4CF2EDF2CCD00EE7E5F /* JSBridge in Frameworks */,
+				51D4A7012FA4000000D4A701 /* KWWKAI in Frameworks */,
+				51D4A7022FA4000000D4A702 /* KWWKAgent in Frameworks */,
+				51E8C0012FAB000000C0DE01 /* KWWKComputerUseCore in Frameworks */,
+				5002F8772EE7A47A00C9D920 /* SpringInterpolation in Frameworks */,
+				50A97AF42F28B201001DD98F /* WCDBSwift in Frameworks */,
+				51C0C0DE2F01000100C0DE01 /* ComposerEditor in Frameworks */,
+				51C0C0E12F01000300C0DE03 /* GlassEffectKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		505E61A12E9DFEBB0062AFEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51D4A70F2FA4010000D4A70F /* SandboxVM.xcframework */,
+				7AEEE7982EF3F7B700EAD07B /* ScrubberKit */,
+				CE0F39862EBCA87F00C9A3A1 /* Virtualization.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		50C2FD9A2E9DF71C00592D92 = {
+			isa = PBXGroup;
+			children = (
+				50A97AFB2F28B228001DD98F /* Configuration */,
+				50C2FDA52E9DF71C00592D92 /* OpenBridge */,
+				507AE78E2EA0B9CB00FBFBC9 /* OpenBridgeUITests */,
+				507AE79D2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests */,
+				50C2FDA42E9DF71C00592D92 /* Products */,
+				505E61A12E9DFEBB0062AFEF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		50C2FDA42E9DF71C00592D92 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50C2FDA32E9DF71C00592D92 /* OpenBridge.app */,
+				507AE78D2EA0B9CB00FBFBC9 /* OpenBridgeUITests.xctest */,
+				507AE79C2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		507AE78C2EA0B9CB00FBFBC9 /* OpenBridgeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 507AE7952EA0B9CB00FBFBC9 /* Build configuration list for PBXNativeTarget "OpenBridgeUITests" */;
+			buildPhases = (
+				507AE7892EA0B9CB00FBFBC9 /* Sources */,
+				507AE78A2EA0B9CB00FBFBC9 /* Frameworks */,
+				507AE78B2EA0B9CB00FBFBC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				507AE7942EA0B9CB00FBFBC9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				507AE78E2EA0B9CB00FBFBC9 /* OpenBridgeUITests */,
+			);
+			name = OpenBridgeUITests;
+			packageProductDependencies = (
+			);
+			productName = OpenBridgeUITests;
+			productReference = 507AE78D2EA0B9CB00FBFBC9 /* OpenBridgeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		507AE79B2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 507AE7A22EA0B9DB00FBFBC9 /* Build configuration list for PBXNativeTarget "OpenBridgeUnitTests" */;
+			buildPhases = (
+				507AE7982EA0B9DB00FBFBC9 /* Sources */,
+				507AE7992EA0B9DB00FBFBC9 /* Frameworks */,
+				507AE79A2EA0B9DB00FBFBC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				507AE7A12EA0B9DB00FBFBC9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				507AE79D2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests */,
+			);
+			name = OpenBridgeUnitTests;
+			packageProductDependencies = (
+			);
+			productName = OpenBridgeUnitTests;
+			productReference = 507AE79C2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		50C2FDA22E9DF71C00592D92 /* OpenBridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50C2FDAE2E9DF71D00592D92 /* Build configuration list for PBXNativeTarget "OpenBridge" */;
+			buildPhases = (
+				50529D262EBAFDD800E667BE /* Code Style Check */,
+				50C2FD9F2E9DF71C00592D92 /* Sources */,
+				50C2FDA02E9DF71C00592D92 /* Frameworks */,
+				51D4A7122FA4010000D4A712 /* Embed Frameworks */,
+				50C2FDA12E9DF71C00592D92 /* Resources */,
+				9DC400252EE0330B00BD9A1D /* Generate JSBridge Type Definition */,
+				5084C4ED2EAF986A007E5C50 /* Sign Sparkle */,
+				224AB9EB3CA743F1AE47FF8A /* Build and Embed BridgeComputerUse */,
+				504CB8982EFA295F0001090C /* Clean Extra Attribute for CodeSign */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5049C7982EF0D5BF00E6BE89 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				50C2FDA52E9DF71C00592D92 /* OpenBridge */,
+			);
+			name = OpenBridge;
+			packageProductDependencies = (
+				50C102B32EAF67640016EABD /* Sparkle */,
+				50F5BDE02EB649AE00E4B1F8 /* Subprocess */,
+				50F5BDE32EB64A4B00E4B1F8 /* KeyboardShortcuts */,
+				50F5BDE62EB64B8800E4B1F8 /* Logging */,
+				50F5C3EA2EB6534C00E4B1F8 /* LaunchAtLogin */,
+				50C7E5602EB7033A0005BEEC /* Collections */,
+				50588E082EC1CD8B000BC33C /* ObservableDefaults */,
+				F8A2F7912EC58DE000136443 /* PublicSuffixList */,
+				50C369B22EC6408F0049ED18 /* SnapKit */,
+				50C36C372EC64EFF0049ED18 /* SwifterSwift */,
+				50C36C3A2EC651150049ED18 /* Kingfisher */,
+				9D30C4CE2EDF2CCD00EE7E5F /* JSBridge */,
+				5002F8762EE7A47A00C9D920 /* SpringInterpolation */,
+				7AEEE7992EF3F7F100EAD07B /* ScrubberKit */,
+				7A37C6482EF9283D00DC808A /* Yams */,
+				50317B732EFE379A00D91D79 /* SwiftDraw */,
+				51C0C0DF2F01000200C0DE02 /* ComposerEditor */,
+				51C0C0E22F01000400C0DE04 /* GlassEffectKit */,
+				5B8D1C632F91A10000AA1101 /* NotchKit */,
+				5A1D9E7A3C4B5D6E7F8A9B11 /* WindowNotificationKit */,
+				51D4A7042FA4000000D4A704 /* KWWKAI */,
+				51D4A7052FA4000000D4A705 /* KWWKAgent */,
+				51E8C0032FAB000000C0DE03 /* KWWKComputerUseCore */,
+				500446822F24B78A0086BB88 /* KeychainAccess */,
+				50B0A1A12F31A00100ABCDE /* LRUCache */,
+				50A97AF32F28B201001DD98F /* WCDBSwift */,
+			);
+			productName = OpenBridge;
+			productReference = 50C2FDA32E9DF71C00592D92 /* OpenBridge.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		50C2FD9B2E9DF71C00592D92 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					507AE78C2EA0B9CB00FBFBC9 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 50C2FDA22E9DF71C00592D92;
+					};
+					507AE79B2EA0B9DB00FBFBC9 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 50C2FDA22E9DF71C00592D92;
+					};
+					50C2FDA22E9DF71C00592D92 = {
+						CreatedOnToolsVersion = 26.0.1;
+						LastSwiftMigration = 2600;
+					};
+				};
+			};
+			buildConfigurationList = 50C2FD9E2E9DF71C00592D92 /* Build configuration list for PBXProject "OpenBridge" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 50C2FD9A2E9DF71C00592D92;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E9FA07252EA8A45E0092CF4C /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				50C102B22EAF67640016EABD /* XCRemoteSwiftPackageReference "Sparkle" */,
+				50F5BDDF2EB649AE00E4B1F8 /* XCRemoteSwiftPackageReference "swift-subprocess" */,
+				50F5BDE22EB64A4B00E4B1F8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				50F5BDE52EB64B8800E4B1F8 /* XCRemoteSwiftPackageReference "swift-log" */,
+				50C7E55F2EB7033A0005BEEC /* XCRemoteSwiftPackageReference "swift-collections" */,
+				50588E072EC1CD8B000BC33C /* XCRemoteSwiftPackageReference "ObservableDefaults" */,
+				F8A2F7902EC58DE000136443 /* XCRemoteSwiftPackageReference "swift-psl" */,
+				50C369B12EC6408F0049ED18 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				50C36C362EC64EFF0049ED18 /* XCRemoteSwiftPackageReference "SwifterSwift" */,
+				50C36C392EC651150049ED18 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				F8B3E8A02EF5000000AAAAAA /* XCRemoteSwiftPackageReference "Yams" */,
+				9D30C4CD2EDF2CCD00EE7E5F /* XCLocalSwiftPackageReference "JSBridge" */,
+				5002F8752EE7A47A00C9D920 /* XCRemoteSwiftPackageReference "SpringInterpolation" */,
+				50317B722EFE379A00D91D79 /* XCRemoteSwiftPackageReference "SwiftDraw" */,
+				51C0C0E02F01000200C0DE02 /* XCLocalSwiftPackageReference "Frameworks/ComposerEditor" */,
+				51C0C0E32F01000500C0DE05 /* XCLocalSwiftPackageReference "Frameworks/GlassEffectKit" */,
+				5B8D1C622F91A10000AA1101 /* XCLocalSwiftPackageReference "Frameworks/NotchKit" */,
+				5A1D9E7A3C4B5D6E7F8A9B10 /* XCLocalSwiftPackageReference "Frameworks/WindowNotificationKit" */,
+				51E8C0022FAB000000C0DE02 /* XCLocalSwiftPackageReference "Frameworks/KWWKComputerUseCore" */,
+				51D4A7002FA4000000D4A700 /* XCLocalSwiftPackageReference "../kwwk" */,
+				500446812F24B78A0086BB88 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				50B0A1A22F31A00100ABCDE /* XCRemoteSwiftPackageReference "LRUCache" */,
+				50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				50C2FDA22E9DF71C00592D92 /* OpenBridge */,
+				507AE78C2EA0B9CB00FBFBC9 /* OpenBridgeUITests */,
+				507AE79B2EA0B9DB00FBFBC9 /* OpenBridgeUnitTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		507AE78B2EA0B9CB00FBFBC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		507AE79A2EA0B9DB00FBFBC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50C2FDA12E9DF71C00592D92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		224AB9EB3CA743F1AE47FF8A /* Build and Embed BridgeComputerUse */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build and Embed BridgeComputerUse";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/zsh \"${SRCROOT}/DevKit/Scripts/xcode_embed_bridge_computer_use.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		504CB8982EFA295F0001090C /* Clean Extra Attribute for CodeSign */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Clean Extra Attribute for CodeSign";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xattr -cr \"$CODESIGNING_FOLDER_PATH\"\nrm -rf \"$CODESIGNING_FOLDER_PATH/Icon*\" # clean up customized icon for this app\n";
+		};
+		50529D262EBAFDD800E667BE /* Code Style Check */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Code Style Check";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Swift Code Style Enforcements\n\n\"${SRCROOT}/DevKit/Scripts/swift_format_lint.sh\"\n";
+		};
+		5084C4ED2EAF986A007E5C50 /* Sign Sparkle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sign Sparkle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/DevKit/Scripts/prepare_sparkle.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9DC400252EE0330B00BD9A1D /* Generate JSBridge Type Definition */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate JSBridge Type Definition";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Skip in preview mode (SwiftUI Preview)\nif [[ \"${ENABLE_PREVIEWS:-}\" == \"YES\" ]] || [[ \"${CONFIGURATION:-}\" == *\"preview\"* ]]; then\n  echo \"[-] Running in SwiftUI Preview mode. Skipping JSBridge Type Definition generation.\"\n  exit 0\nfi\n\n\"${BUILT_PRODUCTS_DIR}/JSBridgeBuildTool\" \"${SRCROOT}/OpenBridge\" -o \"${SRCROOT}/JSBridge/index.d.ts\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		507AE7892EA0B9CB00FBFBC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		507AE7982EA0B9DB00FBFBC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50C2FD9F2E9DF71C00592D92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5049C7982EF0D5BF00E6BE89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 5049C7972EF0D5BF00E6BE89 /* JSBridgeBuildTool */;
+		};
+		507AE7942EA0B9CB00FBFBC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50C2FDA22E9DF71C00592D92 /* OpenBridge */;
+			targetProxy = 507AE7932EA0B9CB00FBFBC9 /* PBXContainerItemProxy */;
+		};
+		507AE7A12EA0B9DB00FBFBC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50C2FDA22E9DF71C00592D92 /* OpenBridge */;
+			targetProxy = 507AE7A02EA0B9DB00FBFBC9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		403E1CD060DB445A8F84DD8E /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Staging.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge.UnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenBridge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenBridge";
+			};
+			name = Staging;
+		};
+		507AE7962EA0B9CB00FBFBC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Development.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.OpenBridgeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OpenBridge;
+			};
+			name = Debug;
+		};
+		507AE7972EA0B9CB00FBFBC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OpenBridge;
+			};
+			name = Release;
+		};
+		507AE7A32EA0B9DB00FBFBC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Development.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.OpenBridgeUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenBridge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenBridge";
+			};
+			name = Debug;
+		};
+		507AE7A42EA0B9DB00FBFBC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge.UnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenBridge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenBridge";
+			};
+			name = Release;
+		};
+		50C2FDAC2E9DF71D00592D92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Development.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = D9AAN3VJK8;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		50C2FDAD2E9DF71D00592D92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = D9AAN3VJK8;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		50C2FDAF2E9DF71D00592D92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Development.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconBLUEBLOCK AppIconCOOKIE AppIconDEFAULT AppIconDev AppIconLIQUID AppIconMERCURY AppIconTESTFLIGHT";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = all;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = OpenBridge/Signing/Entitlements.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = arm64e;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenBridge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenBridge;
+				INFOPLIST_KEY_CFBundleName = OpenBridge;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lresolv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		50C2FDB02E9DF71D00592D92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconBLUEBLOCK AppIconCOOKIE AppIconDEFAULT AppIconDev AppIconLIQUID AppIconMERCURY AppIconTESTFLIGHT";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = all;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = OpenBridge/Signing/Entitlements.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = arm64e;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenBridge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenBridge;
+				INFOPLIST_KEY_CFBundleName = OpenBridge;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lresolv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Release;
+		};
+		5AE444CF77E4465E846ABBD9 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Staging.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = D9AAN3VJK8;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Staging;
+		};
+		62A0F8EAB7934097A3C0D82F /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Staging.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconBLUEBLOCK AppIconCOOKIE AppIconDEFAULT AppIconDev AppIconLIQUID AppIconMERCURY AppIconTESTFLIGHT";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconTESTFLIGHT;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = all;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = OpenBridge/Signing/Entitlements.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = arm64e;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenBridge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenBridge;
+				INFOPLIST_KEY_CFBundleName = OpenBridge;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lresolv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Staging;
+		};
+		A1B2C3D4E5F60718293A0001 /* UnsignedDebug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = UnsignedDebug.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = UnsignedDebug;
+		};
+		A1B2C3D4E5F60718293A0002 /* UnsignedDebug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = UnsignedDebug.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconBLUEBLOCK AppIconCOOKIE AppIconDEFAULT AppIconDev AppIconLIQUID AppIconMERCURY AppIconTESTFLIGHT";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = all;
+				AUTOMATION_APPLE_EVENTS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = OpenBridge/Signing/Entitlements.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = arm64e;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenBridge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenBridge;
+				INFOPLIST_KEY_CFBundleName = OpenBridge;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lresolv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = NO;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = UnsignedDebug;
+		};
+		A1B2C3D4E5F60718293A0003 /* UnsignedDebug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = UnsignedDebug.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.openbridge.unsigneddebug.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OpenBridge;
+			};
+			name = UnsignedDebug;
+		};
+		A1B2C3D4E5F60718293A0004 /* UnsignedDebug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = UnsignedDebug.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.openbridge.unsigneddebug.UnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenBridge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpenBridge";
+			};
+			name = UnsignedDebug;
+		};
+		CEDA2A878B0545CEAB4EDAAD /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 50A97AFB2F28B228001DD98F /* Configuration */;
+			baseConfigurationReferenceRelativePath = Staging.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OpenBridge;
+			};
+			name = Staging;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		507AE7952EA0B9CB00FBFBC9 /* Build configuration list for PBXNativeTarget "OpenBridgeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				507AE7962EA0B9CB00FBFBC9 /* Debug */,
+				A1B2C3D4E5F60718293A0003 /* UnsignedDebug */,
+				CEDA2A878B0545CEAB4EDAAD /* Staging */,
+				507AE7972EA0B9CB00FBFBC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		507AE7A22EA0B9DB00FBFBC9 /* Build configuration list for PBXNativeTarget "OpenBridgeUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				507AE7A32EA0B9DB00FBFBC9 /* Debug */,
+				A1B2C3D4E5F60718293A0004 /* UnsignedDebug */,
+				403E1CD060DB445A8F84DD8E /* Staging */,
+				507AE7A42EA0B9DB00FBFBC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50C2FD9E2E9DF71C00592D92 /* Build configuration list for PBXProject "OpenBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50C2FDAC2E9DF71D00592D92 /* Debug */,
+				A1B2C3D4E5F60718293A0001 /* UnsignedDebug */,
+				5AE444CF77E4465E846ABBD9 /* Staging */,
+				50C2FDAD2E9DF71D00592D92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50C2FDAE2E9DF71D00592D92 /* Build configuration list for PBXNativeTarget "OpenBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50C2FDAF2E9DF71D00592D92 /* Debug */,
+				A1B2C3D4E5F60718293A0002 /* UnsignedDebug */,
+				62A0F8EAB7934097A3C0D82F /* Staging */,
+				50C2FDB02E9DF71D00592D92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		51C0C0E02F01000200C0DE02 /* XCLocalSwiftPackageReference "Frameworks/ComposerEditor" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Frameworks/ComposerEditor;
+		};
+		51C0C0E32F01000500C0DE05 /* XCLocalSwiftPackageReference "Frameworks/GlassEffectKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Frameworks/GlassEffectKit;
+		};
+		51D4A7002FA4000000D4A700 /* XCLocalSwiftPackageReference "../kwwk" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../kwwk;
+		};
+		51E8C0022FAB000000C0DE02 /* XCLocalSwiftPackageReference "Frameworks/KWWKComputerUseCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Frameworks/KWWKComputerUseCore;
+		};
+		5A1D9E7A3C4B5D6E7F8A9B10 /* XCLocalSwiftPackageReference "Frameworks/WindowNotificationKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Frameworks/WindowNotificationKit;
+		};
+		5B8D1C622F91A10000AA1101 /* XCLocalSwiftPackageReference "Frameworks/NotchKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Frameworks/NotchKit;
+		};
+		9D30C4CD2EDF2CCD00EE7E5F /* XCLocalSwiftPackageReference "JSBridge" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = JSBridge;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5002F8752EE7A47A00C9D920 /* XCRemoteSwiftPackageReference "SpringInterpolation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lakr233/SpringInterpolation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		500446812F24B78A0086BB88 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		50317B722EFE379A00D91D79 /* XCRemoteSwiftPackageReference "SwiftDraw" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swhitty/SwiftDraw";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.25.3;
+			};
+		};
+		50588E072EC1CD8B000BC33C /* XCRemoteSwiftPackageReference "ObservableDefaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fatbobman/ObservableDefaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.2;
+			};
+		};
+		50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lakr233/wcdb-spm-prebuilt";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.15;
+			};
+		};
+		50B0A1A22F31A00100ABCDE /* XCRemoteSwiftPackageReference "LRUCache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/LRUCache.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+		50C102B22EAF67640016EABD /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
+		50C369B12EC6408F0049ED18 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		50C36C362EC64EFF0049ED18 /* XCRemoteSwiftPackageReference "SwifterSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwifterSwift/SwifterSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		50C36C392EC651150049ED18 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.1;
+			};
+		};
+		50C7E55F2EB7033A0005BEEC /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+		50F5BDDF2EB649AE00E4B1F8 /* XCRemoteSwiftPackageReference "swift-subprocess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftlang/swift-subprocess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
+		50F5BDE22EB64A4B00E4B1F8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+		50F5BDE52EB64B8800E4B1F8 /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.4;
+			};
+		};
+		E9FA07252EA8A45E0092CF4C /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		F8A2F7902EC58DE000136443 /* XCRemoteSwiftPackageReference "swift-psl" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ameshkov/swift-psl";
+			requirement = {
+				kind = revision;
+				revision = 4c7d03dc0302491140816aa6d1b8a63694d2d414;
+			};
+		};
+		F8B3E8A02EF5000000AAAAAA /* XCRemoteSwiftPackageReference "Yams" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/Yams";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5002F8762EE7A47A00C9D920 /* SpringInterpolation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5002F8752EE7A47A00C9D920 /* XCRemoteSwiftPackageReference "SpringInterpolation" */;
+			productName = SpringInterpolation;
+		};
+		500446822F24B78A0086BB88 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 500446812F24B78A0086BB88 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		50317B732EFE379A00D91D79 /* SwiftDraw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50317B722EFE379A00D91D79 /* XCRemoteSwiftPackageReference "SwiftDraw" */;
+			productName = SwiftDraw;
+		};
+		5049C7972EF0D5BF00E6BE89 /* JSBridgeBuildTool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D30C4CD2EDF2CCD00EE7E5F /* XCLocalSwiftPackageReference "JSBridge" */;
+			productName = JSBridgeBuildTool;
+		};
+		50588E082EC1CD8B000BC33C /* ObservableDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50588E072EC1CD8B000BC33C /* XCRemoteSwiftPackageReference "ObservableDefaults" */;
+			productName = ObservableDefaults;
+		};
+		50A97AF32F28B201001DD98F /* WCDBSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */;
+			productName = WCDBSwift;
+		};
+		50B0A1A12F31A00100ABCDE /* LRUCache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50B0A1A22F31A00100ABCDE /* XCRemoteSwiftPackageReference "LRUCache" */;
+			productName = LRUCache;
+		};
+		50C102B32EAF67640016EABD /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C102B22EAF67640016EABD /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+		50C369B22EC6408F0049ED18 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C369B12EC6408F0049ED18 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		50C36C372EC64EFF0049ED18 /* SwifterSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C36C362EC64EFF0049ED18 /* XCRemoteSwiftPackageReference "SwifterSwift" */;
+			productName = SwifterSwift;
+		};
+		50C36C3A2EC651150049ED18 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C36C392EC651150049ED18 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		50C7E5602EB7033A0005BEEC /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C7E55F2EB7033A0005BEEC /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		50F5BDE02EB649AE00E4B1F8 /* Subprocess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50F5BDDF2EB649AE00E4B1F8 /* XCRemoteSwiftPackageReference "swift-subprocess" */;
+			productName = Subprocess;
+		};
+		50F5BDE32EB64A4B00E4B1F8 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50F5BDE22EB64A4B00E4B1F8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+		50F5BDE62EB64B8800E4B1F8 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50F5BDE52EB64B8800E4B1F8 /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
+		};
+		50F5C3EA2EB6534C00E4B1F8 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9FA07252EA8A45E0092CF4C /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
+		51C0C0DF2F01000200C0DE02 /* ComposerEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C0C0E02F01000200C0DE02 /* XCLocalSwiftPackageReference "Frameworks/ComposerEditor" */;
+			productName = ComposerEditor;
+		};
+		51C0C0E22F01000400C0DE04 /* GlassEffectKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C0C0E32F01000500C0DE05 /* XCLocalSwiftPackageReference "Frameworks/GlassEffectKit" */;
+			productName = GlassEffectKit;
+		};
+		51D4A7042FA4000000D4A704 /* KWWKAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51D4A7002FA4000000D4A700 /* XCLocalSwiftPackageReference "../kwwk" */;
+			productName = KWWKAI;
+		};
+		51D4A7052FA4000000D4A705 /* KWWKAgent */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51D4A7002FA4000000D4A700 /* XCLocalSwiftPackageReference "../kwwk" */;
+			productName = KWWKAgent;
+		};
+		51E8C0032FAB000000C0DE03 /* KWWKComputerUseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51E8C0022FAB000000C0DE02 /* XCLocalSwiftPackageReference "Frameworks/KWWKComputerUseCore" */;
+			productName = KWWKComputerUseCore;
+		};
+		5A1D9E7A3C4B5D6E7F8A9B11 /* WindowNotificationKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A1D9E7A3C4B5D6E7F8A9B10 /* XCLocalSwiftPackageReference "Frameworks/WindowNotificationKit" */;
+			productName = WindowNotificationKit;
+		};
+		5B8D1C632F91A10000AA1101 /* NotchKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B8D1C622F91A10000AA1101 /* XCLocalSwiftPackageReference "Frameworks/NotchKit" */;
+			productName = NotchKit;
+		};
+		7A37C6482EF9283D00DC808A /* Yams */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F8B3E8A02EF5000000AAAAAA /* XCRemoteSwiftPackageReference "Yams" */;
+			productName = Yams;
+		};
+		7AEEE7992EF3F7F100EAD07B /* ScrubberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ScrubberKit;
+		};
+		9D30C4CE2EDF2CCD00EE7E5F /* JSBridge */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = JSBridge;
+		};
+		F8A2F7912EC58DE000136443 /* PublicSuffixList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F8A2F7902EC58DE000136443 /* XCRemoteSwiftPackageReference "swift-psl" */;
+			productName = PublicSuffixList;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 50C2FD9B2E9DF71C00592D92 /* Project object */;
+}

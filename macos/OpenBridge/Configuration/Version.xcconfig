@@ -1,0 +1,11 @@
+// Version.xcconfig
+// OpenBridge
+//
+// Version numbers - modify this file for releases
+
+// Bump this for release
+MARKETING_VERSION = 0.1.0
+
+// workflow will update this
+// based on versions scanned from released appcasts
+CURRENT_PROJECT_VERSION = 1

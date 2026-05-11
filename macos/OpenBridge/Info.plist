@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>OpenBridge</string>
+	<key>CFBundleName</key>
+	<string>OpenBridge</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+	<key>NSLocationUsageDescription</key>
+	<string>OpenBridge needs your location to answer questions that depend on where you are, such as local weather or nearby places.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>OpenBridge needs microphone access to record voice input in chat, run the voice demo, and create audio samples.</string>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>$(SPARKLE_FEED_URL)</string>
+	<key>SUPublicEDKey</key>
+	<string>x/qSY+Xt5AWRKC4sVgwvd96YujpJvm3uhZkIkHnQDJw=</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>OpenBridge needs speech recognition to turn your voice demo into editable text and actions.</string>
+</dict>
+</plist>

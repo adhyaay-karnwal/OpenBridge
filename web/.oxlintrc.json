@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "react", "typescript", "unicorn", "promise"],
+  "categories": {
+    "correctness": "error",
+    "perf": "error"
+  },
+  "ignorePatterns": ["**/node_modules", "dist", ".yarn"],
+  "rules": {},
+  "overrides": []
+}
