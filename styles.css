@@ -600,13 +600,10 @@ p {
 .workflow-card-media img {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   object-fit: contain;
 }
 
-.workflow-card-review .workflow-card-media img {
-  aspect-ratio: 1.02;
-}
 
 .workflow-card-copy {
   padding: 8px 8px 8px 14px;
