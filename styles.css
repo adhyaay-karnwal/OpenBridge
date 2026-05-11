@@ -673,6 +673,16 @@ pre {
   line-height: 1.7;
 }
 
+pre code {
+  display: block;
+  min-width: max-content;
+}
+
+pre code.is-scrambling {
+  color: var(--primary-active);
+  text-shadow: 0 0 14px rgba(12, 10, 9, 0.16);
+}
+
 .final-cta {
   display: grid;
   justify-items: center;

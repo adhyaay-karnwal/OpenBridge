@@ -98,10 +98,16 @@
         <div>
           <p class="badge-label">
             <svg class="lucide-icon" aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M2.5 8.5 12 3l9.5 5.5"></path>
-              <path d="M12 21V10"></path>
-              <path d="m2.5 8.5 9.5 5.5 9.5-5.5"></path>
-              <path d="M2.5 8.5V16L12 21l9.5-5V8.5"></path>
+              <path d="M12 22v-9"></path>
+              <path
+                d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"
+              ></path>
+              <path
+                d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"
+              ></path>
+              <path
+                d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"
+              ></path>
             </svg>
             Why OpenBridge
           </p>
@@ -130,10 +136,10 @@
         <div class="section-heading provider-heading">
           <p class="badge-label">
             <svg class="lucide-icon" aria-hidden="true" viewBox="0 0 24 24">
-              <circle cx="16" cy="8" r="5"></circle>
-              <path d="m12.5 11.5-9 9"></path>
-              <path d="M4 20h4"></path>
-              <path d="M4 16h2"></path>
+              <path
+                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+              ></path>
+              <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </svg>
             Providers
           </p>
@@ -266,10 +272,11 @@
         <div class="workflow-copy">
           <p class="badge-label">
             <svg class="lucide-icon" aria-hidden="true" viewBox="0 0 24 24">
-              <rect width="7" height="7" x="3" y="3" rx="2"></rect>
-              <rect width="7" height="7" x="14" y="14" rx="2"></rect>
-              <path d="M10 7h2a3 3 0 0 1 3 3v4"></path>
-              <path d="m12 12 3 3 3-3"></path>
+              <path
+                d="M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1"
+              ></path>
+              <path d="M15 14a5 5 0 0 0-7.584 2"></path>
+              <path d="M9.964 6.825C8.019 7.977 9.5 13 8 15"></path>
             </svg>
             Workflows
           </p>
@@ -376,7 +383,7 @@
           </div>
           <pre
             id="quickstart-code"
-          ><code>git submodule update --init --recursive
+          ><code data-scramble-in>git submodule update --init --recursive
 cd web &amp;&amp; yarn install --immutable &amp;&amp; yarn build:embedded
 cd ../sandbox-vm &amp;&amp; make framework
 cd ../macos
