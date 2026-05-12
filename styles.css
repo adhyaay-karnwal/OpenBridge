@@ -194,6 +194,8 @@ a:focus-visible {
   flex-direction: column;
   align-items: stretch;
   gap: 52px;
+  overflow-x: clip;
+  overflow-y: visible;
   padding-top: 154px;
 }
 
@@ -357,7 +359,7 @@ p {
 }
 
 .hero-media {
-  width: min(1120px, 100%);
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -366,15 +368,22 @@ p {
   z-index: 1;
   overflow: visible;
   border: 0;
-  border-radius: 0;
+  border-radius: 16px;
   background: transparent;
   box-shadow: none;
 }
 
-.demo-media img {
+.demo-media img,
+.demo-media video {
+  display: block;
   width: 100%;
   height: auto;
+  border-radius: 16px;
   object-fit: contain;
+}
+
+.demo-media video {
+  border: 1px solid #ececec;
 }
 
 .editorial-grid {
@@ -440,21 +449,12 @@ p {
 }
 
 .logo-marquee {
+  --provider-logo-size: 40px;
   position: relative;
   width: min(1180px, 100%);
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid rgba(214, 211, 209, 0.72);
-  border-radius: 999px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.72),
-    rgba(250, 250, 250, 0.54)
-  );
-  padding: 14px 0;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.86),
-    0 10px 30px rgba(12, 10, 9, 0.045);
+  padding: 8px 0;
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent,
@@ -472,7 +472,7 @@ p {
 }
 
 .logo-track {
-  --logo-gap: 10px;
+  --logo-gap: clamp(42px, 6vw, 72px);
   display: flex;
   width: max-content;
   gap: var(--logo-gap);
@@ -489,47 +489,44 @@ p {
 
 .provider-logo {
   display: inline-flex;
-  width: 156px;
-  height: 48px;
-  flex: 0 0 156px;
+  flex: 0 0 auto;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid rgba(231, 229, 228, 0.9);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.86);
+  justify-content: flex-start;
+  gap: 14px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 22px;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
-  padding: 0 14px;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92),
-    0 6px 16px rgba(12, 10, 9, 0.045);
 }
 
 .provider-logo > span:last-child {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .provider-icon-shell {
   display: inline-flex;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
+  width: var(--provider-logo-size);
+  height: var(--provider-logo-size);
+  flex: 0 0 var(--provider-logo-size);
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: transparent;
+  overflow: visible;
 }
 
 .provider-icon-shell img {
-  width: 20px;
-  height: 20px;
+  display: block;
+  width: var(--provider-logo-size);
+  height: var(--provider-logo-size);
+  max-width: none;
   object-fit: contain;
+}
+
+.provider-icon-shell img[src*="openai"],
+.provider-icon-shell img[src*="google"] {
+  width: calc(var(--provider-logo-size) * 1.12);
+  height: calc(var(--provider-logo-size) * 1.12);
 }
 
 @keyframes logo-marquee {
@@ -577,7 +574,7 @@ p {
 .workflow-cards {
   display: grid;
   width: min(1200px, 100%);
-  gap: clamp(54px, 7vw, 86px);
+  gap: clamp(54px, 7vw, 88px);
   margin: 0 auto;
 }
 
@@ -621,22 +618,10 @@ p {
   width: min(760px, 100%);
   grid-template-columns: 1fr;
   gap: 10px;
-  justify-items: center;
-  align-items: center;
+  justify-items: start;
+  align-items: start;
   padding: 0;
-  text-align: center;
-}
-
-.workflow-kicker {
-  display: inline-flex;
-  grid-column: 1 / -1;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 2px;
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.96px;
-  text-transform: uppercase;
+  text-align: left;
 }
 
 .workflow-card-copy h3 {
@@ -645,7 +630,7 @@ p {
 }
 
 .workflow-card-copy p:last-child {
-  max-width: 320px;
+  max-width: 520px;
   margin-bottom: 0;
 }
 
@@ -810,25 +795,17 @@ pre code.is-scrambling {
   }
 
   .logo-marquee {
-    padding: 12px 0;
+    --provider-logo-size: 34px;
+    padding: 6px 0;
   }
 
   .logo-track {
-    --logo-gap: 8px;
+    --logo-gap: 32px;
   }
 
   .provider-logo {
-    width: 148px;
-    height: 46px;
-    flex-basis: 148px;
-    font-size: 13px;
-    padding: 0 12px;
-  }
-
-  .provider-icon-shell {
-    width: 22px;
-    height: 22px;
-    flex-basis: 22px;
+    gap: 12px;
+    font-size: 18px;
   }
 
   .feature-card {
