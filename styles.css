@@ -14,9 +14,7 @@
   --surface-card: #ffffff;
   --surface-strong: #f0efed;
   --on-primary: #ffffff;
-  --gradient-mint: #a7e5d3;
   --gradient-peach: #f4c5a8;
-  --gradient-lavender: #c8b8e0;
   --gradient-sky: #a8c8e8;
   --gradient-rose: #e8b8c4;
   --radius-xl: 16px;
@@ -312,33 +310,12 @@ p {
   opacity: 0.62;
 }
 
-.ambient-mint {
-  top: 16%;
-  right: 7%;
-  width: 430px;
-  height: 430px;
-  background: radial-gradient(circle, var(--gradient-mint), transparent 68%);
-}
-
 .ambient-peach {
   bottom: 8%;
   left: 6%;
   width: 460px;
   height: 460px;
   background: radial-gradient(circle, var(--gradient-peach), transparent 68%);
-}
-
-.ambient-lavender {
-  top: 10%;
-  left: 50%;
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(
-    circle,
-    var(--gradient-lavender),
-    transparent 70%
-  );
-  transform: translateX(-50%);
 }
 
 .media-frame {
@@ -567,8 +544,12 @@ p {
 }
 
 .workflow-copy > p {
-  max-width: 460px;
+  max-width: 680px;
   margin-bottom: 0;
+}
+
+.keep-together {
+  white-space: nowrap;
 }
 
 .workflow-cards {
@@ -615,7 +596,7 @@ p {
 
 .workflow-card-copy {
   display: grid;
-  width: min(760px, 100%);
+  width: 100%;
   grid-template-columns: 1fr;
   gap: 10px;
   justify-items: start;
@@ -823,13 +804,6 @@ pre code.is-scrambling {
   .ambient {
     filter: blur(28px);
     opacity: 0.54;
-  }
-
-  .ambient-mint {
-    top: 18%;
-    right: -45%;
-    width: 320px;
-    height: 320px;
   }
 
   .ambient-peach {
