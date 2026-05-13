@@ -32,7 +32,7 @@ jobs:
 
   build:
     name: Build macOS SandboxVM
-    runs-on: [self-hosted, tartelet]
+    runs-on: macos-15
     needs: filter
     if: ${{ needs.filter.outputs.skip_sandbox_vm_ci != 'true' }}
     outputs:
@@ -229,7 +229,7 @@ jobs:
 
   test-vm:
     name: Run VM Tests
-    runs-on: [macos-baremetal-arm64]
+    runs-on: macos-15
     needs: build-rootfs
     timeout-minutes: 20
     steps:
