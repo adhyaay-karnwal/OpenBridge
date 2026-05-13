@@ -24,31 +24,6 @@ func (m *ProxyManager) SetProxyEnv(httpProxy, httpsProxy, noProxy string) error 
 		return nil
 	}
 
-	// Build environment content for SSH
-	var envContent strings.Builder
-	if httpProxy != "" {
-		envContent.WriteString(fmt.Sprintf("http_proxy=%s\n", httpProxy))
-		envContent.WriteString(fmt.Sprintf("HTTP_PROXY=%s\n", httpProxy))
-	}
-	if httpsProxy != "" {
-		envContent.WriteString(fmt.Sprintf("https_proxy=%s\n", httpsProxy))
-		envContent.WriteString(fmt.Sprintf("HTTPS_PROXY=%s\n", httpsProxy))
-	}
-	if noProxy != "" {
-		envContent.WriteString(fmt.Sprintf("no_proxy=%s\n", noProxy))
-		envContent.WriteString(fmt.Sprintf("NO_PROXY=%s\n", noProxy))
-	}
-
-	// Write to /root/.ssh/environment (SSH reads this with PermitUserEnvironment)
-	sshEnvPath := "/root/.ssh/environment"
-	if err := os.MkdirAll("/root/.ssh", 0700); err != nil {
-		return fmt.Errorf("create .ssh directory: %w", err)
-	}
-	if err := os.WriteFile(sshEnvPath, []byte(envContent.String()), 0644); err != nil {
-		return fmt.Errorf("write SSH environment: %w", err)
-	}
-	log.Printf("Configured proxy in %s", sshEnvPath)
-
 	// Build profile content (with export prefix)
 	var profileContent strings.Builder
 	if httpProxy != "" {

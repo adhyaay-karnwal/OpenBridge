@@ -1,4 +1,4 @@
-.PHONY: all framework vm proto go-test remote-rootfs
+.PHONY: all framework vm proto go-test
 
 all: proto vm framework
 
@@ -21,6 +21,3 @@ vm:
 
 framework:
 	./scripts/build-framework.sh
-
-remote-rootfs:
-	./scripts/build-remote-rootfs.sh

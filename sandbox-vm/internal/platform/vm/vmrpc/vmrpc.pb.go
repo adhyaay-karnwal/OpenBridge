@@ -3352,86 +3352,6 @@ func (x *ExportAck) GetError() string {
 	return ""
 }
 
-type SetSSHAuthorizedKeysRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	AuthorizedKeys []byte                 `protobuf:"bytes,1,opt,name=authorized_keys,json=authorizedKeys,proto3" json:"authorized_keys,omitempty"` // Content of authorized_keys file
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *SetSSHAuthorizedKeysRequest) Reset() {
-	*x = SetSSHAuthorizedKeysRequest{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[59]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SetSSHAuthorizedKeysRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SetSSHAuthorizedKeysRequest) ProtoMessage() {}
-
-func (x *SetSSHAuthorizedKeysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[59]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SetSSHAuthorizedKeysRequest.ProtoReflect.Descriptor instead.
-func (*SetSSHAuthorizedKeysRequest) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{59}
-}
-
-func (x *SetSSHAuthorizedKeysRequest) GetAuthorizedKeys() []byte {
-	if x != nil {
-		return x.AuthorizedKeys
-	}
-	return nil
-}
-
-type SetSSHAuthorizedKeysResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SetSSHAuthorizedKeysResponse) Reset() {
-	*x = SetSSHAuthorizedKeysResponse{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[60]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SetSSHAuthorizedKeysResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SetSSHAuthorizedKeysResponse) ProtoMessage() {}
-
-func (x *SetSSHAuthorizedKeysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[60]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SetSSHAuthorizedKeysResponse.ProtoReflect.Descriptor instead.
-func (*SetSSHAuthorizedKeysResponse) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{60}
-}
-
 type ProvisionAuthCredentialsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Jwt           string                 `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
@@ -3443,7 +3363,7 @@ type ProvisionAuthCredentialsRequest struct {
 
 func (x *ProvisionAuthCredentialsRequest) Reset() {
 	*x = ProvisionAuthCredentialsRequest{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[61]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3455,7 +3375,7 @@ func (x *ProvisionAuthCredentialsRequest) String() string {
 func (*ProvisionAuthCredentialsRequest) ProtoMessage() {}
 
 func (x *ProvisionAuthCredentialsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[61]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3468,7 +3388,7 @@ func (x *ProvisionAuthCredentialsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProvisionAuthCredentialsRequest.ProtoReflect.Descriptor instead.
 func (*ProvisionAuthCredentialsRequest) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{61}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *ProvisionAuthCredentialsRequest) GetJwt() string {
@@ -3500,7 +3420,7 @@ type ProvisionAuthCredentialsResponse struct {
 
 func (x *ProvisionAuthCredentialsResponse) Reset() {
 	*x = ProvisionAuthCredentialsResponse{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[62]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3512,7 +3432,7 @@ func (x *ProvisionAuthCredentialsResponse) String() string {
 func (*ProvisionAuthCredentialsResponse) ProtoMessage() {}
 
 func (x *ProvisionAuthCredentialsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[62]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3525,7 +3445,7 @@ func (x *ProvisionAuthCredentialsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProvisionAuthCredentialsResponse.ProtoReflect.Descriptor instead.
 func (*ProvisionAuthCredentialsResponse) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{62}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{60}
 }
 
 type SetRuntimeBridgeConfigRequest struct {
@@ -3541,7 +3461,7 @@ type SetRuntimeBridgeConfigRequest struct {
 
 func (x *SetRuntimeBridgeConfigRequest) Reset() {
 	*x = SetRuntimeBridgeConfigRequest{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[63]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3553,7 +3473,7 @@ func (x *SetRuntimeBridgeConfigRequest) String() string {
 func (*SetRuntimeBridgeConfigRequest) ProtoMessage() {}
 
 func (x *SetRuntimeBridgeConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[63]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3566,7 +3486,7 @@ func (x *SetRuntimeBridgeConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetRuntimeBridgeConfigRequest.ProtoReflect.Descriptor instead.
 func (*SetRuntimeBridgeConfigRequest) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{63}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *SetRuntimeBridgeConfigRequest) GetCapabilityToken() string {
@@ -3612,7 +3532,7 @@ type SetRuntimeBridgeConfigResponse struct {
 
 func (x *SetRuntimeBridgeConfigResponse) Reset() {
 	*x = SetRuntimeBridgeConfigResponse{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[64]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3624,7 +3544,7 @@ func (x *SetRuntimeBridgeConfigResponse) String() string {
 func (*SetRuntimeBridgeConfigResponse) ProtoMessage() {}
 
 func (x *SetRuntimeBridgeConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[64]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3637,7 +3557,7 @@ func (x *SetRuntimeBridgeConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetRuntimeBridgeConfigResponse.ProtoReflect.Descriptor instead.
 func (*SetRuntimeBridgeConfigResponse) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{64}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{62}
 }
 
 // SyncWorkspace messages for VM workspace upload.
@@ -3651,7 +3571,7 @@ type SyncWorkspaceChunk struct {
 
 func (x *SyncWorkspaceChunk) Reset() {
 	*x = SyncWorkspaceChunk{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[65]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3663,7 +3583,7 @@ func (x *SyncWorkspaceChunk) String() string {
 func (*SyncWorkspaceChunk) ProtoMessage() {}
 
 func (x *SyncWorkspaceChunk) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[65]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3676,7 +3596,7 @@ func (x *SyncWorkspaceChunk) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncWorkspaceChunk.ProtoReflect.Descriptor instead.
 func (*SyncWorkspaceChunk) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{65}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *SyncWorkspaceChunk) GetTargetPath() string {
@@ -3703,7 +3623,7 @@ type SyncWorkspaceResponse struct {
 
 func (x *SyncWorkspaceResponse) Reset() {
 	*x = SyncWorkspaceResponse{}
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[66]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3715,7 +3635,7 @@ func (x *SyncWorkspaceResponse) String() string {
 func (*SyncWorkspaceResponse) ProtoMessage() {}
 
 func (x *SyncWorkspaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[66]
+	mi := &file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3728,7 +3648,7 @@ func (x *SyncWorkspaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncWorkspaceResponse.ProtoReflect.Descriptor instead.
 func (*SyncWorkspaceResponse) Descriptor() ([]byte, []int) {
-	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{66}
+	return file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *SyncWorkspaceResponse) GetFilesExtracted() int64 {
@@ -3981,10 +3901,7 @@ const file_internal_platform_vm_vmrpc_vmrpc_proto_rawDesc = "" +
 	"\tExportAck\x12\x1f\n" +
 	"\vstatus_code\x18\x01 \x01(\rR\n" +
 	"statusCode\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"F\n" +
-	"\x1bSetSSHAuthorizedKeysRequest\x12'\n" +
-	"\x0fauthorized_keys\x18\x01 \x01(\fR\x0eauthorizedKeys\"\x1e\n" +
-	"\x1cSetSSHAuthorizedKeysResponse\"\xdf\x01\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xdf\x01\n" +
 	"\x1fProvisionAuthCredentialsRequest\x12\x10\n" +
 	"\x03jwt\x18\x01 \x01(\tR\x03jwt\x12\x1f\n" +
 	"\vbackend_url\x18\x02 \x01(\tR\n" +
@@ -4022,7 +3939,7 @@ const file_internal_platform_vm_vmrpc_vmrpc_proto_rawDesc = "" +
 	"\x1aTELEMETRY_COMPRESSION_GZIP\x10\x022\xa1\x01\n" +
 	"\vHostService\x12H\n" +
 	"\x0fCallRuntimeTool\x12\x19.vmrpc.RuntimeToolRequest\x1a\x1a.vmrpc.RuntimeToolResponse\x12H\n" +
-	"\x0fCallRuntimeHTTP\x12\x19.vmrpc.RuntimeHTTPRequest\x1a\x1a.vmrpc.RuntimeHTTPResponse2\xa3\x11\n" +
+	"\x0fCallRuntimeHTTP\x12\x19.vmrpc.RuntimeHTTPRequest\x1a\x1a.vmrpc.RuntimeHTTPResponse2\xc2\x10\n" +
 	"\tVMService\x125\n" +
 	"\x06Health\x12\x14.vmrpc.HealthRequest\x1a\x15.vmrpc.HealthResponse\x12/\n" +
 	"\x04Exec\x12\x12.vmrpc.ExecRequest\x1a\x13.vmrpc.ExecResponse\x125\n" +
@@ -4047,8 +3964,7 @@ const file_internal_platform_vm_vmrpc_vmrpc_proto_rawDesc = "" +
 	"\vSetProxyEnv\x12\x19.vmrpc.SetProxyEnvRequest\x1a\x1a.vmrpc.SetProxyEnvResponse\x12M\n" +
 	"\x0eResetSharedEnv\x12\x1c.vmrpc.ResetSharedEnvRequest\x1a\x1d.vmrpc.ResetSharedEnvResponse\x12J\n" +
 	"\rExecutePython\x12\x1b.vmrpc.ExecutePythonRequest\x1a\x1c.vmrpc.ExecutePythonResponse\x12G\n" +
-	"\x13ExecutePythonStream\x12\x1b.vmrpc.ExecutePythonRequest\x1a\x11.vmrpc.ExecOutput0\x01\x12_\n" +
-	"\x14SetSSHAuthorizedKeys\x12\".vmrpc.SetSSHAuthorizedKeysRequest\x1a#.vmrpc.SetSSHAuthorizedKeysResponse\x12k\n" +
+	"\x13ExecutePythonStream\x12\x1b.vmrpc.ExecutePythonRequest\x1a\x11.vmrpc.ExecOutput0\x01\x12k\n" +
 	"\x18ProvisionAuthCredentials\x12&.vmrpc.ProvisionAuthCredentialsRequest\x1a'.vmrpc.ProvisionAuthCredentialsResponse\x12e\n" +
 	"\x16SetRuntimeBridgeConfig\x12$.vmrpc.SetRuntimeBridgeConfigRequest\x1a%.vmrpc.SetRuntimeBridgeConfigResponse\x12J\n" +
 	"\rSyncWorkspace\x12\x19.vmrpc.SyncWorkspaceChunk\x1a\x1c.vmrpc.SyncWorkspaceResponse(\x012G\n" +
@@ -4069,7 +3985,7 @@ func file_internal_platform_vm_vmrpc_vmrpc_proto_rawDescGZIP() []byte {
 }
 
 var file_internal_platform_vm_vmrpc_vmrpc_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes = make([]protoimpl.MessageInfo, 71)
+var file_internal_platform_vm_vmrpc_vmrpc_proto_msgTypes = make([]protoimpl.MessageInfo, 69)
 var file_internal_platform_vm_vmrpc_vmrpc_proto_goTypes = []any{
 	(TelemetrySignal)(0),                     // 0: vmrpc.TelemetrySignal
 	(TelemetryCompression)(0),                // 1: vmrpc.TelemetryCompression
@@ -4133,18 +4049,16 @@ var file_internal_platform_vm_vmrpc_vmrpc_proto_goTypes = []any{
 	(*ExecutePythonResponse)(nil),            // 59: vmrpc.ExecutePythonResponse
 	(*OtlpEnvelope)(nil),                     // 60: vmrpc.OtlpEnvelope
 	(*ExportAck)(nil),                        // 61: vmrpc.ExportAck
-	(*SetSSHAuthorizedKeysRequest)(nil),      // 62: vmrpc.SetSSHAuthorizedKeysRequest
-	(*SetSSHAuthorizedKeysResponse)(nil),     // 63: vmrpc.SetSSHAuthorizedKeysResponse
-	(*ProvisionAuthCredentialsRequest)(nil),  // 64: vmrpc.ProvisionAuthCredentialsRequest
-	(*ProvisionAuthCredentialsResponse)(nil), // 65: vmrpc.ProvisionAuthCredentialsResponse
-	(*SetRuntimeBridgeConfigRequest)(nil),    // 66: vmrpc.SetRuntimeBridgeConfigRequest
-	(*SetRuntimeBridgeConfigResponse)(nil),   // 67: vmrpc.SetRuntimeBridgeConfigResponse
-	(*SyncWorkspaceChunk)(nil),               // 68: vmrpc.SyncWorkspaceChunk
-	(*SyncWorkspaceResponse)(nil),            // 69: vmrpc.SyncWorkspaceResponse
-	nil,                                      // 70: vmrpc.ExecRequest.EnvEntry
-	nil,                                      // 71: vmrpc.ExecutePythonRequest.EnvEntry
-	nil,                                      // 72: vmrpc.OtlpEnvelope.AttributesEntry
-	nil,                                      // 73: vmrpc.ProvisionAuthCredentialsRequest.HeadersEntry
+	(*ProvisionAuthCredentialsRequest)(nil),  // 62: vmrpc.ProvisionAuthCredentialsRequest
+	(*ProvisionAuthCredentialsResponse)(nil), // 63: vmrpc.ProvisionAuthCredentialsResponse
+	(*SetRuntimeBridgeConfigRequest)(nil),    // 64: vmrpc.SetRuntimeBridgeConfigRequest
+	(*SetRuntimeBridgeConfigResponse)(nil),   // 65: vmrpc.SetRuntimeBridgeConfigResponse
+	(*SyncWorkspaceChunk)(nil),               // 66: vmrpc.SyncWorkspaceChunk
+	(*SyncWorkspaceResponse)(nil),            // 67: vmrpc.SyncWorkspaceResponse
+	nil,                                      // 68: vmrpc.ExecRequest.EnvEntry
+	nil,                                      // 69: vmrpc.ExecutePythonRequest.EnvEntry
+	nil,                                      // 70: vmrpc.OtlpEnvelope.AttributesEntry
+	nil,                                      // 71: vmrpc.ProvisionAuthCredentialsRequest.HeadersEntry
 }
 var file_internal_platform_vm_vmrpc_vmrpc_proto_depIdxs = []int32{
 	3,  // 0: vmrpc.RuntimeToolRequest.headers:type_name -> vmrpc.Header
@@ -4152,7 +4066,7 @@ var file_internal_platform_vm_vmrpc_vmrpc_proto_depIdxs = []int32{
 	3,  // 2: vmrpc.RuntimeHTTPRequest.headers:type_name -> vmrpc.Header
 	3,  // 3: vmrpc.RuntimeHTTPResponse.headers:type_name -> vmrpc.Header
 	4,  // 4: vmrpc.RuntimeHTTPResponse.error:type_name -> vmrpc.ProtocolErrorDetail
-	70, // 5: vmrpc.ExecRequest.env:type_name -> vmrpc.ExecRequest.EnvEntry
+	68, // 5: vmrpc.ExecRequest.env:type_name -> vmrpc.ExecRequest.EnvEntry
 	2,  // 6: vmrpc.ExecOutput.type:type_name -> vmrpc.ExecOutput.OutputType
 	28, // 7: vmrpc.StreamSandboxFileChunk.info:type_name -> vmrpc.FileStreamInfo
 	29, // 8: vmrpc.StreamSandboxFileChunk.done:type_name -> vmrpc.FileStreamDone
@@ -4164,11 +4078,11 @@ var file_internal_platform_vm_vmrpc_vmrpc_proto_depIdxs = []int32{
 	49, // 14: vmrpc.ExportSandboxDiffResponse.metadata:type_name -> vmrpc.DiffMetadata
 	43, // 15: vmrpc.ExportSandboxDiffResponse.data:type_name -> vmrpc.DataChunk
 	46, // 16: vmrpc.DiffMetadata.changes:type_name -> vmrpc.FileDiff
-	71, // 17: vmrpc.ExecutePythonRequest.env:type_name -> vmrpc.ExecutePythonRequest.EnvEntry
+	69, // 17: vmrpc.ExecutePythonRequest.env:type_name -> vmrpc.ExecutePythonRequest.EnvEntry
 	0,  // 18: vmrpc.OtlpEnvelope.signal:type_name -> vmrpc.TelemetrySignal
 	1,  // 19: vmrpc.OtlpEnvelope.compression:type_name -> vmrpc.TelemetryCompression
-	72, // 20: vmrpc.OtlpEnvelope.attributes:type_name -> vmrpc.OtlpEnvelope.AttributesEntry
-	73, // 21: vmrpc.ProvisionAuthCredentialsRequest.headers:type_name -> vmrpc.ProvisionAuthCredentialsRequest.HeadersEntry
+	70, // 20: vmrpc.OtlpEnvelope.attributes:type_name -> vmrpc.OtlpEnvelope.AttributesEntry
+	71, // 21: vmrpc.ProvisionAuthCredentialsRequest.headers:type_name -> vmrpc.ProvisionAuthCredentialsRequest.HeadersEntry
 	5,  // 22: vmrpc.HostService.CallRuntimeTool:input_type -> vmrpc.RuntimeToolRequest
 	7,  // 23: vmrpc.HostService.CallRuntimeHTTP:input_type -> vmrpc.RuntimeHTTPRequest
 	9,  // 24: vmrpc.VMService.Health:input_type -> vmrpc.HealthRequest
@@ -4194,43 +4108,41 @@ var file_internal_platform_vm_vmrpc_vmrpc_proto_depIdxs = []int32{
 	56, // 44: vmrpc.VMService.ResetSharedEnv:input_type -> vmrpc.ResetSharedEnvRequest
 	58, // 45: vmrpc.VMService.ExecutePython:input_type -> vmrpc.ExecutePythonRequest
 	58, // 46: vmrpc.VMService.ExecutePythonStream:input_type -> vmrpc.ExecutePythonRequest
-	62, // 47: vmrpc.VMService.SetSSHAuthorizedKeys:input_type -> vmrpc.SetSSHAuthorizedKeysRequest
-	64, // 48: vmrpc.VMService.ProvisionAuthCredentials:input_type -> vmrpc.ProvisionAuthCredentialsRequest
-	66, // 49: vmrpc.VMService.SetRuntimeBridgeConfig:input_type -> vmrpc.SetRuntimeBridgeConfigRequest
-	68, // 50: vmrpc.VMService.SyncWorkspace:input_type -> vmrpc.SyncWorkspaceChunk
-	60, // 51: vmrpc.TelemetryService.ExportOTLP:input_type -> vmrpc.OtlpEnvelope
-	6,  // 52: vmrpc.HostService.CallRuntimeTool:output_type -> vmrpc.RuntimeToolResponse
-	8,  // 53: vmrpc.HostService.CallRuntimeHTTP:output_type -> vmrpc.RuntimeHTTPResponse
-	10, // 54: vmrpc.VMService.Health:output_type -> vmrpc.HealthResponse
-	12, // 55: vmrpc.VMService.Exec:output_type -> vmrpc.ExecResponse
-	13, // 56: vmrpc.VMService.ExecStream:output_type -> vmrpc.ExecOutput
-	15, // 57: vmrpc.VMService.CreateSandbox:output_type -> vmrpc.CreateSandboxResponse
-	17, // 58: vmrpc.VMService.DeleteSandbox:output_type -> vmrpc.DeleteSandboxResponse
-	19, // 59: vmrpc.VMService.SandboxExists:output_type -> vmrpc.SandboxExistsResponse
-	21, // 60: vmrpc.VMService.MountSandbox:output_type -> vmrpc.MountSandboxResponse
-	23, // 61: vmrpc.VMService.UnmountSandbox:output_type -> vmrpc.UnmountSandboxResponse
-	25, // 62: vmrpc.VMService.GetSandboxFile:output_type -> vmrpc.GetSandboxFileResponse
-	27, // 63: vmrpc.VMService.StreamSandboxFile:output_type -> vmrpc.StreamSandboxFileChunk
-	34, // 64: vmrpc.VMService.UploadSandboxFile:output_type -> vmrpc.UploadSandboxFileResponse
-	31, // 65: vmrpc.VMService.WriteSandboxFile:output_type -> vmrpc.WriteSandboxFileResponse
-	36, // 66: vmrpc.VMService.DeleteSandboxFile:output_type -> vmrpc.DeleteSandboxFileResponse
-	38, // 67: vmrpc.VMService.SandboxFileExists:output_type -> vmrpc.SandboxFileExistsResponse
-	42, // 68: vmrpc.VMService.SetupWorkspaces:output_type -> vmrpc.SetupWorkspacesResponse
-	45, // 69: vmrpc.VMService.GetSandboxState:output_type -> vmrpc.GetSandboxStateResponse
-	48, // 70: vmrpc.VMService.ExportSandboxDiff:output_type -> vmrpc.ExportSandboxDiffResponse
-	51, // 71: vmrpc.VMService.DiscardSandboxAllChanges:output_type -> vmrpc.DiscardSandboxAllChangesResponse
-	53, // 72: vmrpc.VMService.RunSandboxHousekeeper:output_type -> vmrpc.RunSandboxHousekeeperResponse
-	55, // 73: vmrpc.VMService.SetProxyEnv:output_type -> vmrpc.SetProxyEnvResponse
-	57, // 74: vmrpc.VMService.ResetSharedEnv:output_type -> vmrpc.ResetSharedEnvResponse
-	59, // 75: vmrpc.VMService.ExecutePython:output_type -> vmrpc.ExecutePythonResponse
-	13, // 76: vmrpc.VMService.ExecutePythonStream:output_type -> vmrpc.ExecOutput
-	63, // 77: vmrpc.VMService.SetSSHAuthorizedKeys:output_type -> vmrpc.SetSSHAuthorizedKeysResponse
-	65, // 78: vmrpc.VMService.ProvisionAuthCredentials:output_type -> vmrpc.ProvisionAuthCredentialsResponse
-	67, // 79: vmrpc.VMService.SetRuntimeBridgeConfig:output_type -> vmrpc.SetRuntimeBridgeConfigResponse
-	69, // 80: vmrpc.VMService.SyncWorkspace:output_type -> vmrpc.SyncWorkspaceResponse
-	61, // 81: vmrpc.TelemetryService.ExportOTLP:output_type -> vmrpc.ExportAck
-	52, // [52:82] is the sub-list for method output_type
-	22, // [22:52] is the sub-list for method input_type
+	62, // 47: vmrpc.VMService.ProvisionAuthCredentials:input_type -> vmrpc.ProvisionAuthCredentialsRequest
+	64, // 48: vmrpc.VMService.SetRuntimeBridgeConfig:input_type -> vmrpc.SetRuntimeBridgeConfigRequest
+	66, // 49: vmrpc.VMService.SyncWorkspace:input_type -> vmrpc.SyncWorkspaceChunk
+	60, // 50: vmrpc.TelemetryService.ExportOTLP:input_type -> vmrpc.OtlpEnvelope
+	6,  // 51: vmrpc.HostService.CallRuntimeTool:output_type -> vmrpc.RuntimeToolResponse
+	8,  // 52: vmrpc.HostService.CallRuntimeHTTP:output_type -> vmrpc.RuntimeHTTPResponse
+	10, // 53: vmrpc.VMService.Health:output_type -> vmrpc.HealthResponse
+	12, // 54: vmrpc.VMService.Exec:output_type -> vmrpc.ExecResponse
+	13, // 55: vmrpc.VMService.ExecStream:output_type -> vmrpc.ExecOutput
+	15, // 56: vmrpc.VMService.CreateSandbox:output_type -> vmrpc.CreateSandboxResponse
+	17, // 57: vmrpc.VMService.DeleteSandbox:output_type -> vmrpc.DeleteSandboxResponse
+	19, // 58: vmrpc.VMService.SandboxExists:output_type -> vmrpc.SandboxExistsResponse
+	21, // 59: vmrpc.VMService.MountSandbox:output_type -> vmrpc.MountSandboxResponse
+	23, // 60: vmrpc.VMService.UnmountSandbox:output_type -> vmrpc.UnmountSandboxResponse
+	25, // 61: vmrpc.VMService.GetSandboxFile:output_type -> vmrpc.GetSandboxFileResponse
+	27, // 62: vmrpc.VMService.StreamSandboxFile:output_type -> vmrpc.StreamSandboxFileChunk
+	34, // 63: vmrpc.VMService.UploadSandboxFile:output_type -> vmrpc.UploadSandboxFileResponse
+	31, // 64: vmrpc.VMService.WriteSandboxFile:output_type -> vmrpc.WriteSandboxFileResponse
+	36, // 65: vmrpc.VMService.DeleteSandboxFile:output_type -> vmrpc.DeleteSandboxFileResponse
+	38, // 66: vmrpc.VMService.SandboxFileExists:output_type -> vmrpc.SandboxFileExistsResponse
+	42, // 67: vmrpc.VMService.SetupWorkspaces:output_type -> vmrpc.SetupWorkspacesResponse
+	45, // 68: vmrpc.VMService.GetSandboxState:output_type -> vmrpc.GetSandboxStateResponse
+	48, // 69: vmrpc.VMService.ExportSandboxDiff:output_type -> vmrpc.ExportSandboxDiffResponse
+	51, // 70: vmrpc.VMService.DiscardSandboxAllChanges:output_type -> vmrpc.DiscardSandboxAllChangesResponse
+	53, // 71: vmrpc.VMService.RunSandboxHousekeeper:output_type -> vmrpc.RunSandboxHousekeeperResponse
+	55, // 72: vmrpc.VMService.SetProxyEnv:output_type -> vmrpc.SetProxyEnvResponse
+	57, // 73: vmrpc.VMService.ResetSharedEnv:output_type -> vmrpc.ResetSharedEnvResponse
+	59, // 74: vmrpc.VMService.ExecutePython:output_type -> vmrpc.ExecutePythonResponse
+	13, // 75: vmrpc.VMService.ExecutePythonStream:output_type -> vmrpc.ExecOutput
+	63, // 76: vmrpc.VMService.ProvisionAuthCredentials:output_type -> vmrpc.ProvisionAuthCredentialsResponse
+	65, // 77: vmrpc.VMService.SetRuntimeBridgeConfig:output_type -> vmrpc.SetRuntimeBridgeConfigResponse
+	67, // 78: vmrpc.VMService.SyncWorkspace:output_type -> vmrpc.SyncWorkspaceResponse
+	61, // 79: vmrpc.TelemetryService.ExportOTLP:output_type -> vmrpc.ExportAck
+	51, // [51:80] is the sub-list for method output_type
+	22, // [22:51] is the sub-list for method input_type
 	22, // [22:22] is the sub-list for extension type_name
 	22, // [22:22] is the sub-list for extension extendee
 	0,  // [0:22] is the sub-list for field type_name
@@ -4261,7 +4173,7 @@ func file_internal_platform_vm_vmrpc_vmrpc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_platform_vm_vmrpc_vmrpc_proto_rawDesc), len(file_internal_platform_vm_vmrpc_vmrpc_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   71,
+			NumMessages:   69,
 			NumExtensions: 0,
 			NumServices:   3,
 		},

@@ -188,7 +188,6 @@ const (
 	VMService_ResetSharedEnv_FullMethodName           = "/vmrpc.VMService/ResetSharedEnv"
 	VMService_ExecutePython_FullMethodName            = "/vmrpc.VMService/ExecutePython"
 	VMService_ExecutePythonStream_FullMethodName      = "/vmrpc.VMService/ExecutePythonStream"
-	VMService_SetSSHAuthorizedKeys_FullMethodName     = "/vmrpc.VMService/SetSSHAuthorizedKeys"
 	VMService_ProvisionAuthCredentials_FullMethodName = "/vmrpc.VMService/ProvisionAuthCredentials"
 	VMService_SetRuntimeBridgeConfig_FullMethodName   = "/vmrpc.VMService/SetRuntimeBridgeConfig"
 	VMService_SyncWorkspace_FullMethodName            = "/vmrpc.VMService/SyncWorkspace"
@@ -232,8 +231,6 @@ type VMServiceClient interface {
 	// Python execution
 	ExecutePython(ctx context.Context, in *ExecutePythonRequest, opts ...grpc.CallOption) (*ExecutePythonResponse, error)
 	ExecutePythonStream(ctx context.Context, in *ExecutePythonRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ExecOutput], error)
-	// SSH key management
-	SetSSHAuthorizedKeys(ctx context.Context, in *SetSSHAuthorizedKeysRequest, opts ...grpc.CallOption) (*SetSSHAuthorizedKeysResponse, error)
 	// Remote VM auth provisioning
 	ProvisionAuthCredentials(ctx context.Context, in *ProvisionAuthCredentialsRequest, opts ...grpc.CallOption) (*ProvisionAuthCredentialsResponse, error)
 	// Runtime bridge configuration for guest-local proxying.
@@ -520,16 +517,6 @@ func (c *vMServiceClient) ExecutePythonStream(ctx context.Context, in *ExecutePy
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type VMService_ExecutePythonStreamClient = grpc.ServerStreamingClient[ExecOutput]
 
-func (c *vMServiceClient) SetSSHAuthorizedKeys(ctx context.Context, in *SetSSHAuthorizedKeysRequest, opts ...grpc.CallOption) (*SetSSHAuthorizedKeysResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SetSSHAuthorizedKeysResponse)
-	err := c.cc.Invoke(ctx, VMService_SetSSHAuthorizedKeys_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *vMServiceClient) ProvisionAuthCredentials(ctx context.Context, in *ProvisionAuthCredentialsRequest, opts ...grpc.CallOption) (*ProvisionAuthCredentialsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProvisionAuthCredentialsResponse)
@@ -601,8 +588,6 @@ type VMServiceServer interface {
 	// Python execution
 	ExecutePython(context.Context, *ExecutePythonRequest) (*ExecutePythonResponse, error)
 	ExecutePythonStream(*ExecutePythonRequest, grpc.ServerStreamingServer[ExecOutput]) error
-	// SSH key management
-	SetSSHAuthorizedKeys(context.Context, *SetSSHAuthorizedKeysRequest) (*SetSSHAuthorizedKeysResponse, error)
 	// Remote VM auth provisioning
 	ProvisionAuthCredentials(context.Context, *ProvisionAuthCredentialsRequest) (*ProvisionAuthCredentialsResponse, error)
 	// Runtime bridge configuration for guest-local proxying.
@@ -688,9 +673,6 @@ func (UnimplementedVMServiceServer) ExecutePython(context.Context, *ExecutePytho
 }
 func (UnimplementedVMServiceServer) ExecutePythonStream(*ExecutePythonRequest, grpc.ServerStreamingServer[ExecOutput]) error {
 	return status.Error(codes.Unimplemented, "method ExecutePythonStream not implemented")
-}
-func (UnimplementedVMServiceServer) SetSSHAuthorizedKeys(context.Context, *SetSSHAuthorizedKeysRequest) (*SetSSHAuthorizedKeysResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SetSSHAuthorizedKeys not implemented")
 }
 func (UnimplementedVMServiceServer) ProvisionAuthCredentials(context.Context, *ProvisionAuthCredentialsRequest) (*ProvisionAuthCredentialsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ProvisionAuthCredentials not implemented")
@@ -1097,24 +1079,6 @@ func _VMService_ExecutePythonStream_Handler(srv interface{}, stream grpc.ServerS
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type VMService_ExecutePythonStreamServer = grpc.ServerStreamingServer[ExecOutput]
 
-func _VMService_SetSSHAuthorizedKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetSSHAuthorizedKeysRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VMServiceServer).SetSSHAuthorizedKeys(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: VMService_SetSSHAuthorizedKeys_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VMServiceServer).SetSSHAuthorizedKeys(ctx, req.(*SetSSHAuthorizedKeysRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _VMService_ProvisionAuthCredentials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ProvisionAuthCredentialsRequest)
 	if err := dec(in); err != nil {
@@ -1236,10 +1200,6 @@ var VMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExecutePython",
 			Handler:    _VMService_ExecutePython_Handler,
-		},
-		{
-			MethodName: "SetSSHAuthorizedKeys",
-			Handler:    _VMService_SetSSHAuthorizedKeys_Handler,
 		},
 		{
 			MethodName: "ProvisionAuthCredentials",

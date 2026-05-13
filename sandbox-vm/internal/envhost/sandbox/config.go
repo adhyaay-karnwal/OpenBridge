@@ -39,7 +39,6 @@ type InProcessHostConfig struct {
 	MetadataDir          string
 	WorkspaceDir         string
 	VMOptions            *VMOptions
-	EnableSSHConfig      bool
 	InstallSignalHandler bool
 	HostID               string
 	HostName             string
@@ -103,21 +102,4 @@ func createVMManager(ctx context.Context, opts *VMOptions) (*vm.Manager, error) 
 	log.Println("✅ VM started successfully")
 
 	return manager, nil
-}
-
-func createSSHConfigEntry(manager *vm.Manager) *vm.SSHEntry {
-	sshHost, sshPort, err := manager.EnsureLocalSSHForwarder()
-	if err != nil {
-		log.Printf("⚠️  Could not start local SSH forwarder for SSH config: %v", err)
-		return nil
-	}
-
-	entry, err := vm.AddSSHConfigEntry(manager, sshHost, sshPort)
-	if err != nil {
-		log.Printf("⚠️  Failed to add SSH config entry: %v", err)
-		return nil
-	}
-
-	log.Printf("Adding SSH config entry for VM via %s:%d", sshHost, sshPort)
-	return entry
 }
