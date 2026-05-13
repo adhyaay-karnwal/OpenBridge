@@ -169,8 +169,8 @@ final class LocalRuntimeConnector {
         case .localMacOS:
             parts.append("This Mac environment; use environment=\"local\" to target it. This is the computer the user is currently using and the highest-risk protected environment. Commands and file operations affect the host directly with no connector sandbox. Do not use this by default and do not switch here on your own initiative. First use environment=\"sandbox\" whenever it can accomplish the goal. Only after concluding sandbox cannot do the job should you request or trigger local permission and execute host commands or other protected host operations. Permission is temporary for the current task execution; do not assume a past approval applies to later user requests. Before requesting or triggering local permission, describe exactly what you plan to do. This Mac shares the user's files with the safe local workspace. Never operate on both This Mac and the safe local workspace filesystems in the same task; choose one environment for filesystem work. If a task truly requires host execution, stay on This Mac for that task instead of continuing to modify files from the safe local workspace. This environment disappears when the OpenBridge client disconnects.")
         case .localVM:
-            let mountDescription = Self.localVMMountDescription(SettingsManager.shared.localVMMounts)
-            parts.append("Safe Workspace on This Mac; use environment=\"sandbox\" to target it. This is the default environment and usually the safest way to work with the user's local files. Commands and file operations execute inside a protected bundled workspace, not directly on This Mac. Mounted host folders are available at their listed absolute macOS paths and edits stay staged until the user accepts applying them back to the host. Mounted folders: \(mountDescription). Prefer this environment unless the user explicitly requests direct host work or sandbox cannot complete the task. If sandbox can finish the task, stay here and do not request host access. Never operate on both the safe local workspace and This Mac filesystems in the same task; choose one environment for filesystem work. If the task truly requires host execution, stop using the safe local workspace filesystem for that task and switch fully to environment=\"local\". Commands here do not trigger host GUI or process side effects. Use absolute macOS paths under the mounted folders in file tools and shell commands, and report those absolute macOS paths back to the user. Do not assume Desktop, Documents, or Downloads are available unless their parent folder is mounted. This environment disappears when the OpenBridge client disconnects.")
+            let mountDescription = Self.localVMMountDescription()
+            parts.append("Safe Workspace on This Mac; use environment=\"sandbox\" to target it. This is the default environment and usually the safest way to work with the user's local files. Commands and file operations execute inside a protected bundled workspace, not directly on This Mac. Mounted host folders are available at their listed absolute macOS paths; reviewed-write mounts stay staged until the user accepts applying them back to the host, while direct-write mounts update the host immediately. Mounted folders: \(mountDescription). Prefer this environment unless the user explicitly requests direct host work or sandbox cannot complete the task. If sandbox can finish the task, stay here and do not request host access. Never operate on both the safe local workspace and This Mac filesystems in the same task; choose one environment for filesystem work. If the task truly requires host execution, stop using the safe local workspace filesystem for that task and switch fully to environment=\"local\". Commands here do not trigger host GUI or process side effects. Use absolute macOS home paths for user-visible folders: Desktop is \(localHome)/Desktop, Documents is \(localHome)/Documents, and Downloads is \(localHome)/Downloads. Use the same absolute macOS path in file tools and shell commands when you need those folders, and report that absolute macOS path back to the user. This environment disappears when the OpenBridge client disconnects.")
         }
         parts.append(Self.localSkillInventoryDescription(
             skills: SkillManager.shared.skills,
@@ -180,11 +180,16 @@ final class LocalRuntimeConnector {
         return parts.joined(separator: "; ")
     }
 
-    private static func localVMMountDescription(_ mounts: [LocalVMMount]) -> String {
-        let effectiveMounts = mounts.isEmpty ? LocalVMMount.defaultMounts() : mounts
-        return effectiveMounts
+    private static func localVMMountDescription() -> String {
+        LocalVMMount.defaultMounts()
             .map { mount in
-                let mode = mount.readOnly ? "read-only" : "reviewed writes"
+                let mode = if mount.passthrough {
+                    "direct writes"
+                } else if mount.readOnly {
+                    "read-only"
+                } else {
+                    "reviewed writes"
+                }
                 if mount.vmPath == mount.hostPath {
                     return "\(mount.hostPath) (\(mode))"
                 }

@@ -28,7 +28,6 @@ nonisolated enum SettingsKeyName: String, CaseIterable {
     case useLegacyMacOS26UI
     case skillLastUsedTimes
     case remoteEnvironmentRootPath
-    case localVMMounts
     case localEnvironmentPermissionMode
 
     var key: String {
@@ -101,9 +100,6 @@ nonisolated enum SettingsDefaults {
     /// Skill last used timestamps (skill name -> last used date)
     static let skillLastUsedTimes: [String: Date] = [:]
     static let remoteEnvironmentRootPath = ""
-    static var localVMMounts: [LocalVMMount] {
-        LocalVMMount.defaultMounts()
-    }
 
     static let localEnvironmentPermissionMode: LocalEnvironmentPermissionMode = .default
 }

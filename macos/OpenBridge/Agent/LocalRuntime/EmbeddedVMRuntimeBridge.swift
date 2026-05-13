@@ -701,11 +701,8 @@ actor EmbeddedVMRuntimeBridge {
             }
 
             let config = SandboxvmLocalConnectorConfig()
-            let configuredMounts = await MainActor.run {
-                SettingsManager.shared.localVMMounts
-            }
-            let effectiveMounts = Self.effectiveMounts(configuredMounts)
-            let resolvedRootPath = effectiveMounts.first?.hostPath ?? Self.normalizedPath(NSHomeDirectory())
+            let effectiveMounts = Self.effectiveMounts()
+            let resolvedRootPath = LocalVMMount.primaryWorkspaceMount().hostPath
             let mountsJSON = try Self.mountsJSON(effectiveMounts)
             config.rootPath = resolvedRootPath
             config.mountsJSON = mountsJSON
@@ -865,17 +862,8 @@ actor EmbeddedVMRuntimeBridge {
         return URL(fileURLWithPath: trimmed).standardizedFileURL.path
     }
 
-    private static func effectiveMounts(_ mounts: [LocalVMMount]) -> [LocalVMMount] {
-        let cleaned = mounts
-            .map { LocalVMMount(hostPath: $0.hostPath, vmPath: $0.vmPath, readOnly: $0.readOnly, passthrough: $0.passthrough) }
-            .filter { !$0.hostPath.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-            .sorted {
-                if $0.hostPath != $1.hostPath { return $0.hostPath < $1.hostPath }
-                if $0.vmPath != $1.vmPath { return $0.vmPath < $1.vmPath }
-                if $0.readOnly != $1.readOnly { return !$0.readOnly && $1.readOnly }
-                return !$0.passthrough && $1.passthrough
-            }
-        return cleaned.isEmpty ? LocalVMMount.defaultMounts() : cleaned
+    private static func effectiveMounts() -> [LocalVMMount] {
+        LocalVMMount.defaultMounts()
     }
 
     private static func mountsJSON(_ mounts: [LocalVMMount]) throws -> String {
