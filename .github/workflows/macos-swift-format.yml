@@ -18,7 +18,7 @@ on:
 jobs:
   swift-format-lint:
     name: Swift Format & Lint
-    runs-on: [self-hosted, tartelet]
+    runs-on: macos-15
     env:
       SWIFTFORMAT_VERSION: 0.60.1
     steps:

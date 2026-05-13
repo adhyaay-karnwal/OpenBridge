@@ -55,7 +55,7 @@ jobs:
 
   build-and-release-staging:
     name: Build, Sign, and Release (Staging)
-    runs-on: [self-hosted, tartelet]
+    runs-on: macos-15
     needs: build-sandbox-vm-resources
     timeout-minutes: 90
     permissions:

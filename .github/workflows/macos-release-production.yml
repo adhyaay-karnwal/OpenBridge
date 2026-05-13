@@ -58,7 +58,7 @@ jobs:
 
   build-and-release-production:
     name: Build, Sign, and Release (Production)
-    runs-on: [self-hosted, tartelet]
+    runs-on: macos-15
     needs: build-sandbox-vm-resources
     timeout-minutes: 90
     permissions:
