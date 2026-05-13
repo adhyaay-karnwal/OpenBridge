@@ -52,7 +52,6 @@ extension SettingsManager {
         enableSoundEffects = Defaults.enableSoundEffects
         showHeartbeatNotifications = Defaults.showHeartbeatNotifications
         useLegacyMacOS26UI = Defaults.useLegacyMacOS26UI
-        localVMMounts = Defaults.localVMMounts
         localEnvironmentPermissionMode = Defaults.localEnvironmentPermissionMode
     }
 
@@ -145,7 +144,6 @@ extension SettingsManager {
         case .useLegacyMacOS26UI: useLegacyMacOS26UI
         case .skillLastUsedTimes: skillLastUsedTimes
         case .remoteEnvironmentRootPath: remoteEnvironmentRootPath
-        case .localVMMounts: localVMMounts
         case .localEnvironmentPermissionMode: localEnvironmentPermissionMode
         }
     }

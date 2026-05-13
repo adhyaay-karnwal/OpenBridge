@@ -279,9 +279,12 @@ struct LocalAgentTaskListTests {
         let description = connector.localDescription()
         let home = NSHomeDirectory()
         #expect(description.contains("Safe Workspace on This Mac"))
-        #expect(description.contains("Mounted folders: \(home) (reviewed writes)."))
-        #expect(description.contains("Use absolute macOS paths under the mounted folders"))
-        #expect(description.contains("Do not assume Desktop, Documents, or Downloads are available unless their parent folder is mounted."))
+        #expect(description.contains("Mounted folders: \(home) (reviewed writes), /Applications (read-only), /Library (read-only), /Volumes (reviewed writes), \(home)/.openbridge (direct writes)."))
+        #expect(description.contains("\(home)/.openbridge (direct writes)."))
+        #expect(description.contains("Use absolute macOS home paths for user-visible folders"))
+        #expect(description.contains("Desktop is \(home)/Desktop"))
+        #expect(description.contains("Documents is \(home)/Documents"))
+        #expect(description.contains("Downloads is \(home)/Downloads"))
     }
 
     @Test

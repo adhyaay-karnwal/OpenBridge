@@ -79,7 +79,6 @@ final class SettingsManager {
 
     var skillLastUsedTimes = Defaults.skillLastUsedTimes
     var remoteEnvironmentRootPath = Defaults.remoteEnvironmentRootPath
-    var localVMMounts = Defaults.localVMMounts
     var localEnvironmentPermissionMode = Defaults.localEnvironmentPermissionMode
 
     init(

@@ -95,31 +95,6 @@ struct GeneralSettingsView: View {
             }
             .tint(settingsManager.systemAccentColor)
 
-            Section(footer: Text("Mounted folders are visible inside the Local VM sandbox. Writable mounts use the review flow before changes are applied back to this Mac.")) {
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(settingsManager.localVMMounts.indices, id: \.self) { index in
-                        localVMMountRow(index: index)
-                        if index != settingsManager.localVMMounts.indices.last {
-                            Divider()
-                        }
-                    }
-
-                    HStack {
-                        Button("Add Folder") {
-                            addLocalVMMount()
-                        }
-                        Button("Reset") {
-                            resetLocalVMMounts()
-                        }
-                        .disabled(settingsManager.localVMMounts == LocalVMMount.defaultMounts())
-                    }
-                }
-                .onChange(of: settingsManager.localVMMounts) { _, _ in
-                    AgentSessionManager.shared.refreshConnectorConfiguration()
-                }
-            }
-            .tint(settingsManager.systemAccentColor)
-
             Section(footer: Text("Change Show dock icon, need to restart the app.")) {
                 TintedToggle("Launch OpenBridge at login", isOn: $cachedLaunchAtLogin)
                     .onAppear {
@@ -197,77 +172,6 @@ extension GeneralSettingsView {
 
     private func displayName(for code: String) -> String {
         Locale.current.localizedString(forIdentifier: code) ?? code
-    }
-
-    @ViewBuilder
-    private func localVMMountRow(index: Int) -> some View {
-        @Bindable var settingsManager = settingsManager
-        let mount = settingsManager.localVMMounts[index]
-
-        HStack(alignment: .center, spacing: 12) {
-            Image(systemName: mount.readOnly ? "lock" : "folder")
-                .foregroundStyle(settingsManager.systemAccentColor)
-                .frame(width: 22)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(mount.hostPath)
-                    .font(.body)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                if mount.vmPath != mount.hostPath {
-                    Text("Mounted at \(mount.vmPath)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                }
-            }
-
-            Spacer(minLength: 12)
-
-            Toggle("Read-only", isOn: $settingsManager.localVMMounts[index].readOnly)
-                .toggleStyle(.switch)
-                .labelsHidden()
-
-            Button {
-                removeLocalVMMount(at: index)
-            } label: {
-                Image(systemName: "minus.circle")
-            }
-            .buttonStyle(.borderless)
-            .disabled(settingsManager.localVMMounts.count <= 1)
-        }
-    }
-
-    private func addLocalVMMount() {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = false
-        panel.canChooseDirectories = true
-        panel.allowsMultipleSelection = true
-        panel.canCreateDirectories = false
-        panel.prompt = String(localized: "Add")
-
-        guard panel.runModal() == .OK else { return }
-        var nextMounts = settingsManager.localVMMounts
-        let existingPaths = Set(nextMounts.map(\.hostPath))
-        for url in panel.urls {
-            let path = LocalVMMount.normalizedPath(url.path)
-            guard !existingPaths.contains(path) else { continue }
-            nextMounts.append(LocalVMMount(hostPath: path))
-        }
-        settingsManager.localVMMounts = nextMounts
-    }
-
-    private func removeLocalVMMount(at index: Int) {
-        guard settingsManager.localVMMounts.indices.contains(index) else { return }
-        guard settingsManager.localVMMounts.count > 1 else { return }
-        var nextMounts = settingsManager.localVMMounts
-        nextMounts.remove(at: index)
-        settingsManager.localVMMounts = nextMounts
-    }
-
-    private func resetLocalVMMounts() {
-        settingsManager.localVMMounts = LocalVMMount.defaultMounts()
     }
 }
 
