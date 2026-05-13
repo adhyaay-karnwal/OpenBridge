@@ -39,10 +39,22 @@ struct SkillDirectories {
         SyncSkillSource(key: "openclaw", relativePath: ".openclaw/skills", displayName: "OpenClaw", imageName: "openclaw"),
     ]
 
+    static var homeDirectory: URL {
+        #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("-e2eMode"),
+               let overridePath = ProcessInfo.processInfo.environment["OPENBRIDGE_E2E_HOME_DIRECTORY"],
+               !overridePath.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            {
+                return URL(fileURLWithPath: overridePath, isDirectory: true).standardized
+            }
+        #endif
+
+        return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true).standardized
+    }
+
     /// Create skill directories from home directory
     static func create() throws -> SkillDirectories {
-        let homeDir = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
-        let openBridgeDir = homeDir.appendingPathComponent(".openbridge", isDirectory: true)
+        let openBridgeDir = homeDirectory.appendingPathComponent(".openbridge", isDirectory: true)
         let skillsDir = openBridgeDir.appendingPathComponent("skills", isDirectory: true)
 
         let directories = SkillDirectories(
@@ -87,10 +99,9 @@ struct SkillDirectories {
     }
 
     static func syncSkillSource(for url: URL) -> SyncSkillSource? {
-        let homeDir = URL(fileURLWithPath: NSHomeDirectory())
         let standardized = url.standardized
         return defaultSyncSkillSources.first { source in
-            homeDir.appendingPathComponent(source.relativePath).standardized == standardized
+            homeDirectory.appendingPathComponent(source.relativePath).standardized == standardized
         }
     }
 

@@ -46,6 +46,10 @@ enum AccessibilityID {
         static let notificationsRoot = "settings.notifications.root"
         static let notificationsScheduledTaskToggle = "settings.notifications.scheduledTaskToggle"
         static let aboutTab = "settings.tab.about"
+
+        static func syncedSkillsSuggestedAddButton(_ sourceKey: String) -> String {
+            "settings.syncedSkills.suggested.add.\(sourceKey)"
+        }
     }
 
     enum Notch {

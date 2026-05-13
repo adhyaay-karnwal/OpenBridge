@@ -15,7 +15,7 @@ struct SyncFolderSection: View {
     private let maxDisplayedSkills = 5
 
     private var suggestedFolders: [(source: SkillDirectories.SyncSkillSource, url: URL)] {
-        let homeDirectory = URL(fileURLWithPath: NSHomeDirectory())
+        let homeDirectory = SkillDirectories.homeDirectory
         let fileManager = FileManager.default
 
         return SkillDirectories.defaultSyncSkillSources.compactMap { source in
@@ -300,8 +300,12 @@ private struct SuggestedSyncFolderRow: View {
     let onAdd: () -> Void
 
     private var displayPath: String {
-        let home = NSHomeDirectory()
+        let home = SkillDirectories.homeDirectory.path
         return url.path.hasPrefix(home) ? "~" + url.path.dropFirst(home.count) : url.path
+    }
+
+    private var addButtonTint: Color {
+        settings.accentColorName == .default ? settings.systemAccentColor : settings.accentColor
     }
 
     var body: some View {
@@ -342,9 +346,10 @@ private struct SuggestedSyncFolderRow: View {
             Button(String(localized: "Add")) {
                 onAdd()
             }
-            .tint(settings.accentColor)
+            .tint(addButtonTint)
             .buttonStyle(.borderedProminent)
             .controlSize(.small)
+            .accessibilityIdentifier(AccessibilityID.Settings.syncedSkillsSuggestedAddButton(source.key))
         }
         .padding(.vertical, 4)
     }
