@@ -53,9 +53,6 @@ service VMService {
   rpc ExecutePython(ExecutePythonRequest) returns (ExecutePythonResponse);
   rpc ExecutePythonStream(ExecutePythonRequest) returns (stream ExecOutput);
 
-  // SSH key management
-  rpc SetSSHAuthorizedKeys(SetSSHAuthorizedKeysRequest) returns (SetSSHAuthorizedKeysResponse);
-
   // Remote VM auth provisioning
   rpc ProvisionAuthCredentials(ProvisionAuthCredentialsRequest) returns (ProvisionAuthCredentialsResponse);
 
@@ -374,11 +371,6 @@ message ExportAck {
   uint32 status_code = 1;
   string error = 2;
 }
-message SetSSHAuthorizedKeysRequest {
-  bytes authorized_keys = 1;  // Content of authorized_keys file
-}
-message SetSSHAuthorizedKeysResponse {}
-
 message ProvisionAuthCredentialsRequest {
   string jwt = 1;
   string backend_url = 2;

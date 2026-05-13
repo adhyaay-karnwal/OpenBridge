@@ -3,9 +3,6 @@ package vm
 import (
 	"archive/tar"
 	"context"
-	"crypto/ed25519"
-	"crypto/rand"
-	"encoding/pem"
 	"fmt"
 	"io"
 	"log"
@@ -24,14 +21,10 @@ import (
 	"github.com/openbridge/sandbox-vm/internal/platform/telemetry"
 	"github.com/openbridge/sandbox-vm/internal/platform/vm/vmrpc"
 	"github.com/openbridge/sandbox-vm/pkg/types"
-	"golang.org/x/crypto/ssh"
 )
 
 // Manager manages VM lifecycle
 type Manager struct {
-	sshPrivateKey     ssh.Signer
-	sshPrivateKeyPEM  []byte // PEM-encoded private key (for writing to file when needed)
-	sshPrivateKeyPath string
 	vm                atomic.Pointer[vz.VirtualMachine]
 	config            *Config
 	peer              *vmrpc.Peer // Bidirectional peer for Host-VM communication
@@ -44,8 +37,6 @@ type Manager struct {
 	// Track mounted sandboxes to prevent operations that require unmounted overlay
 	mountedSandboxesMu sync.RWMutex
 	mountedSandboxes   map[string]bool
-
-	sshForwarder *localPortForwarder
 
 	netstackListener *vz.VirtioSocketListener
 	netstackCancel   context.CancelFunc
@@ -85,10 +76,6 @@ type Config struct {
 	HTTPSProxy string // HTTPS proxy URL
 	NoProxy    string // Comma-separated list of hosts to exclude from proxy
 
-	// SSH Configuration
-	SSHUser string
-	SSHPort int
-
 	// Guest-local runtime bridge port exposed inside the VM.
 	RuntimeBridgeGuestPort uint32
 
@@ -111,8 +98,6 @@ func DefaultConfig(resourcesDir string) *Config {
 		KernelPath:             filepath.Join(resourcesDir, "kernel.bin"),
 		RootfsPath:             filepath.Join(resourcesDir, "rootfs.img"),
 		BootCommand:            "console=hvc0 root=/dev/vda quiet",
-		SSHUser:                "root",
-		SSHPort:                22,
 		RuntimeBridgeGuestPort: DefaultRuntimeBridgeGuestPort,
 		Mounts:                 nil, // Will be set by caller
 		StartupTimeout:         60 * time.Second,
@@ -259,11 +244,6 @@ func (m *Manager) Start(ctx context.Context) error {
 	}
 	log.Println("Connected to VM via gRPC")
 
-	// Setup SSH authorized_keys via gRPC (for debug access)
-	if err := m.setupSSHKeys(ctx); err != nil {
-		log.Printf("Warning: failed to setup SSH keys: %v", err)
-	}
-
 	// Setup working directory via gRPC
 	if err := m.setupWorkspace(ctx); err != nil {
 		return m.failStartLocked(fmt.Errorf("failed to setup workspace: %w", err))
@@ -284,10 +264,6 @@ func (m *Manager) failStartLocked(err error) error {
 	}
 
 	m.stopNetworkDataPlaneLocked()
-	if m.sshForwarder != nil {
-		_ = m.sshForwarder.Close()
-		m.sshForwarder = nil
-	}
 
 	vm := m.vm.Load()
 	if vm != nil {
@@ -552,39 +528,6 @@ func (m *Manager) waitForVMRunning(ctx context.Context) error {
 	}
 }
 
-func (m *Manager) generateSSHKeypairLocked() ([]byte, error) {
-	// Generate new Ed25519 key pair
-	pubKey, privKey, err := ed25519.GenerateKey(rand.Reader)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate key: %w", err)
-	}
-
-	// Marshal private key
-	privKeyBytes, err := ssh.MarshalPrivateKey(privKey, "")
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal private key: %w", err)
-	}
-
-	privKeyPEM := pem.EncodeToMemory(privKeyBytes)
-	signer, err := ssh.ParsePrivateKey(privKeyPEM)
-	if err != nil {
-		return nil, fmt.Errorf("failed to re-decode private key: %w", err)
-	}
-	m.sshPrivateKey = signer
-	m.sshPrivateKeyPEM = privKeyPEM // Save PEM for writing to file when needed (SSH config)
-
-	// Public key is returned but not saved to file here
-	// Key files are only written when SSH config is enabled (via EnsureSSHKeyFile)
-	sshPubKey, err := ssh.NewPublicKey(pubKey)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create SSH public key: %w", err)
-	}
-
-	pubKeyBytes := ssh.MarshalAuthorizedKey(sshPubKey)
-
-	return pubKeyBytes, nil
-}
-
 // tryLockOverlay attempts to acquire an exclusive lock on the overlay file.
 // Returns the lock file handle if successful, nil if the file is already locked.
 func tryLockOverlay(overlayPath string) *os.File {
@@ -664,31 +607,6 @@ func (m *Manager) prepareRootfsOverlay() error {
 	}
 
 	m.rootfsOverlayPath = path
-	return nil
-}
-
-// setupSSHKeys generates SSH keypair and sets authorized_keys in VM via gRPC.
-// This enables SSH access for debugging.
-func (m *Manager) setupSSHKeys(ctx context.Context) error {
-	if m.peer == nil || !m.peer.IsConnected() {
-		return fmt.Errorf("gRPC peer not connected")
-	}
-
-	// Generate SSH keypair
-	authorizedKeys, err := m.generateSSHKeypairLocked()
-	if err != nil {
-		return fmt.Errorf("failed to generate SSH keypair: %w", err)
-	}
-
-	// Set authorized_keys via gRPC
-	_, err = m.peer.VMClient().SetSSHAuthorizedKeys(ctx, &vmrpc.SetSSHAuthorizedKeysRequest{
-		AuthorizedKeys: authorizedKeys,
-	})
-	if err != nil {
-		return fmt.Errorf("failed to set SSH authorized_keys: %w", err)
-	}
-
-	log.Printf("SSH authorized_keys set via gRPC (%d bytes)", len(authorizedKeys))
 	return nil
 }
 
@@ -1105,7 +1023,6 @@ func (m *Manager) Stop(ctx context.Context) error {
 	vmInstance := m.vm.Load()
 	if !m.isRunning &&
 		m.peer == nil &&
-		m.sshForwarder == nil &&
 		vmInstance == nil &&
 		m.overlayLockFile == nil &&
 		len(m.activeMounts) == 0 &&
@@ -1120,10 +1037,6 @@ func (m *Manager) Stop(ctx context.Context) error {
 	}
 
 	m.stopNetworkDataPlaneLocked()
-	if m.sshForwarder != nil {
-		_ = m.sshForwarder.Close()
-		m.sshForwarder = nil
-	}
 
 	// Stop VM
 	var stopErr error
@@ -1376,59 +1289,6 @@ func (m *Manager) SandboxFileExists(ctx context.Context, sandboxID, path string)
 		return false, fmt.Errorf("failed to check file exists: %w", err)
 	}
 	return resp.Exists, nil
-}
-
-// EnsureSSHKeyFile ensures the SSH private key file exists, creating it if necessary
-// Returns the path to the key file
-func (m *Manager) EnsureSSHKeyFile() (string, error) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	// If key file already exists, return the path
-	if m.sshPrivateKeyPath != "" {
-		return m.sshPrivateKeyPath, nil
-	}
-
-	// If we don't have the PEM data, we can't create the file
-	if len(m.sshPrivateKeyPEM) == 0 {
-		return "", fmt.Errorf("SSH private key PEM not available")
-	}
-
-	// Create temporary file for private key
-	privKeyFile, err := os.CreateTemp("", "openbridge-vm-key-*")
-	if err != nil {
-		return "", fmt.Errorf("failed to create temp key file: %w", err)
-	}
-	privKeyPath := privKeyFile.Name()
-
-	// Write private key
-	if _, err := privKeyFile.Write(m.sshPrivateKeyPEM); err != nil {
-		privKeyFile.Close()
-		os.Remove(privKeyPath)
-		return "", fmt.Errorf("failed to write private key: %w", err)
-	}
-	privKeyFile.Close()
-
-	// Set proper permissions
-	if err := os.Chmod(privKeyPath, 0o600); err != nil {
-		os.Remove(privKeyPath)
-		return "", fmt.Errorf("failed to set key permissions: %w", err)
-	}
-
-	// Save public key
-	pubKey := m.sshPrivateKey.PublicKey()
-	pubKeyBytes := ssh.MarshalAuthorizedKey(pubKey)
-	pubKeyPath := privKeyPath + ".pub"
-	if err := os.WriteFile(pubKeyPath, pubKeyBytes, 0o644); err != nil {
-		os.Remove(privKeyPath)
-		return "", fmt.Errorf("failed to write public key: %w", err)
-	}
-
-	m.sshPrivateKeyPath = privKeyPath
-	log.Printf("Saved SSH private key to %s (for SSH config)", privKeyPath)
-	log.Printf("Saved SSH public key to %s", pubKeyPath)
-
-	return privKeyPath, nil
 }
 
 // GetCurrentOverlayPath returns the path to the current rootfs overlay image.

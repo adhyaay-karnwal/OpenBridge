@@ -20,8 +20,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/openbridge/sandbox-vm/pkg/filestream"
 	"github.com/google/uuid"
+	"github.com/openbridge/sandbox-vm/pkg/filestream"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -792,26 +792,6 @@ func (s *vmDaemonServer) ExecutePythonStream(req *vmrpc.ExecutePythonRequest, st
 		return err
 	}
 	return nil
-}
-
-// SetSSHAuthorizedKeys sets the SSH authorized_keys file for root user.
-func (s *vmDaemonServer) SetSSHAuthorizedKeys(ctx context.Context, req *vmrpc.SetSSHAuthorizedKeysRequest) (*vmrpc.SetSSHAuthorizedKeysResponse, error) {
-	log.Printf("[gRPC] SetSSHAuthorizedKeys called: %d bytes", len(req.AuthorizedKeys))
-
-	// Ensure .ssh directory exists
-	sshDir := "/root/.ssh"
-	if err := os.MkdirAll(sshDir, 0700); err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to create .ssh directory: %v", err)
-	}
-
-	// Write authorized_keys file
-	authKeysPath := sshDir + "/authorized_keys"
-	if err := os.WriteFile(authKeysPath, req.AuthorizedKeys, 0600); err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to write authorized_keys: %v", err)
-	}
-
-	log.Printf("[gRPC] SetSSHAuthorizedKeys succeeded: wrote %d bytes to %s", len(req.AuthorizedKeys), authKeysPath)
-	return &vmrpc.SetSSHAuthorizedKeysResponse{}, nil
 }
 
 // SyncWorkspace receives a gzip-compressed tar stream and extracts it to the target path.

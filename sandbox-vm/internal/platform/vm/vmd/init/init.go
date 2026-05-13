@@ -95,17 +95,7 @@ func Run() error {
 	// Divert systemd-sysusers
 	divertSysusers()
 
-	// Setup SSH (generates host keys, creates .ssh directory)
-	if err := setupSSH(); err != nil {
-		log.Printf("Warning: SSH setup failed: %v", err)
-	}
-
-	// Start sshd
-	if err := startSSHD(); err != nil {
-		log.Printf("Warning: sshd failed: %v", err)
-	}
-
-	// Start guest-local support services (SSH forwarding, netd, runtime bridge).
+	// Start guest-local support services (netd, runtime bridge).
 	startSupportServices()
 
 	// Start sandbox daemon in goroutine
@@ -694,81 +684,9 @@ func pumpVsockToTun(vsock io.Reader, tun io.Writer) error {
 	}
 }
 
-func setupSSH() error {
-	log.Println("==> Generating SSH keys...")
-
-	// Remove old keys
-	os.Remove("/etc/ssh/ssh_host_ed25519_key")
-	os.Remove("/etc/ssh/ssh_host_ed25519_key.pub")
-
-	// Generate new key
-	cmd := exec.Command("ssh-keygen", "-t", "ed25519", "-f", "/etc/ssh/ssh_host_ed25519_key", "-N", "")
-	if err := cmd.Run(); err != nil {
-		return err
-	}
-
-	// Clean sshd_config
-	cleanSSHDConfig()
-
-	// Create .ssh directory
-	os.MkdirAll("/root/.ssh", 0700)
-
-	return nil
-}
-
-func cleanSSHDConfig() {
-	configPath := "/etc/ssh/sshd_config"
-	data, err := os.ReadFile(configPath)
-	if err != nil {
-		return
-	}
-
-	lines := strings.Split(string(data), "\n")
-	var newLines []string
-	hasPermitUserEnv := false
-
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		// Remove UsePAM
-		if strings.HasPrefix(trimmed, "UsePAM") {
-			continue
-		}
-		if strings.Contains(trimmed, "PermitUserEnvironment yes") {
-			hasPermitUserEnv = true
-		}
-		newLines = append(newLines, line)
-	}
-
-	if !hasPermitUserEnv {
-		newLines = append(newLines, "PermitUserEnvironment yes")
-	}
-
-	os.WriteFile(configPath, []byte(strings.Join(newLines, "\n")), 0644)
-}
-
-func startSSHD() error {
-	if _, err := exec.LookPath("sshd"); err != nil {
-		log.Println("✗ sshd not found")
-		return err
-	}
-
-	log.Println("==> Starting sshd...")
-	os.MkdirAll("/var/run/sshd", 0755)
-
-	cmd := exec.Command("/usr/sbin/sshd", "-D")
-	if err := cmd.Start(); err != nil {
-		return err
-	}
-
-	log.Printf("✓ sshd running (PID: %d)", cmd.Process.Pid)
-	return nil
-}
-
 func startSupportServices() {
 	guestPort := runtimeBridgeGuestPort()
 
-	// SSH forwarding: vsock:22 -> TCP:22
-	go forwardLoop("socat VSOCK-LISTEN:22,reuseaddr,fork TCP:127.0.0.1:22", "socat(vsock:22:tcp:22)")
 	go startNetdLoop()
 	go startDNSPreflightLoop()
 	go func() {
@@ -780,19 +698,6 @@ func startSupportServices() {
 		defer server.Close()
 		select {}
 	}()
-}
-
-func forwardLoop(cmdStr, label string) {
-	for {
-		cmd := exec.Command("sh", "-c", cmdStr)
-		// Put child in its own process group. Combined with handleSignals using
-		// Wait4(0) instead of Wait4(-1), this prevents a race condition where
-		// the signal handler could accidentally reap this child process before
-		// cmd.Run()'s internal wait completes, which would cause ECHILD errors.
-		cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-		cmd.Run()
-		time.Sleep(time.Second)
-	}
 }
 
 func runSandboxDaemon() {
@@ -859,10 +764,6 @@ func handleSignals() {
 		switch sig {
 		case syscall.SIGCHLD:
 			// Reap zombie processes (PID 1 responsibility)
-			// Use Wait4(0) to only reap children in the same process group as init.
-			// This prevents a race condition where Wait4(-1) could accidentally reap
-			// forwardLoop's child processes (which use Setpgid to be in different groups),
-			// causing cmd.Run() to fail with ECHILD and trigger spurious restarts.
 			for {
 				var status syscall.WaitStatus
 				pid, err := syscall.Wait4(0, &status, syscall.WNOHANG, nil)

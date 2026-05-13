@@ -26,10 +26,9 @@ type ManagedHost struct {
 }
 
 type managedHostShared struct {
-	key      string
-	host     *Host
-	manager  *vm.Manager
-	sshEntry *vm.SSHEntry
+	key     string
+	host    *Host
+	manager *vm.Manager
 }
 
 type managedHostRegistryEntry struct {
@@ -68,11 +67,6 @@ func buildManagedHostShared(ctx context.Context, cfg InProcessHostConfig) (*mana
 	}
 	log.Println("✅ Sandbox mode enabled - each task runs in isolated namespace")
 
-	var sshEntry *vm.SSHEntry
-	if cfg.EnableSSHConfig {
-		sshEntry = createSSHConfigEntry(vmManager)
-	}
-
 	workspaceDir := strings.TrimSpace(cfg.WorkspaceDir)
 	if workspaceDir == "" && cfg.VMOptions != nil {
 		workspaceDir = strings.TrimSpace(cfg.VMOptions.WorkspaceDir)
@@ -101,8 +95,7 @@ func buildManagedHostShared(ctx context.Context, cfg InProcessHostConfig) (*mana
 			&vmSandboxBackend{manager: vmManager},
 			filepath.Join(cfg.MetadataDir, "sandbox-host-store.json"),
 		),
-		manager:  vmManager,
-		sshEntry: sshEntry,
+		manager: vmManager,
 	}, nil
 }
 
@@ -143,10 +136,6 @@ func (s *managedHostShared) close() error {
 	}
 	if s.host != nil {
 		_ = s.host.Close()
-	}
-	if s.sshEntry != nil {
-		vm.RemoveSSHConfigEntry(s.sshEntry)
-		s.sshEntry = nil
 	}
 	if s.manager == nil {
 		return nil
@@ -276,7 +265,7 @@ func managedHostScopeKey(cfg InProcessHostConfig) string {
 	writePart(cfg.HostID)
 	writePart(cfg.HostName)
 	writePart(cfg.HostLabel)
-	builder.WriteString(fmt.Sprintf("%t|%t\n", cfg.EnableSSHConfig, cfg.InstallSignalHandler))
+	builder.WriteString(fmt.Sprintf("%t\n", cfg.InstallSignalHandler))
 
 	if cfg.VMOptions == nil {
 		builder.WriteString("<nil>\n")
