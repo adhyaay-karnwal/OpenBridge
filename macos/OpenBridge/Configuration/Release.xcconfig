@@ -16,3 +16,4 @@ PRODUCT_BUNDLE_IDENTIFIER = app.afk.openbridge
 // Production configuration
 ENABLE_HARDENED_RUNTIME = YES
 SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -Osize

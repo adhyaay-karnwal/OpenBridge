@@ -11,7 +11,6 @@
 		500446832F24B78A0086BB88 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 500446822F24B78A0086BB88 /* KeychainAccess */; };
 		50317B742EFE379A00D91D79 /* SwiftDraw in Frameworks */ = {isa = PBXBuildFile; productRef = 50317B732EFE379A00D91D79 /* SwiftDraw */; };
 		50588E092EC1CD8B000BC33C /* ObservableDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 50588E082EC1CD8B000BC33C /* ObservableDefaults */; };
-		50A97AF42F28B201001DD98F /* WCDBSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50A97AF32F28B201001DD98F /* WCDBSwift */; };
 		50B0A1A32F31A00100ABCDE /* LRUCache in Frameworks */ = {isa = PBXBuildFile; productRef = 50B0A1A12F31A00100ABCDE /* LRUCache */; };
 		50C102B42EAF67640016EABD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 50C102B32EAF67640016EABD /* Sparkle */; settings = {ATTRIBUTES = (Required, ); }; };
 		50C369B32EC6408F0049ED18 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 50C369B22EC6408F0049ED18 /* SnapKit */; };
@@ -167,7 +166,6 @@
 				51D4A7022FA4000000D4A702 /* KWWKAgent in Frameworks */,
 				51E8C0012FAB000000C0DE01 /* KWWKComputerUseCore in Frameworks */,
 				5002F8772EE7A47A00C9D920 /* SpringInterpolation in Frameworks */,
-				50A97AF42F28B201001DD98F /* WCDBSwift in Frameworks */,
 				51C0C0DE2F01000100C0DE01 /* ComposerEditor in Frameworks */,
 				51C0C0E12F01000300C0DE03 /* GlassEffectKit in Frameworks */,
 			);
@@ -305,7 +303,6 @@
 				51E8C0032FAB000000C0DE03 /* KWWKComputerUseCore */,
 				500446822F24B78A0086BB88 /* KeychainAccess */,
 				50B0A1A12F31A00100ABCDE /* LRUCache */,
-				50A97AF32F28B201001DD98F /* WCDBSwift */,
 			);
 			productName = OpenBridge;
 			productReference = 50C2FDA32E9DF71C00592D92 /* OpenBridge.app */;
@@ -369,7 +366,6 @@
 				51D4A7002FA4000000D4A700 /* XCLocalSwiftPackageReference "../kwwk" */,
 				500446812F24B78A0086BB88 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				50B0A1A22F31A00100ABCDE /* XCRemoteSwiftPackageReference "LRUCache" */,
-				50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */,
 			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
@@ -1293,14 +1289,6 @@
 				minimumVersion = 1.7.2;
 			};
 		};
-		50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Lakr233/wcdb-spm-prebuilt";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.15;
-			};
-		};
 		50B0A1A22F31A00100ABCDE /* XCRemoteSwiftPackageReference "LRUCache" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nicklockwood/LRUCache.git";
@@ -1432,11 +1420,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 50588E072EC1CD8B000BC33C /* XCRemoteSwiftPackageReference "ObservableDefaults" */;
 			productName = ObservableDefaults;
-		};
-		50A97AF32F28B201001DD98F /* WCDBSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 50A97AF22F28B201001DD98F /* XCRemoteSwiftPackageReference "wcdb-spm-prebuilt" */;
-			productName = WCDBSwift;
 		};
 		50B0A1A12F31A00100ABCDE /* LRUCache */ = {
 			isa = XCSwiftPackageProductDependency;

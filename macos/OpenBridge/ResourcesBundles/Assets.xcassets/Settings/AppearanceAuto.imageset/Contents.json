@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "auto.pdf",
-      "idiom" : "universal"
+      "filename" : "auto@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     }
   ],
   "info" : {
