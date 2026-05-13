@@ -27,6 +27,10 @@ private var isPreviewMode: Bool {
         // Force dock icon so the app runs as .regular and XCUITest sees it as foreground
         UserDefaults.standard.set(true, forKey: SettingsKeyName.showDockIcon.key)
 
+        if arguments.contains("-e2eResetAccentColor") {
+            UserDefaults.standard.set(SystemAccentColor.default.rawValue, forKey: SettingsKeyName.accentColorName.key)
+        }
+
         SettingsManager.shared.enabledFeatures = SettingsManager.Defaults.enabledFeatures
     }
 #endif
