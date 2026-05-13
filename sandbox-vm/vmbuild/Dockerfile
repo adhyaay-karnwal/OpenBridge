@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     file \
     jq \
     e2fsprogs \
-    erofs-utils \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /usr/lib/python*/EXTERNALLY-MANAGED
