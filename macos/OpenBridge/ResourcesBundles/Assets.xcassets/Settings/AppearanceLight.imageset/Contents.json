@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "light.pdf",
-      "idiom" : "universal"
+      "filename" : "light@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     }
   ],
   "info" : {

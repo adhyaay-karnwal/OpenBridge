@@ -24,12 +24,6 @@ type LocalConnectorConfig struct {
 	ExecOutputMaxBytes int
 }
 
-// LocalConnectorRuntime exposes a small gomobile-friendly API for file ops, exec,
-// and workspace review inside one VM-backed sandbox host.
-type LocalConnectorRuntime struct {
-	runtime *localconnector.Runtime
-}
-
 // SharedLocalConnectorRuntime exposes one shared VM-backed host with one
 // sandbox environment per session.
 type SharedLocalConnectorRuntime struct {
@@ -56,32 +50,6 @@ var (
 	}
 )
 
-// NewLocalConnectorRuntime creates one long-lived overlay-backed sandbox rooted at cfg.RootPath.
-func NewLocalConnectorRuntime(cfg *LocalConnectorConfig) (*LocalConnectorRuntime, error) {
-	var internalCfg localconnector.Config
-	if cfg != nil {
-		internalCfg = localconnector.Config{
-			MetadataDir:        cfg.MetadataDir,
-			RootPath:           cfg.RootPath,
-			Mounts:             decodeMountsJSON(cfg.MountsJSON),
-			KernelPath:         cfg.KernelPath,
-			RootfsPath:         cfg.RootfsPath,
-			RootfsOverlayDir:   cfg.RootfsOverlayDir,
-			BackendURL:         cfg.BackendURL,
-			BackendAPIKey:      cfg.BackendAPIKey,
-			ReadMaxBytes:       cfg.ReadMaxBytes,
-			MaxMatches:         cfg.MaxMatches,
-			ExecOutputMaxBytes: cfg.ExecOutputMaxBytes,
-		}
-	}
-
-	runtime, err := localconnector.New(internalCfg)
-	if err != nil {
-		return nil, err
-	}
-	return &LocalConnectorRuntime{runtime: runtime}, nil
-}
-
 // NewSharedLocalConnectorRuntime creates one shared VM-backed host and provisions one environment per session.
 func NewSharedLocalConnectorRuntime(cfg *LocalConnectorConfig) (*SharedLocalConnectorRuntime, error) {
 	internalCfg := makeInternalLocalConnectorConfig(cfg)
@@ -91,180 +59,6 @@ func NewSharedLocalConnectorRuntime(cfg *LocalConnectorConfig) (*SharedLocalConn
 		return nil, err
 	}
 	return &SharedLocalConnectorRuntime{scopeKey: scopeKey}, nil
-}
-
-// Close tears down the connector environment and closes the underlying sandbox host.
-func (r *LocalConnectorRuntime) Close() error {
-	if r == nil || r.runtime == nil {
-		return nil
-	}
-	return r.runtime.Close()
-}
-
-// ClosePreservingState stops the runtime but leaves the persisted sandbox
-// mapping intact so later processes can restore the same session overlay.
-func (r *LocalConnectorRuntime) ClosePreservingState() error {
-	if r == nil || r.runtime == nil {
-		return nil
-	}
-	return r.runtime.ClosePreservingState()
-}
-
-// ReadJSON reads one file relative to the configured root and returns a JSON payload with utf8/base64 content.
-func (r *LocalConnectorRuntime) ReadJSON(path string, offset int, limit int) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.ReadJSON(path, offset, limit)
-}
-
-// OpenReadStreamJSON opens one file relative to the configured root for chunked streaming reads.
-func (r *LocalConnectorRuntime) OpenReadStreamJSON(path string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.OpenReadStreamJSON(path)
-}
-
-// ReadStreamChunkJSON reads the next chunk from one previously opened read stream.
-func (r *LocalConnectorRuntime) ReadStreamChunkJSON(streamID string, maxBytes int) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.ReadStreamChunkJSON(streamID, maxBytes)
-}
-
-// CloseReadStream closes one previously opened read stream.
-func (r *LocalConnectorRuntime) CloseReadStream(streamID string) error {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return err
-	}
-	return runtime.CloseReadStream(streamID)
-}
-
-// WriteJSON writes utf8 or base64 content to one file relative to the configured root and returns a JSON result.
-func (r *LocalConnectorRuntime) WriteJSON(path string, content string, encoding string, mode int) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.WriteJSON(path, content, encoding, mode)
-}
-
-// DeleteJSON removes one file or directory relative to the configured root.
-func (r *LocalConnectorRuntime) DeleteJSON(path string, recursive bool) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.DeleteJSON(path, recursive)
-}
-
-// StatJSON returns a JSON description of one file or directory relative to the configured root.
-func (r *LocalConnectorRuntime) StatJSON(path string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.StatJSON(path)
-}
-
-// ListJSON lists entries under one directory relative to the configured root.
-func (r *LocalConnectorRuntime) ListJSON(path string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.ListJSON(path)
-}
-
-// GlobJSON returns a JSON payload of file matches rooted at the configured root or one child directory.
-func (r *LocalConnectorRuntime) GlobJSON(pattern string, path string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.GlobJSON(pattern, path)
-}
-
-// GrepJSON returns JSON match objects rooted at the configured root or one child directory.
-func (r *LocalConnectorRuntime) GrepJSON(pattern string, path string, glob string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.GrepJSON(pattern, path, glob)
-}
-
-// ExecJSON executes one shell command inside the long-lived sandbox via `sh -lc` and returns a JSON result. Callers are responsible for any needed sanitization.
-func (r *LocalConnectorRuntime) ExecJSON(command string, workingDir string, timeoutSeconds int) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.ExecJSON(command, workingDir, timeoutSeconds)
-}
-
-// ExecWithRuntimeJSON executes one shell command with an optional runtime capability scope.
-func (r *LocalConnectorRuntime) ExecWithRuntimeJSON(command string, workingDir string, timeoutSeconds int, sessionID string, callerAgentID string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.ExecWithRuntimeJSON(command, workingDir, timeoutSeconds, sessionID, callerAgentID)
-}
-
-// ExecWithRuntimeEnvJSON executes one shell command with explicit environment overrides and an optional runtime capability scope.
-func (r *LocalConnectorRuntime) ExecWithRuntimeEnvJSON(command string, workingDir string, timeoutSeconds int, envJSON string, sessionID string, callerAgentID string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	envVars, err := decodeExecutionEnvJSON(envJSON)
-	if err != nil {
-		return "", err
-	}
-	return runtime.ExecWithRuntimeEnvJSON(command, workingDir, timeoutSeconds, envVars, sessionID, callerAgentID)
-}
-
-// Cleanup unmounts the environment and runs housekeeping so workspace review is safe.
-func (r *LocalConnectorRuntime) Cleanup() error {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return err
-	}
-	return runtime.Cleanup()
-}
-
-// GetSandboxStateJSON returns the current workspace-review state as JSON.
-func (r *LocalConnectorRuntime) GetSandboxStateJSON() (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.GetSandboxStateJSON()
-}
-
-// AcceptChangesJSON applies the selected workspace changes and returns the review result as JSON.
-func (r *LocalConnectorRuntime) AcceptChangesJSON(pathsJSON string) (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.AcceptChangesJSON(pathsJSON)
-}
-
-// DiscardAllChangesJSON discards all workspace changes and returns the result as JSON.
-func (r *LocalConnectorRuntime) DiscardAllChangesJSON() (string, error) {
-	runtime, err := r.requireRuntime()
-	if err != nil {
-		return "", err
-	}
-	return runtime.DiscardAllChangesJSON()
 }
 
 // Close tears down all session environments while preserving their mappings and closes the shared sandbox host.
@@ -487,13 +281,6 @@ func (r *SharedLocalConnectorRuntime) DiscardAllChangesJSON(sessionID string) (s
 		return "", err
 	}
 	return runtime.DiscardAllChangesJSON(sessionID)
-}
-
-func (r *LocalConnectorRuntime) requireRuntime() (*localconnector.Runtime, error) {
-	if r == nil || r.runtime == nil {
-		return nil, fmt.Errorf("local connector runtime is not initialized")
-	}
-	return r.runtime, nil
 }
 
 func (r *SharedLocalConnectorRuntime) requireSharedRuntime() (*localconnector.SharedRuntime, error) {

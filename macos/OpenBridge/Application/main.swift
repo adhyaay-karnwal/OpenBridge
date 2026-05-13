@@ -45,7 +45,6 @@ MainActor.assumeIsolated {
         #endif
 
         _ = Logger.loggingSubsystem
-        _ = Database.shared
         _ = SettingsManager.shared
 
         appDelegate = AppDelegate()

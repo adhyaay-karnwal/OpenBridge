@@ -34,7 +34,7 @@ mkdir -p dist
 export MACOSX_DEPLOYMENT_TARGET=14.0
 export CGO_CFLAGS="-mmacosx-version-min=14.0"
 export CGO_LDFLAGS="-mmacosx-version-min=14.0"
-gomobile bind -target=macos -o dist/SandboxVM.xcframework ./sdk/apple
+gomobile bind -target=macos -trimpath -ldflags="-s -w" -o dist/SandboxVM.xcframework ./sdk/apple
 
 rm -rf ../macos/SandboxVM.xcframework
 cp -a ./dist/SandboxVM.xcframework ../macos/

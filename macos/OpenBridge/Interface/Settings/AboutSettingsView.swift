@@ -46,11 +46,6 @@ struct AboutSettingsView: View {
         _showDebugModeUnlocked = State(initialValue: showDebugModeUnlocked)
     }
 
-    #if DEBUG
-        @State private var showResetConfirmation = false
-        @State private var isResettingDatabase = false
-    #endif
-
     var body: some View {
         @Bindable var settingsManager = settingsManager
         Form {
@@ -303,21 +298,9 @@ struct AboutSettingsView: View {
 
                     Section("Debug Tools") {
                         Button("Reveal Application Directory") {
-                            revealDatabaseFileInFinder()
+                            revealApplicationDirectoryInFinder()
                         }
                         .buttonStyle(.bordered)
-
-                        Button {
-                            showResetConfirmation = true
-                        } label: {
-                            Label(
-                                "Reset Local Database",
-                                systemImage: "arrow.triangle.2.circlepath"
-                            )
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
-                        .disabled(isResettingDatabase)
 
                         Button {
                             showResetUserDefaultsConfirmation = true
@@ -381,40 +364,6 @@ struct AboutSettingsView: View {
         )
         #if DEBUG
         .alert(
-                "Reset Database?",
-                isPresented: $showResetConfirmation,
-                actions: {
-                    Button("Cancel", role: .cancel) {
-                        showResetConfirmation = false
-                    }
-                    Button("Reset", role: .destructive) {
-                        showResetConfirmation = false
-                        performDatabaseReset()
-                    }
-                    .disabled(isResettingDatabase)
-                },
-                message: {
-                    Text(
-                        "This will delete all local chat data. You need to restart OpenBridge to apply the changes."
-                    )
-                }
-            )
-            .alert(
-                "Reset Failed",
-                isPresented: Binding(
-                    get: { resetErrorMessage != nil },
-                    set: { if !$0 { resetErrorMessage = nil } }
-                ),
-                actions: {
-                    Button("OK", role: .cancel) {
-                        resetErrorMessage = nil
-                    }
-                },
-                message: {
-                    Text(resetErrorMessage ?? "Unknown error")
-                }
-            )
-            .alert(
                 "Reset User Defaults?",
                 isPresented: $showResetUserDefaultsConfirmation,
                 actions: {
@@ -533,26 +482,8 @@ struct AboutSettingsView: View {
 
 #if DEBUG
     private extension AboutSettingsView {
-        func revealDatabaseFileInFinder() {
+        func revealApplicationDirectoryInFinder() {
             NSWorkspace.shared.activateFileViewerSelecting([Constant.applicationLibraryURL])
-        }
-
-        func performDatabaseReset() {
-            guard isResettingDatabase == false else { return }
-            isResettingDatabase = true
-
-            Task {
-                do {
-                    try await MainActor.run {
-                        try Database.shared.reset()
-                    }
-                } catch {
-                    await MainActor.run {
-                        resetErrorMessage = error.localizedDescription
-                        isResettingDatabase = false
-                    }
-                }
-            }
         }
 
         func performUserDefaultsReset() {

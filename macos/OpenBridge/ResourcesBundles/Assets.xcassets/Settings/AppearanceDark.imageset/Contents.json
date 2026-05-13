@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "dark.pdf",
-      "idiom" : "universal"
+      "filename" : "dark@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     }
   ],
   "info" : {
