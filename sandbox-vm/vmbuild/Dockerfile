@@ -26,6 +26,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     e2fsprogs \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
+    && find /usr /var -xdev -type d -name __pycache__ -prune -exec rm -rf '{}' + \
+    && rm -rf \
+        /usr/lib/python*/test \
+        /usr/share/doc \
+        /usr/share/man \
+        /usr/share/info \
+        /usr/share/lintian \
+        /var/cache/debconf \
+        /var/log/* \
     && rm -f /usr/lib/python*/EXTERNALLY-MANAGED
 
 # Copy vmd binary as init from builder stage
