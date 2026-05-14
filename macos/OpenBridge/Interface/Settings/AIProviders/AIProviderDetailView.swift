@@ -148,8 +148,50 @@ struct AIProviderDetailView: View {
 
                 TextField("Base URL", text: $config.baseURL)
                     .textFieldStyle(.roundedBorder)
+
+                if provider == .openAI {
+                    openAIEndpointHelp
+                }
             }
         }
+    }
+
+    private var openAIEndpointHelp: some View {
+        ViewThatFits(in: .horizontal) {
+            openAIEndpointHelpText(axis: .horizontal)
+            openAIEndpointHelpText(axis: .vertical)
+        }
+        .font(.footnote)
+    }
+
+    @ViewBuilder
+    private func openAIEndpointHelpText(axis: Axis) -> some View {
+        if axis == .horizontal {
+            HStack(alignment: .firstTextBaseline, spacing: 0) {
+                Text("For third-party OpenAI-compatible endpoints, configure ")
+                    .foregroundStyle(.secondary)
+                openAIChatCompletionsLink
+                Text(". This provider only supports official OpenAI endpoints.")
+                    .foregroundStyle(.secondary)
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("For third-party OpenAI-compatible endpoints, configure:")
+                    .foregroundStyle(.secondary)
+                openAIChatCompletionsLink
+                Text("This provider only supports official OpenAI endpoints.")
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    private var openAIChatCompletionsLink: some View {
+        Button("OpenAI Chat Completions") {
+            SettingsNavigation.shared.present(.aiProviderDetail(.openAIChatCompletions), in: .aiProviders)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(.blue)
+        .help("Open OpenAI Chat Completions provider settings")
     }
 
     private var apiTokenSection: some View {
