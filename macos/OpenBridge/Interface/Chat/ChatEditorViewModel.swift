@@ -66,6 +66,8 @@ final class ChatEditorViewModel {
     var voicePendingWaveformPeak: Double = 0
     @ObservationIgnored
     private var quoteFocusRequestCounter: Int = 0
+    @ObservationIgnored
+    private var aiProviderSettingsCancellable: AnyCancellable?
 
     /// Skill selected for the current conversation (delegated to Chat)
     var selectedSkill: Skill? {
@@ -125,7 +127,19 @@ final class ChatEditorViewModel {
         text: String = ""
     ) {
         self.text = text
+        setupAIProviderSettingsObservation()
         Task { await loadSelectedModel() }
+    }
+
+    private func setupAIProviderSettingsObservation() {
+        aiProviderSettingsCancellable = NotificationCenter.default
+            .publisher(for: .aiProviderSettingsDidChange)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                Task { [weak self] in
+                    await self?.loadSelectedModel()
+                }
+            }
     }
 
     // MARK: - State Helpers

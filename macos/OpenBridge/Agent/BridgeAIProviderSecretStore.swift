@@ -36,6 +36,7 @@ nonisolated enum BridgeAIProviderSecretStore {
             store.settings = settings
             try saveStore(store)
         }.value
+        await notifyAIProviderStoreDidChange()
     }
 
     static func readSecret(
@@ -64,6 +65,7 @@ nonisolated enum BridgeAIProviderSecretStore {
             store.secrets[account] = trimmed
             try saveStore(store)
         }.value
+        await notifyAIProviderStoreDidChange()
     }
 
     static func hasSecret(
@@ -76,6 +78,12 @@ nonisolated enum BridgeAIProviderSecretStore {
 
     private static func account(provider: BridgeAIProvider, kind: BridgeAIProviderSecretKind) -> String {
         "\(provider.rawValue).\(kind.rawValue)"
+    }
+
+    private static func notifyAIProviderStoreDidChange() async {
+        await MainActor.run {
+            NotificationCenter.default.post(name: .aiProviderSettingsDidChange, object: nil)
+        }
     }
 
     private static var storeURL: URL {
