@@ -153,7 +153,13 @@ extension ChatEditorViewModel {
     func loadSelectedModel() async {
         var settings = await BridgeAIProviderSecretStore.readSettings()
         availableModelGroups = BridgeAIProviderRegistry.availableModelsByProvider(settings: settings)
-        settings = await normalizeSelectedModelIfNeeded(settings)
+        if settings.selectedModelProvider == "openai",
+           settings[.openAI].authMethod == .oauth,
+           BridgeAIProviderRegistry.displayModel(provider: "openai-codex", id: settings.selectedModelID) != nil
+        {
+            settings.selectedModelProvider = "openai-codex"
+            try? await BridgeAIProviderSecretStore.saveSettings(settings)
+        }
         availableModelGroups = BridgeAIProviderRegistry.availableModelsByProvider(settings: settings)
         guard hasAvailableModelSelection else {
             selectedModelProvider = settings.selectedModelProvider
@@ -172,29 +178,6 @@ extension ChatEditorViewModel {
         ?? BridgeAIProviderRegistry.defaultModel(settings: settings)
         selectedModelProvider = selected.provider
         selectedModelID = selected.id
-    }
-
-    private func normalizeSelectedModelIfNeeded(_ settings: BridgeAIProviderSettings) async -> BridgeAIProviderSettings {
-        guard settings.selectedModelProvider == "openai",
-              settings[.openAI].authMethod == .oauth,
-              settings[.openAI].isEnabled
-        else {
-            return settings
-        }
-
-        let openAICodexModels = BridgeAIProviderRegistry.availableModels(settings: settings)
-            .filter { $0.provider == "openai-codex" }
-        guard let selected = openAICodexModels.first(where: { $0.id == settings.selectedModelID })
-            ?? openAICodexModels.first
-        else {
-            return settings
-        }
-
-        var nextSettings = settings
-        nextSettings.selectedModelProvider = selected.provider
-        nextSettings.selectedModelID = selected.id
-        try? await BridgeAIProviderSecretStore.saveSettings(nextSettings)
-        return nextSettings
     }
 
     private func updateSelectedModel(_ selectionID: String) {

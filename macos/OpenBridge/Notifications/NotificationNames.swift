@@ -17,7 +17,7 @@ extension Notification.Name {
 
     // MARK: - AI Providers
 
-    nonisolated static let aiProviderSettingsDidChange = Notification.Name("aiProviderSettingsDidChange")
+    static let aiProviderSettingsDidChange = Notification.Name("aiProviderSettingsDidChange")
 
     // MARK: - Shortcuts
 
