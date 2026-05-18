@@ -394,7 +394,7 @@ struct ConversationHistoryLiquidActionGroup: View {
     private let buttonWidth: CGFloat = 22
     private let buttonHeight: CGFloat = 32
     private let buttonSpacing: CGFloat = 2
-    private let hoverCircleDiameter: CGFloat = 22
+    private let hoverCircleDiameter = ChatHeaderIconHoverStyle.compactHoverDiameter
     private let capsuleHorizontalPadding: CGFloat = 4
     private let menuCornerRadius: CGFloat = 22
 
@@ -592,17 +592,20 @@ struct ConversationHistoryLiquidActionGroup: View {
                 Image(systemName: "plus")
                     .frame(width: iconSize, height: iconSize)
                     .frame(width: buttonWidth, height: buttonHeight)
+                    .contentShape(Circle())
                     .background { hoverBackground(isHovered: isNewChatHovered) }
             }
             .buttonStyle(.plain)
             .keyboardShortcut("n", modifiers: .command)
             .help("New Chat (⌘N)")
+            .accessibilityLabel("New Chat")
             .accessibilityIdentifier(AccessibilityID.Chat.newChatButton)
             .onHover { isNewChatHovered = $0 }
 
             Button(action: openHistoryMenu) {
                 historyIcon
                     .frame(width: buttonWidth, height: buttonHeight)
+                    .contentShape(Circle())
                     .background { hoverBackground(isHovered: isHistoryHovered) }
             }
             .buttonStyle(.plain)
@@ -615,6 +618,7 @@ struct ConversationHistoryLiquidActionGroup: View {
                 Image(systemName: "ellipsis")
                     .frame(width: iconSize, height: iconSize)
                     .frame(width: buttonWidth, height: buttonHeight)
+                    .contentShape(Circle())
                     .background { hoverBackground(isHovered: isMoreHovered) }
             }
             .buttonStyle(.plain)
@@ -625,13 +629,11 @@ struct ConversationHistoryLiquidActionGroup: View {
         }
     }
 
-    @ViewBuilder
     private func hoverBackground(isHovered: Bool) -> some View {
-        if isHovered {
-            Circle()
-                .fill(Color.primary.opacity(0.07))
-                .frame(width: hoverCircleDiameter, height: hoverCircleDiameter)
-        }
+        ChatHeaderIconHoverBackground(
+            isHovered: isHovered,
+            diameter: hoverCircleDiameter
+        )
     }
 
     private var historyIcon: some View {

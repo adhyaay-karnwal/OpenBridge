@@ -69,6 +69,29 @@ enum ChatHeaderLiquidGlassStyle {
     }
 }
 
+enum ChatHeaderIconHoverStyle {
+    static let hoverFillOpacity = 0.12
+    static let compactHoverDiameter: CGFloat = 26
+    static let standaloneHoverDiameter: CGFloat = 32
+
+    static func fillOpacity(isHovered: Bool) -> Double {
+        isHovered ? hoverFillOpacity : 0
+    }
+}
+
+struct ChatHeaderIconHoverBackground: View {
+    let isHovered: Bool
+    let diameter: CGFloat
+
+    var body: some View {
+        Circle()
+            .fill(Color.primary.opacity(ChatHeaderIconHoverStyle.fillOpacity(isHovered: isHovered)))
+            .frame(width: diameter, height: diameter)
+            .animation(.easeInOut(duration: 0.12), value: isHovered)
+            .allowsHitTesting(false)
+    }
+}
+
 private struct ChatHeaderLiquidGlassModifier<GlassShape: InsettableShape>: ViewModifier {
     let shape: GlassShape
 

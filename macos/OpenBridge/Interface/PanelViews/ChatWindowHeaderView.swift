@@ -225,6 +225,7 @@ private final class HeaderDragNSView: NSView {
 
 private struct ChatWindowHeaderActions: View {
     @Environment(SettingsManager.self) private var settingsManager
+    @State private var isNewChatHovered = false
 
     let searchModel: ChatConversationSearchModel
     let currentConversationId: String?
@@ -323,11 +324,25 @@ private struct ChatWindowHeaderActions: View {
                 onNewChat()
             }) {
                 Image(systemName: "plus")
+                    .frame(width: 16, height: 16)
+                    .frame(
+                        width: ChatHeaderIconHoverStyle.standaloneHoverDiameter,
+                        height: ChatHeaderIconHoverStyle.standaloneHoverDiameter
+                    )
+                    .contentShape(Circle())
+                    .background {
+                        ChatHeaderIconHoverBackground(
+                            isHovered: isNewChatHovered,
+                            diameter: ChatHeaderIconHoverStyle.standaloneHoverDiameter
+                        )
+                    }
             }
-            .buttonStyle(.borderless)
+            .buttonStyle(.plain)
             .keyboardShortcut("n", modifiers: .command)
             .help("New Chat (⌘N)")
+            .accessibilityLabel("New Chat")
             .accessibilityIdentifier(AccessibilityID.Chat.newChatButton)
+            .onHover { isNewChatHovered = $0 }
         }
     }
 
